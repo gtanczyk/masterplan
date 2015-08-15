@@ -11,6 +11,9 @@ function getCanvas() {
     return (canvas = new Canvas());
 };
 
+/**
+ * @constructor
+ */
 function Canvas() {
     var element = document.createElement('canvas');
     element.width = window.innerWidth;

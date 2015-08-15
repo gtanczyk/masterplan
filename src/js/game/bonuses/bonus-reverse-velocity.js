@@ -1,6 +1,7 @@
 /**
  * @param {BoatObject} boat to not get affected by this bonus
  * @param {Number} startTime when this bonus has been activated
+ * @constructor
  */
 function ReverseVelocity(boat, startTime) {
     this.startTime = startTime;

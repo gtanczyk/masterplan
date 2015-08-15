@@ -1,3 +1,6 @@
+/**
+ * @constructor
+ */
 function GameWorld() {
     this.bonuses = [];
     this.objects = [];
