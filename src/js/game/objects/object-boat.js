@@ -5,7 +5,7 @@ function BoatObject(x, y, direction) {
     this.vy = 0;
     
     this.velocity = 0;
-    this.targetVelocity = 1;
+    this.targetVelocity = 10;
     
     this.targetDirection = direction;
     this.turnDirection = 0;
@@ -52,7 +52,7 @@ BoatObject.prototype.update = function(deltaTime) {
     this.y += this.vy * deltaTime;
     
     // turn
-    this.targetDirection += deltaTime * this.turnDirection / 100;
+    this.targetDirection += deltaTime * this.turnDirection / 10;
     
     // rotate object
     var cx = Math.cos(this.direction) * (1 - deltaTime),

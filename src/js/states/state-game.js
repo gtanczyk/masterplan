@@ -5,7 +5,7 @@ var stateGame = function Game() {
     var waypoint1 = new WaypointObject(200, 100, Math.PI / 3);
     var waypoint2 = new WaypointObject(600, 150, -Math.PI / 3);
     var waypoint3 = new WaypointObject(300, 200, -Math.PI / 3);
-    var bonus = new BonusObject(300, 300, 0);
+    var bonus = new BonusObject(300, 300, 0, ReverseSteering);
     
     world.addObject(boat, waypoint1, waypoint2, waypoint3, bonus);
     
@@ -16,8 +16,12 @@ var stateGame = function Game() {
     return function GameHandler(eventType, eventObject) {
         if (eventType == EVENT_RAF) {
             world.update(eventObject);
-            race.update(eventObject);
-            renderGame(world, race);
+            race.update();
+            renderGame(world, race, {
+                x: boat.x,
+                y: boat.y,
+                direction: boat.direction
+            });
         }
         
         if (eventType == EVENT_ARROW_LEFT_DOWN) {
@@ -26,7 +30,7 @@ var stateGame = function Game() {
         if (eventType == EVENT_ARROW_RIGHT_DOWN) {
             boat.turnRight();
         }
-        if (eventType == EVENT_ARROW_LEFT_UP || eventType == EVENT_ARROW_LEFT_UP) {
+        if (eventType == EVENT_ARROW_LEFT_UP || eventType == EVENT_ARROW_RIGHT_UP) {
             boat.straight();
         }
 

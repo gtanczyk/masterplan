@@ -1,18 +1,20 @@
+/**
+ * @param {GameWorld} world
+ * @constructor
+ */
 function Race(world) {
     this.world = world;
-    this.elapsedTime = 0;
     this.waypointSequence = [];
     
     world.onCollision(BoatObject, WaypointObject, this.onWaypointCollision.bind(this));
     world.onCollision(BoatObject, BonusObject, this.onBonusCollision.bind(this));
 };
 
-Race.prototype.update = function(elapsedTime) {
-    this.elapsedTime += elapsedTime;
+Race.prototype.update = function() {
 };
 
 Race.prototype.getTime = function() {
-    return this.elapsedTime;
+    return this.world.getTime();
 };
 
 Race.prototype.orderWaypoints = function() {
@@ -30,7 +32,7 @@ Race.prototype.onWaypointCollision = function(boat, waypoint) {
 };
 
 Race.prototype.onBonusCollision = function(boat, bonus) {
-    console.log("bonus collision", boat, bonus);
+    this.world.activateBonus(bonus, bonus.getGameBonus());
 };
 
 Race.prototype.getWaypointCount = function(boat) {

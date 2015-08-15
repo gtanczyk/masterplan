@@ -3,20 +3,29 @@
  * @param {GameWorld} world
  * @param {Race} race
  */
-function renderGame(world, race) {
+function renderGame(world, race, camera) {
     var canvas = getCanvas();
     
     // clear
     canvas.clear();
     
+    // set camera
+    canvas.save()
+//        .rotate(camera.direction)
+        .translate(-camera.x, -camera.y)
+        .translate(canvas.getWidth()/2, canvas.getHeight()/2)
+    
     // render surface
     canvas.save()
         .fillStyle("blue")
-        .fillRect(0, 0, canvas.getWidth(), canvas.getHeight())
+        .fillRect(camera.x - canvas.getWidth()/2, camera.y - canvas.getHeight()/2, 
+                canvas.getWidth(), canvas.getHeight())
         .restore();
     
     // render objects
     world.queryObjects().forEach(renderObject);
+    
+    canvas.restore();
     
     // render status
     canvas.drawText(1, 50, race.getTime());

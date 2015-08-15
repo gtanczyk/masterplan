@@ -1,6 +1,13 @@
 function GameWorld() {
+    this.bonuses = [];
     this.objects = [];
     this.collisionHandlers = [];
+    
+    this.worldTime = 0;
+};
+
+GameWorld.prototype.getTime = function() {
+    return this.worldTime;
 };
 
 /**
@@ -9,6 +16,13 @@ function GameWorld() {
  */
 GameWorld.prototype.addObject = function(object) {
     this.objects.push.apply(this.objects, arguments);
+};
+
+/**
+ * @param {GameObject} object
+ */
+GameWorld.prototype.removeObject = function(object) {
+    this.objects.splice(this.objects.indexOf(object), 1);
 };
 
 /**
@@ -32,13 +46,15 @@ GameWorld.prototype.queryObjects = function(type, x, y, width, height) {
  */
 GameWorld.prototype.update = function(elapsedTime) {
     while(elapsedTime > 0) {
-        var deltaTime = Math.max(elapsedTime, UPDATE_TICK);
+        var deltaTime = Math.min(elapsedTime, UPDATE_TICK);
         this.objects.forEach(function(object) {
             this.updateObject(object, deltaTime / UPDATE_TICK);
         }, this);
         elapsedTime -= deltaTime;
+        this.worldTime += deltaTime;
         
         this.collisions();
+        this.deactivateBonuses();
     }
 };
 
@@ -85,4 +101,28 @@ GameWorld.prototype.onCollision = function(leftObjectType, rightObjectType, hand
  */
 GameWorld.prototype.updateObject = function(object, deltaTime) {
     object.update(deltaTime);
+};
+
+// bonuses
+
+/**
+ * @param {GameObject{ object
+ * @param {GameBonus} gameBonus
+ */
+GameWorld.prototype.activateBonus = function(object, gameBonus) {
+    console.log("activating", gameBonus);
+    this.bonuses.push(new gameBonus(this.worldTime));
+    this.removeObject(object);
+};
+
+GameWorld.prototype.deactivateBonuses = function() {
+    this.bonuses = this.bonuses.filter(function(gameBonus) {
+        if (!gameBonus.isActive(this.worldTime)) {
+            console.log("dectivating", gameBonus);
+            gameBonus.deactivate();
+            return false;
+        } else {
+            return true;
+        }
+    }, this);
 };
