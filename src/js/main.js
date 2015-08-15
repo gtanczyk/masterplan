@@ -1,7 +1,13 @@
+var lastTick = currentTime();
 function updateAnimation() {
-    var lastTick = currentTime();
-    updateState(EVENT_RAF, 0);
+    var newTick = currentTime();
+    updateState(EVENT_RAF, newTick - lastTick);
+    lastTick = newTick;
     requestAnimationFrame(updateAnimation);
 }
 
 requestAnimationFrame(updateAnimation);
+
+document.onreadystatechange = function() {
+    updateState(EVENT_READYSTATE, document.readyState);
+}
