@@ -28,10 +28,10 @@ function Canvas() {
         return this;
     };
     
-    this.drawText = function(text) {
+    this.drawText = function(x, y, text) {
         ctx.fillStyle = "red";
         ctx.font = "48px serif";
-        ctx.fillText(text, 10, 50);
+        ctx.fillText(text, x, y);
         return this;
     };
     

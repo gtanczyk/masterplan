@@ -20,8 +20,10 @@ GameWorld.prototype.addObject = function(object) {
  * @param height
  * @returns {Array}
  */
-GameWorld.prototype.queryObjects = function(x, y, width, height) {
-    return this.objects;
+GameWorld.prototype.queryObjects = function(type, x, y, width, height) {
+    return this.objects.filter(function(object) {
+        return !type || object instanceof type;
+    });
 };
 
 /**

@@ -1,4 +1,9 @@
-function renderGame(world) {
+/**
+ * 
+ * @param {GameWorld} world
+ * @param {Race} race
+ */
+function renderGame(world, race) {
     var canvas = getCanvas();
     
     // clear
@@ -14,7 +19,11 @@ function renderGame(world) {
     world.queryObjects().forEach(renderObject);
     
     // render status
-    canvas.drawText(0, 0, "0/2");
+    canvas.drawText(1, 50, race.getTime());
+    
+    world.queryObjects(BoatObject).forEach(function(boat) {
+        canvas.drawText(1, 100, race.getWaypointCount(boat));
+    });
 };
 
 function renderObject(object) {

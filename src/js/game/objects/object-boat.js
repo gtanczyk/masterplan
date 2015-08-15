@@ -1,5 +1,5 @@
 function BoatObject(x, y, direction) {
-    Object.call(this, x, y, 50, 25, direction);
+    GameObject.call(this, x, y, 50, 25, direction);
     
     this.vx = 0;
     this.vy = 0;
@@ -8,7 +8,22 @@ function BoatObject(x, y, direction) {
     this.targetVelocity = 0;
     
     this.targetDirection = direction;
+    this.waypointsChecked = [];
 }
+
+BoatObject.prototype.checkWaypoint = function (waypoint) {
+    if (!this.hasChecked(waypoint)) {
+        this.waypointsChecked.push(waypoint);
+    }
+};
+
+BoatObject.prototype.hasChecked = function (waypoint) {
+    return this.waypointsChecked.indexOf(waypoint) > -1;
+};
+
+BoatObject.prototype.getWaypoints = function() {
+    return this.waypointsChecked;
+};
 
 BoatObject.prototype.update = function(deltaTime) {
     this.velocity = this.targetVelocity * deltaTime + this.velocity * (1 - deltaTime);
