@@ -1,15 +1,14 @@
 var stateGame = function Game() {
     var world = new GameWorld();
     
-    var myObject = { 
-        x: 50, y: 50,
-        vx : 0, vy: 0,
-        height: 25, width: 50, 
-        direction: 0,
-        targetDirection: 0
-    };
+    var boat = new BoatObject(0, 0, 0);
+    var waypoint1 = new WaypointObject(200, 100, Math.PI / 3);
+    var waypoint2 = new WaypointObject(600, 150, -Math.PI / 3);
+    var bonus = new BonusObject(300, 300, 0);
     
-    world.addObject(myObject);
+    world.addObject(boat, waypoint1, waypoint2, bonus);
+    
+    var race = new Race(world);
     
     return function GameHandler(eventType, eventObject) {
         if (eventType == EVENT_RAF) {
@@ -17,8 +16,16 @@ var stateGame = function Game() {
             renderGame(world);
         }
         
+        if (eventType == EVENT_MOUSE_DOWN) {
+            boat.targetVelocity = 10;
+        }
+
+        if (eventType == EVENT_MOUSE_UP) {
+            boat.targetVelocity = 0;
+        }
+
         if (eventType == EVENT_MOUSE_DOWN || eventType == EVENT_MOUSE_MOVE) {
-            myObject.targetDirection = Math.atan2(eventObject.y - myObject.y, eventObject.x - myObject.x);
+            boat.targetDirection = Math.atan2(eventObject.y - boat.y, eventObject.x - boat.x);
         }
     }.State();
 };

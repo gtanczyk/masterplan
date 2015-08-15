@@ -7,3 +7,6 @@ var NULL = null;
 var TRUE = true;
 /** @const */
 var FALSE = false;
+
+/** const */
+var UPDATE_TICK = 100;

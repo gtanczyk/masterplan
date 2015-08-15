@@ -12,6 +12,9 @@ function renderGame(world) {
     
     // render objects
     world.queryObjects().forEach(renderObject);
+    
+    // render status
+    canvas.drawText(0, 0, "0/2");
 };
 
 function renderObject(object) {
