@@ -20,8 +20,15 @@ WaypointObject.prototype.canCheck = function(boat, sequence) {
 /**
  * @param {BoatObject} boat
  */
+WaypointObject.prototype.hasChecked = function(boat) {
+    return this.boatsChecked.indexOf(boat) > -1;
+};
+
+/**
+ * @param {BoatObject} boat
+ */
 WaypointObject.prototype.checkBoat = function(boat) {
-    if (this.boatsChecked.indexOf(boat) == -1) {
+    if (!this.hasChecked(boat)) {
         this.boatsChecked.push(boat);
         boat.checkWaypoint(this);
     }

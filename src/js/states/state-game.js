@@ -20,16 +20,15 @@ var stateGame = function Game() {
             renderGame(world, race);
         }
         
-        if (eventType == EVENT_MOUSE_DOWN) {
-            boat.targetVelocity = 10;
+        if (eventType == EVENT_ARROW_LEFT_DOWN) {
+            boat.turnLeft();
+        }
+        if (eventType == EVENT_ARROW_RIGHT_DOWN) {
+            boat.turnRight();
+        }
+        if (eventType == EVENT_ARROW_LEFT_UP || eventType == EVENT_ARROW_LEFT_UP) {
+            boat.straight();
         }
 
-        if (eventType == EVENT_MOUSE_UP) {
-            boat.targetVelocity = 0;
-        }
-
-        if (eventType == EVENT_MOUSE_DOWN || eventType == EVENT_MOUSE_MOVE) {
-            boat.targetDirection = Math.atan2(eventObject.y - boat.y, eventObject.x - boat.x);
-        }
     }.State();
 };

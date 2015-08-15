@@ -14,3 +14,8 @@ var EVENT_MENU_PLAY = eventCounter++;
 var EVENT_MOUSE_DOWN = eventCounter++;
 var EVENT_MOUSE_UP = eventCounter++;
 var EVENT_MOUSE_MOVE = eventCounter++;
+
+var EVENT_ARROW_LEFT_DOWN = eventCounter++;
+var EVENT_ARROW_RIGHT_DOWN = eventCounter++;
+var EVENT_ARROW_LEFT_UP = eventCounter++;
+var EVENT_ARROW_RIGHT_UP = eventCounter++;
