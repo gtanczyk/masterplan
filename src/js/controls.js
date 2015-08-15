@@ -5,6 +5,10 @@ window.addEventListener("keydown", function(event) {
     if (event.keyCode == 39) {
         updateState(EVENT_ARROW_RIGHT_DOWN);
     }
+    
+    if (event.keyCode == 27) {
+        updateState(EVENT_ESCAPE);
+    }
 });
 
 window.addEventListener("keyup", function(event) {

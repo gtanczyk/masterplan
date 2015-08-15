@@ -11,6 +11,9 @@ function Race(world) {
 };
 
 Race.prototype.update = function() {
+    if (this.getTime() > 10000) {
+        updateState(EVENT_RACE_OVER);
+    }
 };
 
 Race.prototype.getTime = function() {

@@ -6,11 +6,16 @@ var EVENT_TIMEOUT = eventCounter++;
 var EVENT_RAF = eventCounter++;
 var EVENT_READYSTATE = eventCounter++;
 
+// game events
+var EVENT_RACE_OVER = eventCounter++;
+
 // menu events
 /** @const */
 var EVENT_MENU_PLAY = eventCounter++;
 
 // controls
+var EVENT_ESCAPE = eventCounter++;
+
 var EVENT_MOUSE_DOWN = eventCounter++;
 var EVENT_MOUSE_UP = eventCounter++;
 var EVENT_MOUSE_MOVE = eventCounter++;

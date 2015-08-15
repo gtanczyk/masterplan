@@ -1,4 +1,8 @@
 var canvas;
+
+/**
+ * @returns {Canvas}
+ */
 function getCanvas() {
     if (canvas) {
         return canvas;

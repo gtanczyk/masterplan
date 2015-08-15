@@ -28,11 +28,12 @@ Function.prototype.WeakState = function(timeLimit) {
 
 /**
  * Initial state
+ * @constructor
  */
 var stateInit = function Init() {
     return function InitHandler(eventType, eventObject) {
         if (eventType == EVENT_READYSTATE && eventObject == "complete") {
-            return stateGame();
+            return stateGameInit();
         }
     }.State()
 };
