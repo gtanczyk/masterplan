@@ -42,11 +42,19 @@ BoatObject.prototype.straight = function() {
 };
 
 // update
-BoatObject.prototype.update = function(deltaTime) {
+BoatObject.prototype.updateVelocity = function(deltaTime) {
     this.velocity = this.targetVelocity * deltaTime + this.velocity * (1 - deltaTime);
+};
+
+BoatObject.prototype.getVelocity = function() {
+    return this.velocity;
+};
+
+BoatObject.prototype.update = function(deltaTime) {
+    this.updateVelocity(deltaTime);
     
-    this.vx = Math.cos(this.direction) * this.velocity;
-    this.vy = Math.sin(this.direction) * this.velocity;
+    this.vx = Math.cos(this.direction) * this.getVelocity();
+    this.vy = Math.sin(this.direction) * this.getVelocity();
     
     this.x += this.vx * deltaTime;
     this.y += this.vy * deltaTime;

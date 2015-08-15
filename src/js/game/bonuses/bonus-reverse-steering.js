@@ -1,10 +1,26 @@
-function ReverseSteering(startTime) {
+/**
+ * @param {BoatObject} boat to not get affected by this bonus
+ * @param {Number} startTime when this bonus has been activated
+ */
+function ReverseSteering(boat, startTime) {
     this.startTime = startTime;
-    this.oldLeft = BoatObject.prototype.turnLeft;
-    this.oldRight = BoatObject.prototype.turnRight;
+    var oldLeft = this.oldLeft = BoatObject.prototype.turnLeft;
+    var oldRight = this.oldRight = BoatObject.prototype.turnRight;
     
-    BoatObject.prototype.turnLeft = this.oldRight;
-    BoatObject.prototype.turnRight = this.oldLeft;
+    BoatObject.prototype.turnLeft = function() {
+        if (this === boat) {
+            return oldLeft.apply(this, arguments);
+        } else {
+            return oldRight.apply(this, arguments);
+        }
+    };
+    BoatObject.prototype.turnRight = function() {
+        if (this === boat) {
+            return oldRight.apply(this, arguments);
+        } else {
+            return oldLeft.apply(this, arguments);
+        }
+    };
 };
 
 ReverseSteering.prototype.isActive = function(worldTime) {

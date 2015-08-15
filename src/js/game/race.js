@@ -32,7 +32,7 @@ Race.prototype.onWaypointCollision = function(boat, waypoint) {
 };
 
 Race.prototype.onBonusCollision = function(boat, bonus) {
-    this.world.activateBonus(bonus, bonus.getGameBonus());
+    this.world.activateBonus(bonus, boat, bonus.getGameBonus());
 };
 
 Race.prototype.getWaypointCount = function(boat) {

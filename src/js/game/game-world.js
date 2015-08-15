@@ -106,13 +106,13 @@ GameWorld.prototype.updateObject = function(object, deltaTime) {
 // bonuses
 
 /**
- * @param {GameObject{ object
- * @param {GameBonus} gameBonus
+ * @param {BonusObject} bonus
+ * @param {BoatObject} boat
  */
-GameWorld.prototype.activateBonus = function(object, gameBonus) {
-    console.log("activating", gameBonus);
-    this.bonuses.push(new gameBonus(this.worldTime));
-    this.removeObject(object);
+GameWorld.prototype.activateBonus = function(bonus, boat) {
+    console.log("activating", bonus.getGameBonus());
+    this.bonuses.push(new (bonus.getGameBonus())(boat, this.worldTime));
+    this.removeObject(bonus);
 };
 
 GameWorld.prototype.deactivateBonuses = function() {
