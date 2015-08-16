@@ -11,7 +11,7 @@ function Race(world) {
 };
 
 Race.prototype.update = function() {
-    if (this.getTime() > 10000) {
+    if (this.getTime() > 60000) {
         updateState(EVENT_RACE_OVER);
     }
 };
@@ -40,4 +40,18 @@ Race.prototype.onBonusCollision = function(boat, bonus) {
 
 Race.prototype.getWaypointCount = function(boat) {
     return boat.getWaypoints().length;
+};
+
+/**
+ * @param {BoatObject} boat
+ * @returns {WaypointObject}
+ */
+Race.prototype.getNextWaypoint = function(boat) {
+    var next = this.waypointSequence.reduce(function(last, waypoint) {
+        return waypoint.hasChecked(boat) ? waypoint : !last || last.hasChecked(boat) ? waypoint : last;
+    });
+    
+    if (!next.hasChecked(boat)) {
+        return next;
+    }
 };

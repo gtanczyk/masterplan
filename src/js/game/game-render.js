@@ -2,8 +2,10 @@
  * 
  * @param {GameWorld} world
  * @param {Race} race
+ * @param {BoatObject} boat point of view
  */
-function renderGame(world, race, camera) {
+function renderGame(world, race, boat) {
+    /** {Canvas} */
     var canvas = getCanvas();
     
     // clear
@@ -12,15 +14,27 @@ function renderGame(world, race, camera) {
     // set camera
     canvas.save()
 //        .rotate(camera.direction)
-        .translate(-camera.x, -camera.y)
+        .translate(-boat.getX(), -boat.getY())
         .translate(canvas.getWidth()/2, canvas.getHeight()/2)
     
     // render surface
     canvas.save()
         .fillStyle("blue")
-        .fillRect(camera.x - canvas.getWidth()/2, camera.y - canvas.getHeight()/2, 
+        .fillRect(boat.getX() - canvas.getWidth()/2, boat.getY() - canvas.getHeight()/2, 
                 canvas.getWidth(), canvas.getHeight())
         .restore();
+    
+    // render pointer
+    /** {WaypointObect} */
+    var waypoint = race.getNextWaypoint(boat);
+    if (waypoint) {
+        canvas.save()
+              .translate(boat.getX(), boat.getY())
+              .rotate(VM.direction(boat, waypoint))
+              .translate(boat.getWidth()/2, 0)
+              .fillRect(0, 0, Math.min(VM.distance(boat, waypoint), 50), 10)
+              .restore();
+    }
     
     // render objects
     world.queryObjects().forEach(renderObject);
