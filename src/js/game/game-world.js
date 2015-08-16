@@ -9,6 +9,7 @@ function GameWorld() {
     this.worldTime = 0;
     
     this.onCollision(BoatObject, BoatObject, this.onBoatCollision.bind(this));
+    this.onCollision(BoatObject, WaypointEdgeObject, this.onBoatWaypointEdgeCollision.bind(this))
 };
 
 GameWorld.prototype.destroy = function() {
@@ -86,6 +87,14 @@ GameWorld.prototype.collisions = function() {
            if (inter) {
                this.triggerCollisions(waypoint, boat);
            }
+           
+           if (VMath.distance(boat.vec(), waypoint.leftVec()) < boat.getWidth()/2) {
+               this.triggerCollisions(waypoint.getLeftEdge(), boat);
+           }
+           
+           if (VMath.distance(boat.vec(), waypoint.rightVec()) < boat.getWidth()/2) {
+               this.triggerCollisions(waypoint.getRightEdge(), boat);
+           }
         }, this);
         // boat -> bonus
         this.queryObjects(BonusObject).forEach(function(bonus) {
@@ -126,10 +135,18 @@ GameWorld.prototype.onCollision = function(leftObjectType, rightObjectType, hand
 };
 
 GameWorld.prototype.onBoatCollision = function(leftBoat, rightBoat) {
+    // boats should bounce off each other
     var distance = VMath.distance(leftBoat.vec(), rightBoat.vec());
     var sub = VMath.scale(VMath.normalize(VMath.sub(leftBoat.vec(), rightBoat.vec())), leftBoat.getWidth() - distance);
     leftBoat.addForce(sub);
     rightBoat.addForce(VMath.scale(sub, -1));
+};
+
+GameWorld.prototype.onBoatWaypointEdgeCollision = function(boat, edge) {
+    // boats should bounce off waypoint edges
+    var distance = VMath.distance(boat.vec(), edge.vec());
+    var sub = VMath.scale(VMath.normalize(VMath.sub(boat.vec(), edge.vec())), boat.getWidth() - distance);
+    boat.addForce(sub);
 };
 
 /**

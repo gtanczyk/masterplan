@@ -4,6 +4,9 @@
 function WaypointObject(x, y, direction) {
     GameObject.call(this, x, y, 50, 0, direction);
     
+    this.leftEdge = new WaypointEdgeObject(this.leftVec());
+    this.rightEdge = new WaypointEdgeObject(this.rightVec());
+    
     this.boatsChecked = [];
 };
 
@@ -45,9 +48,17 @@ WaypointObject.prototype.render = function(canvas) {
 };
 
 WaypointObject.prototype.leftVec = function() {
-    return VMath.sub(this.vec(), VMath.rotate([this.getWidth()/2, 0], this.getDirection() + Math.PI/2));
+    return VMath.sub(this.vec(), VMath.rotate([0, this.getWidth()/2], this.getDirection() + Math.PI/2));
 };
 
 WaypointObject.prototype.rightVec = function() {
-    return VMath.sub(this.vec(), VMath.rotate([this.getWidth()/2, 0], this.getDirection() - Math.PI/2));
+    return VMath.sub(this.vec(), VMath.rotate([0, this.getWidth()/2], this.getDirection() - Math.PI/2));
+};
+
+WaypointObject.prototype.getLeftEdge = function() {
+    return this.leftEdge;
+};
+
+WaypointObject.prototype.getRightEdge = function() {
+    return this.rightEdge;
 };
