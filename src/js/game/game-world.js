@@ -9,6 +9,12 @@ function GameWorld() {
     this.worldTime = 0;
 };
 
+GameWorld.prototype.destroy = function() {
+    this.bonuses.forEach(function(bonus) {
+        bonus.deactivate();
+    });
+};
+
 GameWorld.prototype.getTime = function() {
     return this.worldTime;
 };

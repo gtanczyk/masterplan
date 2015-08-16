@@ -29,3 +29,4 @@ gulp.task('dist', ['compile'], function() {
 });
 
 gulp.task('serve', serve('./src'));
+gulp.task('serve:dist', serve('./dist'));

@@ -7,6 +7,8 @@ var stateGameEnd = function GameEnd(world, race, boat) {
         getCanvas().drawText(0, 50, "RACE OVER")
         
         if (eventType == EVENT_ESCAPE) {
+            world.destroy();
+            
             return stateMenu();
         }
     }.State();

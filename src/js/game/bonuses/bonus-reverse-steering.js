@@ -4,35 +4,23 @@
  * @constructor
  */
 function ReverseSteering(boat, startTime) {
-    this.startTime = startTime;
-    var oldLeft = this.oldLeft = BoatObject.prototype.turnLeft;
-    var oldRight = this.oldRight = BoatObject.prototype.turnRight;
+    GameBonus.call(this, startTime);
     
-    BoatObject.prototype.turnLeft = function() {
+    var oldLeft = this.alter(BoatObject.prototype, BoatObject.prototype.turnLeft, function() {
         if (this === boat) {
             return oldLeft.apply(this, arguments);
         } else {
             return oldRight.apply(this, arguments);
         }
-    };
-    BoatObject.prototype.turnRight = function() {
+    });
+    
+    var oldRight = this.alter(BoatObject.prototype, BoatObject.prototype.turnRight, function() {
         if (this === boat) {
             return oldRight.apply(this, arguments);
         } else {
             return oldLeft.apply(this, arguments);
         }
-    };
+    });
 };
 
-ReverseSteering.prototype.isActive = function(worldTime) {
-    return worldTime < this.startTime + this.getDuration();
-};
-
-ReverseSteering.prototype.getDuration = function() {
-    return 5000;
-};
-
-ReverseSteering.prototype.deactivate = function() {
-    BoatObject.prototype.turnLeft = this.oldLeft;
-    BoatObject.prototype.turnRight = this.oldRight;
-};
+ReverseSteering.prototype = Object.create(GameBonus.prototype);
