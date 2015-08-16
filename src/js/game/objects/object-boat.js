@@ -10,6 +10,8 @@ function BoatObject(x, y, direction) {
     this.velocity = 0;
     this.targetVelocity = 10;
     
+    this.force = [0, 0];
+    
     this.targetDirection = direction;
     this.turnDirection = 0;
     
@@ -61,8 +63,8 @@ BoatObject.prototype.update = function(deltaTime) {
     this.vx = Math.cos(this.getDirection()) * this.getVelocity();
     this.vy = Math.sin(this.getDirection()) * this.getVelocity();
     
-    this.setX(this.x + this.vx * deltaTime);
-    this.setY(this.y + this.vy * deltaTime);
+    this.setX(this.x + this.vx * deltaTime + this.force[0] * deltaTime);
+    this.setY(this.y + this.vy * deltaTime + this.force[1] * deltaTime);
     
     // turn
     this.targetDirection += deltaTime * this.turnDirection / 10;
@@ -73,4 +75,14 @@ BoatObject.prototype.update = function(deltaTime) {
     var dx = Math.cos(this.targetDirection) * deltaTime,
         dy = Math.sin(this.targetDirection) * deltaTime;
     this.setDirection(Math.atan2(cy + dy, cx + dx));
+    
+    // degrade force
+    this.force = VMath.scale(this.force, 0.99 * deltaTime);
+    if (VMath.length(this.force) < VMath.EPSILON) {
+        this.force = [0, 0];
+    }
 };
+
+BoatObject.prototype.addForce = function(vec) {
+    this.force = VMath.add(this.force, vec);
+}

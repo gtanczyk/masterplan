@@ -33,7 +33,6 @@ var stateGameInit = function GameInit() {
     
     race.orderWaypoints.apply(race, waypoints);
 
-    race.addCharacter(new Character(world, race, boat));
     race.addCharacter(new Character(world, race, boat2));
     race.addCharacter(new Character(world, race, boat3));
 
@@ -42,7 +41,7 @@ var stateGameInit = function GameInit() {
         getCanvas().drawText(0, 50, "GET READY")
         
         if (eventType == EVENT_TIMEOUT) {
-            return new stateGamePlay(world, race, boat2);
+            return new stateGamePlay(world, race, boat);
         }
     }.WeakState(2000);
 };    

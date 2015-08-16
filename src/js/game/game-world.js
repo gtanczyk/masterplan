@@ -7,6 +7,8 @@ function GameWorld() {
     this.collisionHandlers = [];
     
     this.worldTime = 0;
+    
+    this.onCollision(BoatObject, BoatObject, this.onBoatCollision.bind(this));
 };
 
 GameWorld.prototype.destroy = function() {
@@ -71,7 +73,7 @@ GameWorld.prototype.update = function(elapsedTime) {
  * Collision check
  */
 GameWorld.prototype.collisions = function() {
-    this.queryObjects(BoatObject).forEach(function(boat) {
+    this.queryObjects(BoatObject).forEach(function(boat, idx) {
         // boat -> waypoint
         this.queryObjects(WaypointObject).forEach(function(waypoint) {
            // did boat cross the line 
@@ -90,6 +92,16 @@ GameWorld.prototype.collisions = function() {
            if (VMath.distance(boat.vec(), bonus.vec()) < bonus.getWidth()) {
                this.triggerCollisions(bonus, boat);
            } 
+        }, this);
+        // boat -> boat
+        this.queryObjects(BoatObject).forEach(function(boatLeft, idxLeft) {
+            if (idx <= idxLeft) {
+                return;
+            }
+            
+            if (VMath.distance(boat.vec(), boatLeft.vec()) < boat.getWidth()) {
+                this.triggerCollisions(boat, boatLeft);
+            }
         }, this);
     }, this);
 };
@@ -111,6 +123,13 @@ GameWorld.prototype.onCollision = function(leftObjectType, rightObjectType, hand
         right: rightObjectType,
         handler: handler
     });
+};
+
+GameWorld.prototype.onBoatCollision = function(leftBoat, rightBoat) {
+    var distance = VMath.distance(leftBoat.vec(), rightBoat.vec());
+    var sub = VMath.scale(VMath.normalize(VMath.sub(leftBoat.vec(), rightBoat.vec())), leftBoat.getWidth() - distance);
+    leftBoat.addForce(sub);
+    rightBoat.addForce(VMath.scale(sub, -1));
 };
 
 /**
