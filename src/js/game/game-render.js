@@ -13,7 +13,7 @@ function renderGame(world, race, boat) {
     
     // set camera
     canvas.save()
-//        .rotate(camera.direction)
+//        .rotate(boat.direction)
         .translate(-boat.getX(), -boat.getY())
         .translate(canvas.getWidth()/2, canvas.getHeight()/2)
     

@@ -6,7 +6,7 @@ function Race(world) {
     this.world = world;
     this.waypointSequence = [];
     this.characters = [];
-    this.finishTime = 60000;
+    this.finishTime = 240000;
     
     world.onCollision(BoatObject, WaypointObject, this.onWaypointCollision.bind(this));
     world.onCollision(BoatObject, BonusObject, this.onBonusCollision.bind(this));
@@ -17,7 +17,7 @@ Race.prototype.update = function() {
         updateState(EVENT_RACE_OVER);
     }
     
-    this.characters.every(function(character) {
+    this.characters.forEach(function(character) {
        character.update(); 
     });
     

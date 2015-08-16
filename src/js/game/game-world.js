@@ -130,7 +130,7 @@ GameWorld.prototype.updateObject = function(object, deltaTime) {
  */
 GameWorld.prototype.activateBonus = function(bonus, boat) {
     console.log("activating", bonus.getGameBonus());
-    this.bonuses.push(new (bonus.getGameBonus())(boat, this.worldTime));
+    this.bonuses.splice(0, 0, new (bonus.getGameBonus())(boat, this.worldTime));
     this.removeObject(bonus);
 };
 

@@ -4,29 +4,45 @@
 var stateGameInit = function GameInit() {
     var world = new GameWorld();
     
-    var boat = new BoatObject(0, 0, 0);
-    var boat2 = new BoatObject(0, -50, 0);
-    var waypoint1 = new WaypointObject(200, 100, Math.PI / 3);
-    var waypoint2 = new WaypointObject(600, 150, -Math.PI / 3);
-    var waypoint3 = new WaypointObject(300, 200, -Math.PI / 3);
-    var bonus1 = new BonusObject(300, 300, 0, ReverseSteering);
-    var bonus2 = new BonusObject(200, 50, 0, ReverseVelocity);
+    var boat = new BoatObject(-300, 0, 0);
+    var boat2 = new BoatObject(-300, -50, 0);
+    var boat3 = new BoatObject(-300, -100, 0);
     
-    world.addObject(boat, boat2, waypoint1, waypoint2, waypoint3, bonus1, bonus2);
+    var waypoints = [];
+    var bonuses = [];
+    
+    var wx = 0, wy = 0;
+    var wdir = Math.PI/2;
+    for(var i = 0; i < 16; i++) {
+        waypoints.push(new WaypointObject(wx, wy, wdir + Math.PI/2));
+        bonuses.push(new BonusObject(
+                wx + (Math.random() - Math.random()) * 50, 
+                wy + (Math.random() - Math.random()) * 50, 0, 
+                Math.random() < 0.5 ? ReverseSteering : ReverseVelocity))
+        
+        wx += Math.cos(wdir) * 300;
+        wy += Math.sin(wdir) * 300;
+        wdir += Math.cos(Math.PI / 16 * i) + (Math.random() - Math.random()) / 10;
+    }
+    
+    world.addObject(boat, boat2, boat3);
+    world.addObject.apply(world, waypoints);
+    world.addObject.apply(world, bonuses);
     
     var race = new Race(world);
     
-    race.orderWaypoints(waypoint1, waypoint2, waypoint3);
+    race.orderWaypoints.apply(race, waypoints);
 
-    var character = new Character(world, race, boat2);
-    race.addCharacter(character);
+    race.addCharacter(new Character(world, race, boat));
+    race.addCharacter(new Character(world, race, boat2));
+    race.addCharacter(new Character(world, race, boat3));
 
     return function GameInitHandler(eventType, eventObject) {
         renderGame(world, race, boat);
         getCanvas().drawText(0, 50, "GET READY")
         
         if (eventType == EVENT_TIMEOUT) {
-            return new stateGamePlay(world, race, boat);
+            return new stateGamePlay(world, race, boat2);
         }
     }.WeakState(2000);
 };    

@@ -22,14 +22,16 @@ GameBonus.prototype.getDuration = function() {
 GameBonus.prototype.alter = function(prototype, func, replacement) {
     var alter = {
         prototype: prototype,
-        original: func
+        original: func,
+        revoked: false
     };
-
+    
     // this magic is required, because of minification
     for(var name in prototype) {
         if (prototype[name] === func) {
             alter.name = name;
             prototype[name] = replacement;
+            replacement.alter = alter;
             this.altered.push(alter);
             
             break;
@@ -41,6 +43,21 @@ GameBonus.prototype.alter = function(prototype, func, replacement) {
 
 GameBonus.prototype.deactivate = function() {
     this.altered.forEach(function(alter) {
-       alter.prototype[alter.name] = alter.original; 
-    });
+       alter.prototype[alter.name] = this.getOriginal(alter);
+       alter.revoked = true;
+    }, this);
+};
+
+GameBonus.prototype.getOriginal = function(alter) {
+    if (!alter.original.alter) {
+        return alter.original;
+    } else {
+        while (alter.original.alter.revoked) {
+            alter = alter.original.alter;
+            if (!alter.original.alter) {
+                return alter.original;
+            }
+        }
+        return alter.original;
+    }
 };
