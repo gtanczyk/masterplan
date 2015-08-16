@@ -52,6 +52,11 @@ function Canvas() {
         return this;
     };
     
+    this.drawImage = function(image, x, y) {
+        ctx.drawImage(image, x, y);
+        return this;
+    };
+    
     this.translate = function(x, y) {
         ctx.translate(x, y);
         return this;

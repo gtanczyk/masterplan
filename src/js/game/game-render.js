@@ -13,7 +13,6 @@ function renderGame(world, race, boat) {
     
     // set camera
     canvas.save()
-//        .rotate(boat.direction)
         .translate(-boat.getX(), -boat.getY())
         .translate(canvas.getWidth()/2, canvas.getHeight()/2)
     
@@ -32,7 +31,7 @@ function renderGame(world, race, boat) {
               .translate(boat.getX(), boat.getY())
               .rotate(VMath.atan2(boat.vec(), waypoint.vec()))
               .translate(boat.getWidth()/2, 0)
-              .fillRect(0, 0, Math.min(VMath.distance(boat.vec(), waypoint.vec()), 50), 10)
+              .fillRect(0, -5, Math.min(VMath.distance(boat.vec(), waypoint.vec()), 50), 10)
               .restore();
     }
     

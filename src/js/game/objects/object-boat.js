@@ -16,9 +16,34 @@ function BoatObject(x, y, direction) {
     this.turnDirection = 0;
     
     this.waypointsChecked = [];
+    
+    this.image = boat;
+    this.leftOarAnim = 0;
+    this.rightOarAnim = 0;
 }
 
 BoatObject.prototype = Object.create(GameObject.prototype);
+
+/**
+ * @param {Canvas} canvas
+ */
+BoatObject.prototype.render = function(canvas) {
+    canvas.save()       
+        .translate(-this.getWidth()/2, -this.getHeight()/2)
+        .drawImage(this.image, 0, 0)
+        .restore();
+    
+    // oars
+    canvas.save()
+        .translate(0, 13)
+        .rotate(Math.cos(Math.PI * this.leftOarAnim))
+        .fillRect(0, -this.getWidth()*0.3, 2, this.getWidth() * 1)
+        .restore().save()
+        .translate(0, -13)
+        .rotate(-Math.cos(Math.PI * this.rightOarAnim))
+        .fillRect(0, this.getWidth()*0.3, 2, this.getWidth() * -1)
+        .restore();
+};
 
 // checkpoints 
 BoatObject.prototype.checkWaypoint = function (waypoint) {
@@ -81,6 +106,21 @@ BoatObject.prototype.update = function(deltaTime) {
     if (VMath.length(this.force) < VMath.EPSILON) {
         this.force = [0, 0];
     }
+    
+    // animate oars
+    if (this.turnDirection <= 0) {
+        var scale = this.turnDirection == 0 && this.leftOarAnim - this.rightOarAnim < -0.1 ? 1.5 : 1;
+        this.leftOarAnim = this.updateOar(this.leftOarAnim, scale, deltaTime);
+        
+    }
+    if (this.turnDirection >= 0) {
+        var scale = this.turnDirection == 0 && this.rightOarAnim - this.leftOarAnim < -0.1 ? 1.5 : 1;
+        this.rightOarAnim = this.updateOar(this.rightOarAnim, scale, deltaTime);
+    }
+};
+
+BoatObject.prototype.updateOar = function(anim, scale, deltaTime) {
+    return (anim + deltaTime / 100 * this.getVelocity() * scale) % 2;    
 };
 
 BoatObject.prototype.addForce = function(vec) {
