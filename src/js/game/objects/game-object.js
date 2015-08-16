@@ -4,6 +4,8 @@
 function GameObject(x, y, width, height, direction) {
     this.x = x;
     this.y = y;
+    this.lastX = x;
+    this.lastY = y;
     this.direction = direction;
     this.objectWidth = width;
     this.objectHeight = height;    
@@ -26,9 +28,19 @@ GameObject.prototype.render = function(canvas) {
 GameObject.prototype.getX = function() { 
     return this.x; 
 };
+GameObject.prototype.setX = function(x) {
+    this.lastX = this.x;
+    this.x = x; 
+};
+
 GameObject.prototype.getY = function() { 
     return this.y;
 };
+GameObject.prototype.setY = function(y) {
+    this.lastY = this.y;
+    this.y = y;
+};
+
 GameObject.prototype.getDirection = function() { 
     return this.direction; 
 };
@@ -43,4 +55,7 @@ GameObject.prototype.getHeight = function() {
 };
 GameObject.prototype.vec = function() {
     return [this.x, this.y];
+};
+GameObject.prototype.lastVec = function() {
+    return [this.lastX, this.lastY];
 };

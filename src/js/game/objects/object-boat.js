@@ -61,8 +61,8 @@ BoatObject.prototype.update = function(deltaTime) {
     this.vx = Math.cos(this.getDirection()) * this.getVelocity();
     this.vy = Math.sin(this.getDirection()) * this.getVelocity();
     
-    this.x += this.vx * deltaTime;
-    this.y += this.vy * deltaTime;
+    this.setX(this.x + this.vx * deltaTime);
+    this.setY(this.y + this.vy * deltaTime);
     
     // turn
     this.targetDirection += deltaTime * this.turnDirection / 10;

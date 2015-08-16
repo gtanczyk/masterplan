@@ -71,14 +71,18 @@ GameWorld.prototype.update = function(elapsedTime) {
  * Collision check
  */
 GameWorld.prototype.collisions = function() {
-    this.objects.forEach(function(objectLeft, idxLeft) {
-        this.objects.forEach(function(objectRight, idxRight) {
-           if (idxLeft <= idxRight) {
-               return;
-           } 
-            
-           if(VMath.distance(objectLeft.vec(), objectRight.vec()) < 10) {
-               this.triggerCollisions(objectLeft, objectRight);
+    // boat -> waypoint
+    this.queryObjects(WaypointObject).forEach(function(waypoint) {
+        this.queryObjects(BoatObject).forEach(function(boat) {
+           // did boat cross the line 
+           var inter = (VMath.intersectLineLine(
+               waypoint.leftVec(), 
+               waypoint.rightVec(), 
+               boat.lastVec(),
+               boat.vec()));
+           
+           if (inter) {
+               this.triggerCollisions(waypoint, boat);
            }
         }, this);
     }, this);

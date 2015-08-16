@@ -24,5 +24,5 @@ var stateGameInit = function GameInit() {
         if (eventType == EVENT_TIMEOUT) {
             return new stateGamePlay(world, race, boat);
         }
-    }.WeakState(5000);
+    }.WeakState(2000);
 };    

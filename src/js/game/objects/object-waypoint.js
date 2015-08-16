@@ -43,3 +43,11 @@ WaypointObject.prototype.render = function(canvas) {
     canvas.fillStyle("yellow").fillRect(-this.getWidth()/2, 0, 10, 10);
     canvas.fillStyle("purple").fillRect(this.getWidth()/2, 0, 10, 10);
 };
+
+WaypointObject.prototype.leftVec = function() {
+    return VMath.sub(this.vec(), VMath.rotate([this.getWidth()/2, 0], this.getDirection() + Math.PI/2));
+};
+
+WaypointObject.prototype.rightVec = function() {
+    return VMath.sub(this.vec(), VMath.rotate([this.getWidth()/2, 0], this.getDirection() - Math.PI/2));
+};
