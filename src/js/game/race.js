@@ -5,14 +5,27 @@
 function Race(world) {
     this.world = world;
     this.waypointSequence = [];
+    this.finishTime = 60000;
     
     world.onCollision(BoatObject, WaypointObject, this.onWaypointCollision.bind(this));
     world.onCollision(BoatObject, BonusObject, this.onBonusCollision.bind(this));
 };
 
 Race.prototype.update = function() {
-    if (this.getTime() > 60000) {
+    if (this.getTime() > this.finishTime) {
         updateState(EVENT_RACE_OVER);
+    }
+    
+    if (this.finished) {
+        return;
+    }
+    
+    // finish race if everyone has checked all waypoints
+    if (this.world.queryObjects(BoatObject).every(function(boat) {
+        return this.getNextWaypoint(boat) == null;
+    }, this)) {
+        this.finishTime = this.getTime() + 1000;
+        this.finished = true;
     }
 };
 
