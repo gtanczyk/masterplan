@@ -2,7 +2,8 @@
  * @constructor
  */
 function WaypointObject(x, y, direction) {
-    GameObject.call(this, x, y, 50, 50, direction);
+    GameObject.call(this, x, y, 50, 0, direction);
+    
     this.boatsChecked = [];
 };
 
@@ -33,4 +34,12 @@ WaypointObject.prototype.checkBoat = function(boat) {
         this.boatsChecked.push(boat);
         boat.checkWaypoint(this);
     }
+};
+
+/**
+ * @param {Canvas} canvas
+ */
+WaypointObject.prototype.render = function(canvas) {
+    canvas.fillStyle("yellow").fillRect(-this.getWidth()/2, 0, 10, 10);
+    canvas.fillStyle("purple").fillRect(this.getWidth()/2, 0, 10, 10);
 };

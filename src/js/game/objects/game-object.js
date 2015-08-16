@@ -13,6 +13,16 @@ GameObject.prototype.update = function(deltaTime) {
     
 };
 
+/**
+ * @param {Canvas} canvas
+ */
+GameObject.prototype.render = function(canvas) {
+    canvas.save()       
+        .translate(-this.getWidth()/2, -this.getHeight()/2)
+        .fillRect(0, 0, this.getWidth(), this.getHeight())
+        .restore();
+};
+
 GameObject.prototype.getX = function() { 
     return this.x; 
 };
@@ -30,4 +40,7 @@ GameObject.prototype.getWidth = function() {
 };
 GameObject.prototype.getHeight = function() { 
     return this.objectHeight;
+};
+GameObject.prototype.vec = function() {
+    return [this.x, this.y];
 };

@@ -77,7 +77,7 @@ GameWorld.prototype.collisions = function() {
                return;
            } 
             
-           if(VM.distance(objectLeft, objectRight) < 10) {
+           if(VMath.distance(objectLeft.vec(), objectRight.vec()) < 10) {
                this.triggerCollisions(objectLeft, objectRight);
            }
         }, this);

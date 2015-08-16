@@ -30,9 +30,9 @@ function renderGame(world, race, boat) {
     if (waypoint) {
         canvas.save()
               .translate(boat.getX(), boat.getY())
-              .rotate(VM.direction(boat, waypoint))
+              .rotate(VMath.atan2(boat.vec(), waypoint.vec()))
               .translate(boat.getWidth()/2, 0)
-              .fillRect(0, 0, Math.min(VM.distance(boat, waypoint), 50), 10)
+              .fillRect(0, 0, Math.min(VMath.distance(boat.vec(), waypoint.vec()), 50), 10)
               .restore();
     }
     
@@ -58,8 +58,7 @@ function renderObject(object) {
     canvas.save()
         .fillStyle("red")
         .translate(object.getX(), object.getY())
-        .rotate(object.getDirection())
-        .translate(-object.getWidth()/2, -object.getHeight()/2)
-        .fillRect(0, 0, object.getWidth(), object.getHeight())
-        .restore();
+        .rotate(object.getDirection());
+    object.render(canvas);
+    canvas.restore();
 }
