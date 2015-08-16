@@ -35,14 +35,17 @@ function renderGame(world, race, camera) {
     });
 };
 
+/**
+ * @param {GameObject} object
+ */
 function renderObject(object) {
     var canvas = getCanvas();
     
     canvas.save()
         .fillStyle("red")
-        .translate(object.x, object.y)
-        .rotate(object.direction)
-        .translate(-object.width/2, -object.height/2)
-        .fillRect(0, 0, object.width, object.height)
+        .translate(object.getX(), object.getY())
+        .rotate(object.getDirection())
+        .translate(-object.getWidth()/2, -object.getHeight()/2)
+        .fillRect(0, 0, object.getWidth(), object.getHeight())
         .restore();
 }

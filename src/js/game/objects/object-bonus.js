@@ -7,13 +7,11 @@ function BonusObject(x, y, direction, bonus) {
     this.bonus = bonus;
 };
 
+BonusObject.prototype = Object.create(GameObject.prototype);
+
 /**
  * @returns {GameBonus}
  */
 BonusObject.prototype.getGameBonus = function() {
     return this.bonus;
-};
-
-BonusObject.prototype.update = function(deltaTime) {
-    
 };

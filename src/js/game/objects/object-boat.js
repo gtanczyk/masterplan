@@ -16,6 +16,8 @@ function BoatObject(x, y, direction) {
     this.waypointsChecked = [];
 }
 
+BoatObject.prototype = Object.create(GameObject.prototype);
+
 // checkpoints 
 BoatObject.prototype.checkWaypoint = function (waypoint) {
     if (!this.hasChecked(waypoint)) {
@@ -56,8 +58,8 @@ BoatObject.prototype.getVelocity = function() {
 BoatObject.prototype.update = function(deltaTime) {
     this.updateVelocity(deltaTime);
     
-    this.vx = Math.cos(this.direction) * this.getVelocity();
-    this.vy = Math.sin(this.direction) * this.getVelocity();
+    this.vx = Math.cos(this.getDirection()) * this.getVelocity();
+    this.vy = Math.sin(this.getDirection()) * this.getVelocity();
     
     this.x += this.vx * deltaTime;
     this.y += this.vy * deltaTime;
@@ -66,9 +68,9 @@ BoatObject.prototype.update = function(deltaTime) {
     this.targetDirection += deltaTime * this.turnDirection / 10;
     
     // rotate object
-    var cx = Math.cos(this.direction) * (1 - deltaTime),
-        cy = Math.sin(this.direction) * (1 - deltaTime);
-    var dx = Math.cos(this.targetDirection) * deltaTime
+    var cx = Math.cos(this.getDirection()) * (1 - deltaTime),
+        cy = Math.sin(this.getDirection()) * (1 - deltaTime);
+    var dx = Math.cos(this.targetDirection) * deltaTime,
         dy = Math.sin(this.targetDirection) * deltaTime;
-    this.direction = Math.atan2(cy + dy, cx + dx);
+    this.setDirection(Math.atan2(cy + dy, cx + dx));
 };

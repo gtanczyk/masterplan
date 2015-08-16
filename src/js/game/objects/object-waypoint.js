@@ -6,9 +6,7 @@ function WaypointObject(x, y, direction) {
     this.boatsChecked = [];
 };
 
-WaypointObject.prototype.update = function(deltaTime) {
-    
-};
+WaypointObject.prototype = Object.create(GameObject.prototype);
 
 /**
  * @param {BoatObject} boat
