@@ -22,7 +22,7 @@ Character.prototype.update = function() {
                         VMath.normalize(VMath.sub(waypoint.vec(), this.boat.vec())),
                         [Math.cos(this.boat.getDirection()), Math.sin(this.boat.getDirection())]
                     );
-    if (Math.abs(direction) < VMath.EPSILON*10) {
+    if (Math.abs(direction) < 0.05) {
         this.boat.straight();
     } else if (direction < 0) {
         this.boat.turnRight();
