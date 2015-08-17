@@ -26,7 +26,8 @@ gulp.task('compile', ['concat'], function() {
           compilerPath: 'bower_components/closure-compiler/lib/vendor/compiler.jar',
           fileName: 'game.min.js',
           compilerFlags: {
-            compilation_level: 'ADVANCED_OPTIMIZATIONS'
+            compilation_level: 'ADVANCED_OPTIMIZATIONS',
+            output_wrapper: '(function(){%output%}).call(window);'
           }
         }))
        .pipe(gulp.dest('./dist'));

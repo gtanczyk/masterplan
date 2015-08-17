@@ -13,71 +13,78 @@ function getCanvas() {
 
 /**
  * @constructor
+ * @final
  */
 function Canvas() {
-    var element = document.createElement('canvas');
-    element.width = window.innerWidth;
-    element.height = window.innerHeight;
-    document.body.appendChild(element);
-
-    var ctx = element.getContext('2d');
-
-    this.getWidth = function() {
-        return element.width;
-    };
+    this.element = document.createElement('canvas');
+    this.ctx = this.element.getContext('2d');
     
-    this.getHeight = function() {
-        return element.height;
-    };
+    window.addEventListener("resize", this.resize.bind(this));
+    this.resize();
     
-    this.clear = function() {
-        ctx.clearRect(0, 0, element.width, element.height);
-        return this;
-    };
-    
-    this.drawText = function(x, y, text) {
-        ctx.fillStyle = "red";
-        ctx.font = "48px serif";
-        ctx.fillText(text, x, y);
-        return this;
-    };
-    
-    this.fillStyle = function(fillStyle) {
-        ctx.fillStyle = fillStyle;
-        return this;
-    };
-    
-    this.fillRect = function(x, y, width, height) {
-        ctx.fillRect(x, y, width, height);
-        return this;
-    };
-    
-    this.drawImage = function(image, x, y) {
-        ctx.drawImage(image, x, y);
-        return this;
-    };
-    
-    this.translate = function(x, y) {
-        ctx.translate(x, y);
-        return this;
-    };
-    
-    this.rotate = function(direction) {
-        ctx.rotate(direction);
-        return this;
-    };
-    
-    this.save = function() {
-        ctx.save();
-        return this;
-    };
-    
-    this.restore = function() {
-        ctx.restore();
-        return this;
-    };
-    
-    this.ctx = function() {
-        return ctx;
-    };
+    document.body.appendChild(this.element);
 }
+
+Canvas.prototype.getWidth = function() {
+    return this.element.width;
+};
+    
+Canvas.prototype.getHeight = function() {
+    return this.element.height;
+};
+    
+Canvas.prototype.clear = function() {
+    this.ctx.clearRect(0, 0, this.getWidth(), this.getHeight());
+    return this;
+};
+    
+Canvas.prototype.drawText = function(x, y, text) {
+    this.ctx.fillStyle = "red";
+    this.ctx.font = "48px serif";
+    this.ctx.fillText(text, x, y);
+    return this;
+};
+    
+Canvas.prototype.fillStyle = function(fillStyle) {
+    this.ctx.fillStyle = fillStyle;
+    return this;
+};
+    
+Canvas.prototype.fillRect = function(x, y, width, height) {
+    this.ctx.fillRect(x, y, width, height);
+    return this;
+};
+    
+Canvas.prototype.drawImage = function(image, x, y) {
+    this.ctx.drawImage(image, x, y);
+    return this;
+};
+    
+Canvas.prototype.translate = function(x, y) {
+    this.ctx.translate(x, y);
+    return this;
+};
+    
+Canvas.prototype.rotate = function(direction) {
+    this.ctx.rotate(direction);
+    return this;
+};
+    
+Canvas.prototype.save = function() {
+    this.ctx.save();
+    return this;
+};
+    
+Canvas.prototype.restore = function() {
+    this.ctx.restore();
+    return this;
+};
+    
+Canvas.prototype.ctx = function() {
+    return ctx;
+};
+
+Canvas.prototype.resize = function() {
+    this.element.width = window.innerWidth;
+    this.element.height = window.innerHeight;    
+};  
