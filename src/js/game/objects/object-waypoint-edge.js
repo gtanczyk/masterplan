@@ -1,5 +1,6 @@
 /**
  * @constructor
+ * @extends {GameObject}
  */
 function WaypointEdgeObject(vec) {
     this.x = vec[0];

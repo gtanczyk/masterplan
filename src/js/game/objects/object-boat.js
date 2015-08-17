@@ -1,5 +1,6 @@
 /**
  * @constructor
+ * @extends {GameObject}
  */
 function BoatObject(name, x, y, direction) {
     GameObject.call(this, x, y, 32, 32, direction);

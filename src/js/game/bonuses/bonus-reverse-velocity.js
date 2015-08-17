@@ -2,6 +2,7 @@
  * @param {BoatObject} boat to not get affected by this bonus
  * @param {Number} startTime when this bonus has been activated
  * @constructor
+ * @extends {GameBonus}
  */
 function ReverseVelocity(boat, startTime) {
     GameBonus.call(this, startTime);

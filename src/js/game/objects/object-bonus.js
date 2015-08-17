@@ -1,5 +1,6 @@
 /**
  * @constructor
+ * @extends {GameObject}
  */
 function BonusObject(x, y, direction, bonus) {
     GameObject.call(this, x, y, 10, 10, direction);

@@ -1,5 +1,6 @@
 /**
  * @constructor
+ * @extends {GameObject}
  */
 function WaypointObject(x, y, direction) {
     GameObject.call(this, x, y, 50, 0, direction);
