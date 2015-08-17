@@ -18,7 +18,7 @@ function renderGame(world, race, boat) {
     
     // render surface
     canvas.save()
-        .fillStyle("blue")
+        .fillStyle("#5599ff")
         .fillRect(boat.getX() - canvas.getWidth()/2, boat.getY() - canvas.getHeight()/2, 
                 canvas.getWidth(), canvas.getHeight())
         .restore();

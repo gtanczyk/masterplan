@@ -38,16 +38,20 @@ GameWorld.prototype.removeObject = function(object) {
 };
 
 /**
- * Return all objects within given rect;
+ * Return all objects within given radius
  * 
  * @param x
  * @param y
- * @param width
- * @param height
+ * @param radius
  * @returns {Array}
  */
-GameWorld.prototype.queryObjects = function(type, x, y, width, height) {
+GameWorld.prototype.queryObjects = function(type, x, y, radius) {
+    var vec = [x, y];
     return this.objects.filter(function(object) {
+        if (VMath.distance(vec, object.vec()) > radius) {
+            return
+        }
+        
         return !type || object instanceof type;
     });
 };
@@ -99,7 +103,7 @@ GameWorld.prototype.collisions = function() {
         }, this);
         // boat -> bonus
         this.queryObjects(BonusObject).forEach(function(bonus) {
-           if (VMath.distance(boat.vec(), bonus.vec()) < bonus.getWidth()) {
+           if (VMath.distance(boat.vec(), bonus.vec()) < boat.getWidth() / 2) {
                this.triggerCollisions(bonus, boat);
            } 
         }, this);
