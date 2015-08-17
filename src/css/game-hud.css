@@ -10,7 +10,6 @@
 }
 
 #race-stats {
-  background: black;
   color: white;
   text-align: center;
   left: 50%;
@@ -24,15 +23,21 @@
 
 #race-time {
   display: inline-block;
+  text-shadow: 0px 0px 5px black;
   padding: 5px;
 }
 
 #race-position {
   padding: 5px;
   display: inline-block;
-  background: white;
-  color: red;
+  color: white;
+  text-shadow: 0px 0px 5px black;
+  font-size: 25px;
   float: right;
+}
+
+#race-position>span {
+  font-size: 28px;
 }
 
 #race-standings:empty {
@@ -40,7 +45,7 @@
 }
 
 #race-standings {
-  background: black;
+  background: rgba(0, 0, 0, 0.3);
   color: white;
   font-family: monospace;
   right: 0px;

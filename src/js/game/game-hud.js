@@ -44,7 +44,7 @@ GameHUD.prototype.render = function(state) {
 GameHUD.prototype.renderPosition = function() {
     var position = this.race.getPosition(this.boat);
     var total = this.race.getTotal();
-    this.racePosition.innerHTML = position + "/" + total;
+    this.racePosition.innerHTML = '<span>'+position+'</span>' + "/" + total;
 };
 
 GameHUD.prototype.renderRaceTime = function() {
