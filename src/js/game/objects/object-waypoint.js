@@ -17,6 +17,10 @@ WaypointObject.prototype = Object.create(GameObject.prototype);
  * @param {WaypointObject[]} sequence
  */
 WaypointObject.prototype.canCheck = function(boat, sequence) {
+    if (this.hasChecked(boat)) {
+        return false;
+    }
+    
     return sequence.slice(0, sequence.indexOf(this)).every(function(waypoint) {
         return boat.hasChecked(waypoint);
     });

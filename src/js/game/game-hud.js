@@ -12,6 +12,7 @@ function GameHUD(race, world, boat) {
     this.HUD = $('#game-hud');
     this.raceTime = $('#race-time');
     this.racePosition = $('#race-position');
+    this.raceStandings = $('#race-standings');
     
     this.HUD.style.display = "block";
 };
@@ -26,6 +27,7 @@ GameHUD.prototype.destroy = function() {
 GameHUD.prototype.render = function(state) {
     this.renderRaceTime();
     this.renderPosition();
+    this.renderStandings();
 
     switch (state) {
         case GAME_STATE_INIT:
@@ -46,11 +48,13 @@ GameHUD.prototype.renderPosition = function() {
 };
 
 GameHUD.prototype.renderRaceTime = function() {
-    var dt = new Date(this.race.getTime());
-    var minutes = dt.getMinutes();
-    var seconds = dt.getSeconds();
-    var millis =  dt.getMilliseconds();
-    this.raceTime.innerHTML = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "." + (millis < 10 ? "00" : millis < 100 ? "0" : "") + millis;
+    this.raceTime.innerHTML = formatRaceTime(this.race.getTime());
+};
+
+GameHUD.prototype.renderStandings = function() {
+    this.raceStandings.innerHTML = this.race.getStandings().map(function(standing, idx) {
+        return '<div class="pos-'+idx+'">'+(idx+1)+'. '+formatRaceTime(standing.getTime())+'</div>'
+    }).join(' ');
 };
 
 GameHUD.prototype.showPause = function() {

@@ -15,6 +15,7 @@ body>img {
 }
 
 /** GAME HUD */
+
 #game-hud {
   position: fixed;
   z-index: 1;
@@ -23,6 +24,7 @@ body>img {
   height: 100%;
   display: none;
 }
+
 #race-stats {
   background: black;
   color: white;
@@ -35,14 +37,44 @@ body>img {
   font-size: 20px;
   font-family: monospace;
 }
+
 #race-time {
   display: inline-block;
   padding: 5px;
 }
+
 #race-position {
   padding: 5px;
   display: inline-block;
   background: white;
   color: red;
   float: right;
+}
+
+#race-standings:empty {
+  display: none;
+}
+
+#race-standings {
+  background: black;
+  color: white;
+  font-family: monospace;
+  right: 0px;
+  position: absolute;
+  padding: 5px;
+}
+
+#race-standings div.pos-0 {
+  color: gold;
+  font-weight: bold;
+}
+
+#race-standings div.pos-1 {
+  color: silver;
+  font-weight: bold;
+}
+
+#race-standings div.pos-2 {
+  color: brown;
+  font-weight: bold;
 }

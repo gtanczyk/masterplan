@@ -8,6 +8,9 @@ function Race(world) {
     this.waypointSequence = [];
     this.characters = [];
     this.finishTime = 240000;
+
+    /** {RaceStanding[]} */
+    this.standings = [];
     
     world.onCollision(BoatObject, WaypointObject, this.onWaypointCollision.bind(this));
     world.onCollision(BoatObject, BonusObject, this.onBonusCollision.bind(this));
@@ -50,6 +53,10 @@ Race.prototype.orderWaypoints = function() {
 Race.prototype.onWaypointCollision = function(boat, waypoint) {
     if (waypoint.canCheck(boat, this.waypointSequence)) {
         waypoint.checkBoat(boat);
+        
+        if(this.hasFinished(boat)) {
+            this.standings.push(new RaceStanding(boat, this.getTime()));
+        }
     }
 };
 
@@ -105,3 +112,38 @@ Race.prototype.getPosition = function(boat) {
 Race.prototype.getTotal = function() {
     return this.world.queryObjects(BoatObject).length;
 };
+
+Race.prototype.hasFinished = function(boat) {
+    return this.waypointSequence[this.waypointSequence.length - 1].hasChecked(boat);
+};
+
+/**
+ * @returns {RaceStanding[]}
+ */
+Race.prototype.getStandings = function() {
+    return this.standings;
+}
+
+/**
+ * @param {BoatObject} boat
+ * @param {Number} time
+ * @constructor
+ */
+function RaceStanding(boat, time) {
+    this.boat = boat;
+    this.time = time;
+}
+
+/**
+ * @returns {BoatObject}
+ */
+RaceStanding.prototype.getBoat = function() {
+    return this.boat;
+}
+
+/**
+ * @returns {Number}
+ */
+RaceStanding.prototype.getTime = function() {
+    return this.time;
+}
