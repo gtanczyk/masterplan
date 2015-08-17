@@ -21,7 +21,7 @@ GameBonus.prototype.isActive = function(worldTime) {
 };
 
 GameBonus.prototype.getDuration = function() {
-    return 5000;
+    return 7500;
 };
 
 GameBonus.prototype.getTimeLeft = function(worldTime) {

@@ -10,8 +10,10 @@ function Character(world, race, boat) {
     this.boat = boat;
 };
 
+/**
+ * @param {WaypointObject} waypoint?
+ */
 Character.prototype.update = function(waypoint) {
-    /** @type {WaypointObject} */
     waypoint = waypoint || this.race.getNextWaypoint(this.boat);
     
     if (!waypoint) {
