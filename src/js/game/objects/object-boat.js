@@ -1,8 +1,10 @@
 /**
  * @constructor
  */
-function BoatObject(x, y, direction) {
+function BoatObject(name, x, y, direction) {
     GameObject.call(this, x, y, 32, 32, direction);
+    
+    this.name = name;
     
     this.vx = 0;
     this.vy = 0;
@@ -23,6 +25,10 @@ function BoatObject(x, y, direction) {
 }
 
 BoatObject.prototype = Object.create(GameObject.prototype);
+
+BoatObject.prototype.getName = function() {
+    return this.name;
+};
 
 /**
  * @param {Canvas} canvas

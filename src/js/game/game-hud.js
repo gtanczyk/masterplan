@@ -53,8 +53,10 @@ GameHUD.prototype.renderRaceTime = function() {
 
 GameHUD.prototype.renderStandings = function() {
     this.raceStandings.innerHTML = this.race.getStandings().map(function(standing, idx) {
-        return '<div class="pos-'+idx+'">'+(idx+1)+'. '+formatRaceTime(standing.getTime())+'</div>'
-    }).join(' ');
+        var boat = standing.getBoat();
+        var isBoat = boat === this.boat;
+        return '<div class="pos-'+idx+' '+(isBoat && 'me')+'">'+(idx+1)+'. '+'<span>'+boat.getName()+'</span>'+' '+formatRaceTime(standing.getTime())+'</div>'
+    }, this).join(' ');
 };
 
 GameHUD.prototype.showPause = function() {

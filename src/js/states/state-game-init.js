@@ -4,12 +4,12 @@
 function stateGameInit() {
     var world = new GameWorld();
     
-    var boat = new BoatObject(-400, -200, 0);
-    var boat2 = new BoatObject(-400, -150, 0);
-    var boat3 = new BoatObject(-350, -200, 0);
-    var boat4 = new BoatObject(-350, -150, 0);
-    var boat5 = new BoatObject(-300, -200, 0);
-    var boat6 = new BoatObject(-300, -150, 0);
+    var boat = new BoatObject('You', -400, -200, 0);
+    var boat2 = new BoatObject('Sprinter', -400, -150, 0);
+    var boat3 = new BoatObject('Bonuser', -350, -200, 0);
+    var boat4 = new BoatObject('Immuner', -350, -150, 0);
+    var boat5 = new BoatObject('Annoying', -300, -200, 0);
+    var boat6 = new BoatObject('Predator', -300, -150, 0);
     
     var waypoints = [];
     var bonuses = [];

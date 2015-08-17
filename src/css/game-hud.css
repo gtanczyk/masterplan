@@ -53,6 +53,10 @@
   padding: 5px;
 }
 
+#race-standings div.me {
+    text-decoration: underline;
+}
+
 #race-standings div.pos-0 {
   color: gold;
   font-weight: bold;
