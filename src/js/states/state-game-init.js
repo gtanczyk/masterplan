@@ -4,18 +4,18 @@
 function stateGameInit() {
     var world = new GameWorld();
     
-    var boat = new BoatObject(-300, 0, 0);
-    var boat2 = new BoatObject(-300, -50, 0);
-    var boat3 = new BoatObject(-300, -100, 0);
-    var boat4 = new BoatObject(-300, -150, 0);
+    var boat = new BoatObject(-400, -200, 0);
+    var boat2 = new BoatObject(-400, -150, 0);
+    var boat3 = new BoatObject(-350, -200, 0);
+    var boat4 = new BoatObject(-350, -150, 0);
     var boat5 = new BoatObject(-300, -200, 0);
-    var boat6 = new BoatObject(-300, -250, 0);
+    var boat6 = new BoatObject(-300, -150, 0);
     
     var waypoints = [];
     var bonuses = [];
     
     var wx = 0, wy = 0;
-    var wdir = Math.PI/2;
+    var wdir = Math.PI/6;
     for(var i = 0; i < 16; i++) {
         waypoints.push(new WaypointObject(wx, wy, wdir + Math.PI/2));
         var bdir = wdir + Math.PI * Math.random();
