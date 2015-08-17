@@ -55,7 +55,11 @@ function handleTouch(event) {
     event.preventDefault();
 }
 
-window.addEventListener("touchstart", handleTouch);
+window.addEventListener("touchstart", function(event) {
+    handleTouch(event);
+    
+    updateState(EVENT_TOUCH_START);
+});
 
 window.addEventListener("touchmove", handleTouch);
 

@@ -32,7 +32,7 @@ function stateGamePlay(world, race, boat, HUD) {
             return new stateGameEnd(world, race, boat, HUD);
         }
         
-        if (eventType == EVENT_ESCAPE) {
+        if (eventType == EVENT_ESCAPE || eventType == EVENT_DOCUMENT_HIDDEN) {
             return new stateGamePause(world, race, boat, HUD);
         }
 

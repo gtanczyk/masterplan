@@ -10,4 +10,12 @@ requestAnimationFrame(updateAnimation);
 
 document.onreadystatechange = function() {
     updateState(EVENT_READYSTATE, document.readyState);
-}
+};
+
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        updateState(EVENT_DOCUMENT_HIDDEN);
+    } else {
+        updateState(EVENT_DOCUMENT_VISIBLE);
+    }
+});

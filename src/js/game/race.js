@@ -7,7 +7,7 @@ function Race(world) {
     /** {WaypointObject[]} */
     this.waypointSequence = [];
     this.characters = [];
-    this.finishTime = 240000;
+    this.finishTime = 440000;
 
     /** {RaceStanding[]} */
     this.standings = [];
