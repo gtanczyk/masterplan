@@ -26,11 +26,31 @@ WaypointObject.prototype.canCheck = function(boat, sequence) {
  * @param {BoatObject} boat
  */
 WaypointObject.prototype.hasChecked = function(boat) {
-    return this.boatsChecked.indexOf(boat) > -1;
+    return this.checkedPosition(boat) > -1;
+};
+
+/**
+ * At what position given boat checked into this waypoint
+ * @param {BoatObject} boat
+ * @param {BoatObject[]} exceptBoats
+ * @returns {Number}
+ */
+WaypointObject.prototype.checkedPosition = function(boat, exceptBoats) {
+    var checked = this.getChecked();
+    if (exceptBoats) {
+        checked = checked.filter(function(boat) {
+            return exceptBoats.indexOf(boat) == -1;
+        });
+    }
+    return checked.indexOf(boat);
 };
 
 WaypointObject.prototype.countChecked = function() {
-    return this.boatsChecked.length;
+    return this.getChecked().length;
+};
+
+WaypointObject.prototype.getChecked = function() {
+    return this.boatsChecked;
 };
 
 /**

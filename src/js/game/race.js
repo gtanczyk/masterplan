@@ -4,6 +4,7 @@
  */
 function Race(world) {
     this.world = world;
+    /** {WaypointObject[]} */
     this.waypointSequence = [];
     this.characters = [];
     this.finishTime = 240000;
@@ -93,11 +94,12 @@ Race.prototype.getPosition = function(boat) {
     
     // how many boats are ahead
     var idx = this.waypointSequence.indexOf(lastChecked);
-    var ahead = this.waypointSequence.slice(idx+1, idx+2).reduce(function(ahead, waypoint) {
-        return waypoint.countChecked();
-    }, 0);
+    var nextWaypoint = this.waypointSequence.slice(idx+1, idx+2);
+    var boatsAhead = nextWaypoint.reduce(function(ahead, waypoint) {
+        return waypoint.getChecked();
+    }, []);   
     
-    return 1 + ahead;
+    return 1 + boatsAhead.length + lastChecked.checkedPosition(boat, boatsAhead);
 };
 
 Race.prototype.getTotal = function() {
