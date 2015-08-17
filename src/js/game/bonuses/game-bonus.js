@@ -1,17 +1,31 @@
 /**
  * @constructor
  */
-function GameBonus(startTime) {
+function GameBonus(name, boat, startTime) {
+    this.name = name;
+    this.boat = boat;
     this.startTime = startTime;
     this.altered = [];
 };
 
+GameBonus.prototype.getName = function() {
+    return this.name;
+};
+
+GameBonus.prototype.getBoat = function() {
+    return this.boat;
+};
+
 GameBonus.prototype.isActive = function(worldTime) {
-    return worldTime < this.startTime + this.getDuration();
+    return this.getTimeLeft(worldTime) > 0;
 };
 
 GameBonus.prototype.getDuration = function() {
     return 5000;
+};
+
+GameBonus.prototype.getTimeLeft = function(worldTime) {
+     return this.startTime + this.getDuration() - worldTime;
 };
 
 /**

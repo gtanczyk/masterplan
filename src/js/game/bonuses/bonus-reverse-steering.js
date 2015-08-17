@@ -5,7 +5,7 @@
  * @extends {GameBonus}
  */
 function ReverseSteering(boat, startTime) {
-    GameBonus.call(this, startTime);
+    GameBonus.call(this, "Reversed steering", boat, startTime);
     
     var oldLeft = this.alter(BoatObject.prototype, BoatObject.prototype.turnLeft, function() {
         if (this === boat) {

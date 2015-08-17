@@ -5,7 +5,7 @@
  * @extends {GameBonus}
  */
 function ReverseVelocity(boat, startTime) {
-    GameBonus.call(this, startTime);
+    GameBonus.call(this, "Reversed velocity", boat, startTime);
     
     var oldGetTargetVelocity = this.alter(BoatObject.prototype, BoatObject.prototype.getTargetVelocity, function() {
         if (this === boat) {

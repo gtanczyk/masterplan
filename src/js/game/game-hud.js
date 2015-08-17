@@ -13,6 +13,7 @@ function GameHUD(race, world, boat) {
     this.raceTime = $('#race-time');
     this.racePosition = $('#race-position');
     this.raceStandings = $('#race-standings');
+    this.activeBonuses = $('#active-bonuses');
     
     this.HUD.style.display = "block";
 };
@@ -28,6 +29,7 @@ GameHUD.prototype.render = function(state) {
     this.renderRaceTime();
     this.renderPosition();
     this.renderStandings();
+    this.renderBonuses();
 
     switch (state) {
         case GAME_STATE_INIT:
@@ -56,6 +58,19 @@ GameHUD.prototype.renderStandings = function() {
         var boat = standing.getBoat();
         var isBoat = boat === this.boat;
         return '<div class="pos-'+idx+' '+(isBoat && 'me')+'">'+(idx+1)+'. '+'<span>'+boat.getName()+'</span>'+' '+formatRaceTime(standing.getTime())+'</div>'
+    }, this).join(' ');
+};
+
+GameHUD.prototype.renderBonuses = function() {
+    this.activeBonuses.innerHTML = this.world.getActiveBonuses().map(function(bonus) {
+        var timeLeft = bonus.getTimeLeft(this.world.getTime());
+        var percent = Math.round(timeLeft/bonus.getDuration() * 100);
+        var className = bonus.getBoat() == this.boat ? "mine" : "";
+        return '<div class="'+className+'">'+
+                   '<div style="width: '+percent+'%"></div>' + 
+                   bonus.getName() + 
+                   '<span>'+formatRaceTime(timeLeft)+'</span>'+
+               '</div>';
     }, this).join(' ');
 };
 

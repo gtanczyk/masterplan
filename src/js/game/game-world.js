@@ -160,13 +160,18 @@ GameWorld.prototype.updateObject = function(object, deltaTime) {
 };
 
 // bonuses
+/**
+ * @return {GameBonus[]}
+ */
+GameWorld.prototype.getActiveBonuses = function() {
+    return this.bonuses;
+};
 
 /**
  * @param {BonusObject} bonus
  * @param {BoatObject} boat
  */
 GameWorld.prototype.activateBonus = function(bonus, boat) {
-    console.log("activating", bonus.getGameBonus());
     this.bonuses.splice(0, 0, new (bonus.getGameBonus())(boat, this.worldTime));
     this.removeObject(bonus);
 };
@@ -174,7 +179,6 @@ GameWorld.prototype.activateBonus = function(bonus, boat) {
 GameWorld.prototype.deactivateBonuses = function() {
     this.bonuses = this.bonuses.filter(function(gameBonus) {
         if (!gameBonus.isActive(this.worldTime)) {
-            console.log("dectivating", gameBonus);
             gameBonus.deactivate();
             return false;
         } else {

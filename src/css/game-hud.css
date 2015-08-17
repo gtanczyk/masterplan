@@ -1,5 +1,3 @@
-
-
 #game-hud {
   position: fixed;
   z-index: 1;
@@ -7,6 +5,41 @@
   width: 100%;
   height: 100%;
   display: none;
+  font-family: monospace;
+}
+
+#active-bonuses {
+    position: absolute;
+    left: 50px;
+    top: 50px;
+}
+
+#active-bonuses > div {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid black;
+    color: white;
+    margin: 0px 0px 1px;
+    padding: 5px;
+    position: relative;
+    font-size: 17px;
+}
+
+#active-bonuses > div > div {
+    position: absolute;
+    background: rgba(255, 0, 0, 0.5);
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+}
+
+#active-bonuses > div.mine > div {
+    background: rgba(0, 255, 0, 0.5);
+}
+
+#active-bonuses > div > span {
+    float: right;
+    margin-left: 10px;
+    color: #666;
 }
 
 #race-stats {
@@ -18,7 +51,6 @@
   position: absolute;
   font-weight: bold;
   font-size: 20px;
-  font-family: monospace;
 }
 
 #race-time {
@@ -47,7 +79,6 @@
 #race-standings {
   background: rgba(0, 0, 0, 0.3);
   color: white;
-  font-family: monospace;
   right: 0px;
   position: absolute;
   padding: 5px;
