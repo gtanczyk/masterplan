@@ -39,13 +39,6 @@ function renderGame(world, race, boat) {
     world.queryObjects().forEach(renderObject);
     
     canvas.restore();
-    
-    // render status
-    canvas.drawText(1, 50, race.getTime());
-    
-    world.queryObjects(BoatObject).forEach(function(boat) {
-        canvas.drawText(1, 100, race.getWaypointCount(boat));
-    });
 };
 
 /**

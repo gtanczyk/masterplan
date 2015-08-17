@@ -29,6 +29,10 @@ WaypointObject.prototype.hasChecked = function(boat) {
     return this.boatsChecked.indexOf(boat) > -1;
 };
 
+WaypointObject.prototype.countChecked = function() {
+    return this.boatsChecked.length;
+};
+
 /**
  * @param {BoatObject} boat
  */

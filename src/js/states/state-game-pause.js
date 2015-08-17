@@ -1,10 +1,14 @@
 /**
+ * @param {GameWorld} world
+ * @param {Race} race
+ * @param {BoatObject} boat
+ * @param {GameHUD} HUD 
  * @constructor
  */
-var stateGamePause = function GamePause(world, race, boat) {
+function stateGamePause(world, race, boat, HUD) {
     return function GamePauseHandler(eventType) {
         renderGame(world, race, boat);
-        getCanvas().drawText(0, 50, "PAUSE")
+        HUD.render(GAME_STATE_PAUSE);
         
         if (eventType == EVENT_ESCAPE) {
             return stateGamePlay(world, race, boat);

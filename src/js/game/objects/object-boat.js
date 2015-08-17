@@ -8,7 +8,7 @@ function BoatObject(x, y, direction) {
     this.vy = 0;
     
     this.velocity = 0;
-    this.targetVelocity = 10;
+    this.targetVelocity = 1;
     
     this.force = [0, 0];
     
@@ -17,7 +17,7 @@ function BoatObject(x, y, direction) {
     
     this.waypointsChecked = [];
     
-    this.image = boat;
+    this.image = $("#asset-boat");
     this.leftOarAnim = 0;
     this.rightOarAnim = 0;
 }
@@ -102,25 +102,29 @@ BoatObject.prototype.update = function(deltaTime) {
     this.setDirection(Math.atan2(cy + dy, cx + dx));
     
     // degrade force
-    this.force = VMath.scale(this.force, 0.99 * deltaTime);
+    this.force = VMath.sub(this.force, VMath.scale(this.force, deltaTime*0.1));
     if (VMath.length(this.force) < VMath.EPSILON) {
         this.force = [0, 0];
     }
     
     // animate oars
     if (this.turnDirection <= 0) {
-        var scale = this.turnDirection == 0 && this.leftOarAnim - this.rightOarAnim < -0.1 ? 1.5 : 1;
-        this.leftOarAnim = this.updateOar(this.leftOarAnim, scale, deltaTime);
+        this.leftOarAnim = this.updateOar(this.leftOarAnim, this.rightOarAnim, deltaTime);
         
     }
     if (this.turnDirection >= 0) {
-        var scale = this.turnDirection == 0 && this.rightOarAnim - this.leftOarAnim < -0.1 ? 1.5 : 1;
-        this.rightOarAnim = this.updateOar(this.rightOarAnim, scale, deltaTime);
+        this.rightOarAnim = this.updateOar(this.rightOarAnim, this.leftOarAnim, deltaTime);
     }
 };
 
-BoatObject.prototype.updateOar = function(anim, scale, deltaTime) {
-    return (anim + deltaTime / 100 * this.getVelocity() * scale) % 2;    
+BoatObject.prototype.updateOar = function(anim, oppositeAnim, deltaTime) {
+    var scale = this.turnDirection == 0 && anim - oppositeAnim > 0.1 ? 0.5 : 1;
+    anim = anim + deltaTime / 100 * Math.sign(this.getVelocity()) * scale * 10;
+    if (anim > 1) {
+        this.addForce([Math.cos(this.direction)*deltaTime/2, Math.sin(this.direction)*deltaTime/2]);
+        anim %= 2;
+    }
+    return anim;
 };
 
 BoatObject.prototype.addForce = function(vec) {

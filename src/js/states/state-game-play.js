@@ -1,12 +1,17 @@
 /**
+ * @param {GameWorld} world
+ * @param {Race} race
+ * @param {BoatObject} boat
+ * @param {GameHUD} HUD 
  * @constructor
  */
-var stateGamePlay = function GamePlay(world, race, boat) {
+function stateGamePlay(world, race, boat, HUD) {
     return function GamePlayHandler(eventType, eventObject) {
         if (eventType == EVENT_RAF) {
             world.update(eventObject);
             race.update();
             renderGame(world, race, boat);
+            HUD.render(GAME_STATE_PLAY);
         }
         
         if (eventType == EVENT_ARROW_LEFT_DOWN) {
@@ -20,11 +25,11 @@ var stateGamePlay = function GamePlay(world, race, boat) {
         }
         
         if (eventType == EVENT_RACE_OVER) {
-            return new stateGameEnd(world, race, boat);
+            return new stateGameEnd(world, race, boat, HUD);
         }
         
         if (eventType == EVENT_ESCAPE) {
-            return new stateGamePause(world, race, boat);
+            return new stateGamePause(world, race, boat, HUD);
         }
 
     }.State();

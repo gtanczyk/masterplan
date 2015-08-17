@@ -145,7 +145,7 @@ GameWorld.prototype.onBoatCollision = function(leftBoat, rightBoat) {
 GameWorld.prototype.onBoatWaypointEdgeCollision = function(boat, edge) {
     // boats should bounce off waypoint edges
     var distance = VMath.distance(boat.vec(), edge.vec());
-    var sub = VMath.scale(VMath.normalize(VMath.sub(boat.vec(), edge.vec())), boat.getWidth() - distance);
+    var sub = VMath.scale(VMath.normalize(VMath.sub(boat.vec(), edge.vec())), (boat.getWidth() - distance)/10);
     boat.addForce(sub);
 };
 

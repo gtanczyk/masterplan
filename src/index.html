@@ -26,6 +26,7 @@
 	   <script type="text/javascript" src="js/game/bonuses/bonus-reverse-steering.js"> </script>
 	   <script type="text/javascript" src="js/game/bonuses/bonus-reverse-velocity.js"> </script>
 	   
+	   <script type="text/javascript" src="js/game/game-hud.js"> </script>
 	   <script type="text/javascript" src="js/game/game-world.js"> </script>
 	   <script type="text/javascript" src="js/game/game-render.js"> </script>
 	   <script type="text/javascript" src="js/game/race.js"> </script>
@@ -39,6 +40,15 @@
 	</head>
 	<body>
 	   <!-- assets -->
-	   <img src="assets/boat.png" id="boat" />   
+	   <img src="assets/boat.png" id="asset-boat" />   
+	   <!-- HUD -->
+	   <div id="game-hud">
+	       <div id="race-stats">
+	           <div id="race-time"> </div>
+	           <div id="race-position"> </div>
+	       </div>
+	       <div id="race-scores">
+	       </div>
+	   </div>
 	</body>
 </html>

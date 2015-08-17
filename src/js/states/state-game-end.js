@@ -1,13 +1,18 @@
 /**
+ * @param {GameWorld} world
+ * @param {Race} race
+ * @param {BoatObject} boat
+ * @param {GameHUD} HUD 
  * @constructor
  */
-var stateGameEnd = function GameEnd(world, race, boat) {
+function stateGameEnd(world, race, boat, HUD) {
     return function GameEndHandler(eventType) {
         renderGame(world, race, boat);
-        getCanvas().drawText(0, 50, "RACE OVER")
+        HUD.render(GAME_STATE_END);
         
         if (eventType == EVENT_ESCAPE) {
             world.destroy();
+            HUD.destroy();
             
             return stateMenu();
         }

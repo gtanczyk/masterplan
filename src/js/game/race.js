@@ -79,4 +79,27 @@ Race.prototype.getNextWaypoint = function(boat) {
  */
 Race.prototype.addCharacter = function(character) {
     this.characters.push(character);
-}
+};
+
+Race.prototype.getPosition = function(boat) {
+    var total = this.getTotal(boat);
+    var lastChecked = this.waypointSequence.reduce(function(last, waypoint) {
+        return waypoint.hasChecked(boat) ? waypoint : last;
+    }, null);
+    
+    if (!lastChecked) {
+        return total;  
+    }
+    
+    // how many boats are ahead
+    var idx = this.waypointSequence.indexOf(lastChecked);
+    var ahead = this.waypointSequence.slice(idx+1, idx+2).reduce(function(ahead, waypoint) {
+        return waypoint.countChecked();
+    }, 0);
+    
+    return 1 + ahead;
+};
+
+Race.prototype.getTotal = function() {
+    return this.world.queryObjects(BoatObject).length;
+};
