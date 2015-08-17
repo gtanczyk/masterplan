@@ -7,9 +7,6 @@ function BoatObject(name, x, y, direction) {
     
     this.name = name;
     
-    this.vx = 0;
-    this.vy = 0;
-    
     this.velocity = 0;
     this.targetVelocity = 1;
     
@@ -82,7 +79,11 @@ BoatObject.prototype.straight = function() {
 
 // update
 BoatObject.prototype.updateVelocity = function(deltaTime) {
-    this.velocity = this.targetVelocity * deltaTime + this.velocity * (1 - deltaTime);
+    this.velocity = this.getTargetVelocity() * deltaTime + this.velocity * (1 - deltaTime);
+};
+
+BoatObject.prototype.getTargetVelocity = function() {
+    return this.targetVelocity;
 };
 
 BoatObject.prototype.getVelocity = function() {
@@ -92,11 +93,8 @@ BoatObject.prototype.getVelocity = function() {
 BoatObject.prototype.update = function(deltaTime) {
     this.updateVelocity(deltaTime);
     
-    this.vx = Math.cos(this.getDirection()) * this.getVelocity();
-    this.vy = Math.sin(this.getDirection()) * this.getVelocity();
-    
-    this.setX(this.x + this.vx * deltaTime + this.force[0] * deltaTime);
-    this.setY(this.y + this.vy * deltaTime + this.force[1] * deltaTime);
+    this.setX(this.x + this.force[0] * deltaTime);
+    this.setY(this.y + this.force[1] * deltaTime);
     
     // turn
     this.targetDirection += deltaTime * this.turnDirection / 10;
@@ -125,10 +123,11 @@ BoatObject.prototype.update = function(deltaTime) {
 };
 
 BoatObject.prototype.updateOar = function(anim, oppositeAnim, deltaTime) {
+    var velocity = this.getVelocity();
     var scale = this.turnDirection == 0 && anim - oppositeAnim > 0.1 ? 0.5 : 1;
-    anim = anim + deltaTime / 100 * Math.sign(this.getVelocity()) * scale * 10;
-    if (anim > 1) {
-        this.addForce([Math.cos(this.direction)*deltaTime/2, Math.sin(this.direction)*deltaTime/2]);
+    anim = anim + deltaTime / 100 * velocity * scale * 10;
+    if (Math.abs(anim) > 1) {
+        this.addForce(VMath.scale([Math.cos(this.direction), Math.sin(this.direction)], velocity*deltaTime/2));
         anim %= 2;
     }
     return anim;

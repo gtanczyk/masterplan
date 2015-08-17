@@ -7,11 +7,11 @@
 function ReverseVelocity(boat, startTime) {
     GameBonus.call(this, startTime);
     
-    var oldGetVelocity = this.alter(BoatObject.prototype, BoatObject.prototype.getVelocity, function() {
+    var oldGetTargetVelocity = this.alter(BoatObject.prototype, BoatObject.prototype.getTargetVelocity, function() {
         if (this === boat) {
-            return oldGetVelocity.apply(this, arguments);
+            return oldGetTargetVelocity.apply(this, arguments);
         } else {
-            return oldGetVelocity.apply(this, arguments) * -1;
+            return oldGetTargetVelocity.apply(this, arguments) * -1;
         }
     });
 };
