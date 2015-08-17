@@ -8,7 +8,7 @@
 function stateGamePlay(world, race, boat, HUD) {
     return function GamePlayHandler(eventType, eventObject) {
         if (eventType == EVENT_RAF) {
-            var elapsedTime = eventObject * 100;
+            var elapsedTime = eventObject;
             while (elapsedTime > 0) {
                 elapsedTime = world.update(elapsedTime);
                 race.update();
