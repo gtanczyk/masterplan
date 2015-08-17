@@ -8,8 +8,12 @@
 function stateGamePlay(world, race, boat, HUD) {
     return function GamePlayHandler(eventType, eventObject) {
         if (eventType == EVENT_RAF) {
-            world.update(eventObject);
-            race.update();
+            var elapsedTime = eventObject * 100;
+            while (elapsedTime > 0) {
+                elapsedTime = world.update(elapsedTime);
+                race.update();
+            }
+
             renderGame(world, race, boat);
             HUD.render(GAME_STATE_PLAY);
         }

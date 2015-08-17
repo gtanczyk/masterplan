@@ -55,19 +55,20 @@ GameWorld.prototype.queryObjects = function(type, x, y, width, height) {
 /**
  * Update game state
  * @param elapsedTime how much time elapsed since last update
+ * @return {Number} elapsedTime not consumed
  */
 GameWorld.prototype.update = function(elapsedTime) {
-    while(elapsedTime > 0) {
-        var deltaTime = Math.min(elapsedTime, UPDATE_TICK);
-        this.objects.forEach(function(object) {
-            this.updateObject(object, deltaTime / UPDATE_TICK);
-        }, this);
-        elapsedTime -= deltaTime;
-        this.worldTime += deltaTime;
-        
-        this.collisions();
-        this.deactivateBonuses();
-    }
+    var deltaTime = Math.min(elapsedTime, UPDATE_TICK);
+    this.objects.forEach(function(object) {
+        this.updateObject(object, deltaTime / UPDATE_TICK);
+    }, this);
+    elapsedTime -= deltaTime;
+    this.worldTime += deltaTime;
+    
+    this.collisions();
+    this.deactivateBonuses();
+    
+    return elapsedTime;
 };
 
 /**
