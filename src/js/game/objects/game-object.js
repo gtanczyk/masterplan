@@ -11,6 +11,10 @@ function GameObject(x, y, width, height, direction) {
     this.objectHeight = height;    
 }
 
+GameObject.prototype.getTargetVelocity = function() {
+    
+};
+
 GameObject.prototype.update = function(deltaTime) {
     
 };
