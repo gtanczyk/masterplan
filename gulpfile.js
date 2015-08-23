@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
+var deploy = require('gulp-gh-pages');
 var serve = require('gulp-serve');
 var rm = require('gulp-rm');
 var minifyCss = require('gulp-minify-css');
@@ -60,12 +61,17 @@ gulp.task('inline', ['dist'], function() {
         base: 'dist/'
     }))
     .pipe(gulp.dest('dist/'));
-})
+});
 
-gulp.task('package', ['inline'], function () {
+gulp.task('package', ['inline'], function() {
     return gulp.src(['dist/index.html'])
         .pipe(zip('riversed.zip'))
         .pipe(gulp.dest('dist'));
+});
+
+gulp.task('deploy', ['inline'], function() {
+    return gulp.src("./dist/index.html")
+      .pipe(deploy())
 });
 
 gulp.task('serve', serve('./src'));
