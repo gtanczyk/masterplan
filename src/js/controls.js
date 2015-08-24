@@ -84,6 +84,7 @@ window.addEventListener("touchend", function(event) {
     updateState(EVENT_MOUSE_UP);
     updateState(EVENT_ARROW_LEFT_UP);
     updateState(EVENT_ARROW_RIGHT_UP);
+    updateState(EVENT_ARROW_DOWN_UP);
 
     event.preventDefault();
 });
