@@ -5,6 +5,8 @@ function stateGameInit() {
     var world = new GameWorld();
     
     var boat = new BoatObject('You', -400, -200, 0);
+    boat.setDrawHUD(true);
+    
     var boat2 = new BoatObject('Sprinter', -400, -150, 0);
     var boat3 = new BoatObject('Bonuser', -350, -200, 0);
     var boat4 = new BoatObject('Immuner', -350, -150, 0);

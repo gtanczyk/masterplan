@@ -20,12 +20,21 @@ function BoatObject(name, x, y, direction) {
     this.image = $("#asset-boat");
     this.leftOarAnim = 0;
     this.rightOarAnim = 0;
+    this.drawHUD = false;
 }
 
 BoatObject.prototype = Object.create(GameObject.prototype);
 
 BoatObject.prototype.getName = function() {
     return this.name;
+};
+
+/**
+ * 
+ * @param drawHUD
+ */
+BoatObject.prototype.setDrawHUD = function(drawHUD) {
+    this.drawHUD = drawHUD;
 };
 
 /**
@@ -47,6 +56,15 @@ BoatObject.prototype.render = function(canvas) {
         .rotate(-Math.cos(Math.PI * this.rightOarAnim))
         .fillRect(0, this.getWidth()*0.3, 2, this.getWidth() * -1)
         .restore();
+    
+    // arrow
+    if (this.drawHUD) {
+        canvas.save()
+            .rotate(Math.PI/2*this.turnDirection)
+            .fillStyle("rgba(255,0,0,0.5)")
+            .fillRect(0, -5, 30 * this.getTargetVelocity(), 10)
+            .restore();
+    }
 };
 
 // checkpoints 
