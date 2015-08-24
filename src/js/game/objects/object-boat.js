@@ -91,6 +91,14 @@ BoatObject.prototype.turnRight = function() {
     this.turnDirection = 1;
 };
 
+BoatObject.prototype.moveForward = function() {
+    this.targetVelocity = 1;
+};
+
+BoatObject.prototype.moveBackwards = function() {
+    this.targetVelocity = -1;
+};
+
 BoatObject.prototype.straight = function() {
     this.turnDirection = 0;
 };

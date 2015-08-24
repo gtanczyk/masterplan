@@ -24,6 +24,12 @@ function stateGamePlay(world, race, boat, HUD) {
         if (eventType == EVENT_ARROW_RIGHT_DOWN) {
             boat.turnRight();
         }
+        if (eventType == EVENT_ARROW_UP_DOWN) {
+            boat.moveForward();
+        }
+        if (eventType == EVENT_ARROW_DOWN_DOWN) {
+            boat.moveBackwards();
+        }
         if (eventType == EVENT_ARROW_LEFT_UP || eventType == EVENT_ARROW_RIGHT_UP) {
             boat.straight();
         }

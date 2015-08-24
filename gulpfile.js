@@ -28,7 +28,8 @@ gulp.task('compile', ['concat'], function() {
           fileName: 'game.min.js',
           compilerFlags: {
             compilation_level: 'ADVANCED_OPTIMIZATIONS',
-            output_wrapper: '(function(){%output%}).call(window);'
+            output_wrapper: '(function(){%output%}).call(window);',
+            define: [ "DEBUG=false" ]
           }
         }))
        .pipe(gulp.dest('./dist'));

@@ -2,10 +2,15 @@ window.addEventListener("keydown", function(event) {
     if (event.keyCode == 37) {
         updateState(EVENT_ARROW_LEFT_DOWN);
     }
+    if (event.keyCode == 38) {
+        updateState(EVENT_ARROW_UP_DOWN);
+    }
     if (event.keyCode == 39) {
         updateState(EVENT_ARROW_RIGHT_DOWN);
     }
-    
+    if (event.keyCode == 40) {
+        updateState(EVENT_ARROW_DOWN_DOWN);
+    }
     if (event.keyCode == 27) {
         updateState(EVENT_ESCAPE);
     }
@@ -15,8 +20,14 @@ window.addEventListener("keyup", function(event) {
     if (event.keyCode == 37) {
         updateState(EVENT_ARROW_LEFT_UP);
     }
+    if (event.keyCode == 38) {
+        updateState(EVENT_ARROW_UP_UP);
+    }
     if (event.keyCode == 39) {
         updateState(EVENT_ARROW_RIGHT_UP);
+    }
+    if (event.keyCode == 40) {
+        updateState(EVENT_ARROW_DOWN_UP);
     }
 });
 
@@ -47,9 +58,14 @@ function handleTouch(event) {
     updateState(EVENT_MOUSE_DOWN, { x: touch.pageX, y: touch.pageY });
     if (touch.pageX / window.innerWidth < 0.33) {
         updateState(EVENT_ARROW_LEFT_DOWN);
-    }
-    if (touch.pageX / window.innerWidth > 0.66) {
+    } else if (touch.pageX / window.innerWidth > 0.66) {
         updateState(EVENT_ARROW_RIGHT_DOWN);
+    } 
+    
+    if (touch.pageY / window.innerHeight < 0.33) {
+        updateState(EVENT_ARROW_UP_DOWN);
+    } else if (touch.pageY / window.innerHeight > 0.66) {
+        updateState(EVENT_ARROW_DOWN_DOWN);
     }
 
     event.preventDefault();

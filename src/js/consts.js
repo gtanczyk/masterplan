@@ -1,4 +1,4 @@
-/** @const */
+/** @define {boolean} */
 var DEBUG = true;
 
 /** @const */
