@@ -30,11 +30,19 @@ function renderGame(world, race, boat) {
     /** {WaypointObect} */
     var waypoint = race.getNextWaypoint(boat);
     if (waypoint) {
+          // draw arrow
         canvas.save()
+              .fillStyle("rgba(255,255,255,0.7")
               .translate(boat.getX(), boat.getY())
               .rotate(VMath.atan2(boat.vec(), waypoint.vec()))
               .translate(boat.getWidth()/2, 0)
               .fillRect(0, -5, Math.min(VMath.distance(boat.vec(), waypoint.vec()), 50), 10)
+              .restore()
+          // highlight waypoint
+              .save()
+              .strokeStyle("rgba(255,255,255,0.7")
+              .translate(waypoint.getX(), waypoint.getY())
+              .arc(0, 0, VMath.distance(boat.vec(), waypoint.vec()))
               .restore();
     }
     

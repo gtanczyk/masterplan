@@ -56,9 +56,21 @@ Canvas.prototype.fillStyle = function(fillStyle) {
     this.ctx.fillStyle = fillStyle;
     return this;
 };
+
+Canvas.prototype.strokeStyle = function(strokeStyle) {
+    this.ctx.strokeStyle = strokeStyle;
+    return this;
+};
     
 Canvas.prototype.fillRect = function(x, y, width, height) {
     this.ctx.fillRect(x, y, width, height);
+    return this;
+};
+
+Canvas.prototype.arc = function(x, y, radius) {
+    this.ctx.beginPath();
+    this.ctx.arc(x, y, radius, 0, Math.PI*2);
+    this.ctx.stroke();
     return this;
 };
     
