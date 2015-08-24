@@ -1,22 +1,27 @@
-var canvas;
-
 /**
- * @returns {Canvas}
+ * @param {String} layerName
+ * @return {Canvas}
  */
-function getCanvas() {
+function getCanvas(layerName) {
+    layerName = layerName || LAYER_DEFAULT;
+    
+    var canvas = Canvas.layers[layerName];
+    
     if (canvas) {
         return canvas;
     }
     
-    return (canvas = new Canvas());
+    return (Canvas.layers[layerName] = new Canvas(layerName));
 };
 
 /**
+ * @param {String} id
  * @constructor
  * @final
  */
-function Canvas() {
+function Canvas(id) {
     this.element = document.createElement('canvas');
+    this.element.id = id;
     this.ctx = this.element.getContext('2d');
     
     window.addEventListener("resize", this.resize.bind(this));
@@ -24,6 +29,8 @@ function Canvas() {
     
     document.body.appendChild(this.element);
 }
+
+Canvas.layers = { };
 
 Canvas.prototype.getWidth = function() {
     return this.element.width;

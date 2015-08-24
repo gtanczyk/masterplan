@@ -19,3 +19,7 @@ var GAME_STATE_PLAY = 1;
 var GAME_STATE_PAUSE = 2;
 /** @const */
 var GAME_STATE_END = 3;
+
+/** @const */
+var LAYER_DEFAULT = 'layer-default';
+var LAYER_WATER = 'layer-water';
