@@ -1,4 +1,5 @@
 @import "game-hud.css";
+@import "hud-touch.css";
 
 body {
     padding: 0;

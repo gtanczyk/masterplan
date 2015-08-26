@@ -24,3 +24,9 @@ function formatRaceTime(raceTime) {
     var millis =  dt.getMilliseconds();
     return (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "." + (millis < 10 ? "00" : millis < 100 ? "0" : "") + millis;
 }
+
+function isTouchDevice() {
+    return ((typeof window["ontouchstart"] != "undefined")
+         || (navigator["MaxTouchPoints"] > 0)
+         || (navigator["msMaxTouchPoints"] > 0));
+}

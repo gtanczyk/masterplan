@@ -16,11 +16,15 @@ function GameHUD(race, world, boat) {
     this.activeBonuses = $('#active-bonuses');
     
     this.HUD.style.display = "block";
+    
+    if (isTouchDevice()) {
+        this.HUD.className += "hud-touch";
+    }
 };
 
 GameHUD.prototype.destroy = function() {
-    this.HUD.style.display = "none";
-}
+    this.HUD.display = "none";
+};
 
 /**
  * @param {Number} state
