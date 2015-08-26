@@ -18,7 +18,7 @@ function GameHUD(race, world, boat) {
     this.HUD.style.display = "block";
     
     if (isTouchDevice()) {
-        this.HUD.className += "hud-touch";
+        this.HUD.classList.add("hud-touch");
     }
 };
 
@@ -76,6 +76,15 @@ GameHUD.prototype.renderBonuses = function() {
                    '<span>'+formatRaceTime(timeLeft)+'</span>'+
                '</div>';
     }, this).join(' ');
+};
+
+/**
+ * @param {boolean} left
+ * @param {boolean} right
+ */
+GameHUD.prototype.highlightTouch = function(left, right) {
+    this.HUD.classList.toggle("hud-touch-left", left);
+    this.HUD.classList.toggle("hud-touch-right", right);
 };
 
 GameHUD.prototype.showPause = function() {

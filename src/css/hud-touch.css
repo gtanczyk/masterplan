@@ -16,7 +16,7 @@
     top: 0px;
     bottom: 0px;
     width: 33%;
-    background: linear-gradient(to right, rgba(255,255,255,0.5) 0%,rgba(255,255,255,0) 100%); 
+    background: linear-gradient(to right, rgba(255,255,255,0.3) 0%,rgba(255,255,255,0) 100%); 
 }
 
 #game-hud.hud-touch #hud-touch #touch-right {
@@ -25,23 +25,30 @@
     top: 0px;
     bottom: 0px;
     width: 33%;
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.5) 100%); 
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.3) 100%); 
 }
 
-#game-hud.hud-touch #hud-touch #touch-left-up {
-    transform: rotate(-90deg);
+#game-hud.hud-touch #hud-touch img {
     position: absolute;
     left: 50%;
     top: 50%;
     margin-left: -20.5px;
     margin-top: -25px;
+    opacity: 0.5;
 }
 
-#game-hud.hud-touch #hud-touch #touch-right-up {
+#game-hud.hud-touch #hud-touch #touch-left-arrow {
+    transform: rotate(-90deg);
+}
+
+#game-hud.hud-touch #hud-touch #touch-right-arrow {
     transform: rotate(90deg);
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin-left: -20.5px;    
-    margin-top: -25px;
+}
+
+#game-hud.hud-touch.hud-touch-left #hud-touch #touch-left-arrow {
+    opacity: 1;
+}
+
+#game-hud.hud-touch.hud-touch-right #hud-touch #touch-right-arrow {
+    opacity: 1;
 }

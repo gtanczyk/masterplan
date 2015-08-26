@@ -20,9 +20,11 @@ function stateGamePlay(world, race, boat, HUD) {
         
         if (eventType == EVENT_ARROW_LEFT_DOWN) {
             boat.turnLeft();
+            HUD.highlightTouch(true, false);
         }
         if (eventType == EVENT_ARROW_RIGHT_DOWN) {
             boat.turnRight();
+            HUD.highlightTouch(false, true);
         }
         if (eventType == EVENT_ARROW_UP_DOWN || eventType == EVENT_ARROW_DOWN_UP) {
             boat.moveForward();
@@ -32,6 +34,7 @@ function stateGamePlay(world, race, boat, HUD) {
         }
         if (eventType == EVENT_ARROW_LEFT_UP || eventType == EVENT_ARROW_RIGHT_UP) {
             boat.straight();
+            HUD.highlightTouch();
         }
         
         if (eventType == EVENT_RACE_OVER) {
