@@ -30,3 +30,10 @@ function isTouchDevice() {
          || (navigator["MaxTouchPoints"] > 0)
          || (navigator["msMaxTouchPoints"] > 0));
 }
+
+function requestFullScreen() {
+    var docEl = document.documentElement;
+    if (docEl.requestFullscreen) docEl.requestFullscreen();
+    else if (docEl.mozRequestFullscreen) docEl.mozRequestFullscreen();
+    else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+}

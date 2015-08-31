@@ -15,6 +15,9 @@ var stateIntro = function Intro() {
         
         if (eventType == EVENT_KEY_DOWN || eventType == EVENT_MOUSE_DOWN || eventType == EVENT_TOUCH_START) {
             current++;
+            if (isTouchDevice()) {
+                requestFullScreen();
+            }
         }
         
         if (current >= assets.length) {
