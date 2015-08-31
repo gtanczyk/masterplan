@@ -22,10 +22,14 @@ var EVENT_MOUSE_DOWN = eventCounter++;
 var EVENT_MOUSE_UP = eventCounter++;
 var EVENT_MOUSE_MOVE = eventCounter++;
 
+var EVENT_KEY_DOWN = eventCounter++;
+var EVENT_KEY_UP = eventCounter++;
+
 var EVENT_ARROW_LEFT_DOWN = eventCounter++;
 var EVENT_ARROW_RIGHT_DOWN = eventCounter++;
 var EVENT_ARROW_UP_DOWN = eventCounter++;
 var EVENT_ARROW_DOWN_DOWN = eventCounter++;
+
 var EVENT_ARROW_LEFT_UP = eventCounter++;
 var EVENT_ARROW_RIGHT_UP = eventCounter++;
 var EVENT_ARROW_UP_UP = eventCounter++;

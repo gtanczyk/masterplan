@@ -33,7 +33,7 @@ Function.prototype.WeakState = function(timeLimit) {
 var stateInit = function Init() {
     return function InitHandler(eventType, eventObject) {
         if (eventType == EVENT_READYSTATE && eventObject == "complete") {
-            return stateGameInit();
+            return stateIntro();
         }
     }.State()
 };
