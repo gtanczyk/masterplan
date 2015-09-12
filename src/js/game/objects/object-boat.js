@@ -18,6 +18,7 @@ function BoatObject(name, x, y, direction) {
     this.waypointsChecked = [];
     
     this.image = $("#asset-boat");
+    this.imageArrow = $("#asset-boat-arrow");
     this.leftOarAnim = 0;
     this.rightOarAnim = 0;
     this.drawHUD = false;
@@ -60,9 +61,9 @@ BoatObject.prototype.render = function(canvas) {
     // arrow
     if (this.drawHUD) {
         canvas.save()
-            .rotate(Math.PI/2*this.turnDirection)
-            .fillStyle("rgba(255,0,0,0.5)")
-            .fillRect(0, -5, 30 * this.getTargetVelocity(), 10)
+            .rotate(Math.PI/2 * this.turnDirection)
+            .translate((Math.abs(Math.cos(Math.PI * (this.leftOarAnim + this.rightOarAnim)/2))*8 + 8) * Math.sign(this.getTargetVelocity()), -8)
+            .drawImage(this.imageArrow, 0, 0)
             .restore();
     }
 };
