@@ -24,4 +24,6 @@ function ReverseSteering(boat, startTime) {
     });
 };
 
+ReverseSteering.id = "steering";
+
 ReverseSteering.prototype = Object.create(GameBonus.prototype);
