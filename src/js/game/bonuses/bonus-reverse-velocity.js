@@ -16,6 +16,8 @@ function ReverseVelocity(boat, startTime) {
     });
 };
 
-ReverseVelocity.id = "velocity";
-
 ReverseVelocity.prototype = Object.create(GameBonus.prototype);
+
+ReverseVelocity.prototype.getId = function() {
+    return "velocity";
+};

@@ -70,8 +70,10 @@ GameHUD.prototype.renderBonuses = function() {
         var timeLeft = bonus.getTimeLeft(this.world.getTime());
         var percent = Math.round(timeLeft/bonus.getDuration() * 100);
         var className = bonus.getBoat() == this.boat ? "mine" : "";
+        var iconSrc = $("#asset-bonus-"+bonus.getId()).src;
         return '<div class="'+className+'">'+
-                   '<div style="width: '+percent+'%"></div>' + 
+                   '<div style="width: '+percent+'%"></div>' +
+                   '<img src="'+iconSrc+'" />' +
                    bonus.getName() + 
                    '<span>'+formatRaceTime(timeLeft)+'</span>'+
                '</div>';

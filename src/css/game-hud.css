@@ -24,6 +24,14 @@
     font-size: 17px;
 }
 
+#active-bonuses > div > img {
+    position: absolute;
+    margin-left: -37px;
+    top: -1px;
+    bottom: 0px;
+    height: 32px;
+}
+
 #active-bonuses > div > div {
     position: absolute;
     background: rgba(255, 0, 0, 0.5);

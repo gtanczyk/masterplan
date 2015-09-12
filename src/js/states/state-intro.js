@@ -2,11 +2,10 @@
  * @constructor
  */
 var stateIntro = function Intro() {
-    var assets = [1,2,3].map(function(id) { 
-        return $("#asset-about-"+id); 
-    });
-    
     var current = 0;
+    
+    var gameIntro = $('#game-intro');
+    gameIntro.style.display = 'block';
     
     return function IntroHandler(eventType) {
 //        if (eventType == EVENT_RAF) {
@@ -14,14 +13,16 @@ var stateIntro = function Intro() {
 //        }
         
         if (eventType == EVENT_KEY_DOWN || eventType == EVENT_MOUSE_DOWN || eventType == EVENT_TOUCH_START) {
-//            current++;
+            current++;
             if (isTouchDevice()) {
                 requestFullScreen();
             }
         }
         
-//        if (current >= assets.length) {
+        if (current >= 1) {
+            gameIntro.style.display = 'none';
+            
             return stateGameInit();
-//        }
+        }
     }.State();
 };

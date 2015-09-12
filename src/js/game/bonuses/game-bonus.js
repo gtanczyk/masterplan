@@ -8,6 +8,12 @@ function GameBonus(name, boat, startTime) {
     this.altered = [];
 };
 
+/**
+ * @abstract
+ * @returns {String}
+ */
+GameBonus.prototype.getId = function() { };
+
 GameBonus.prototype.getName = function() {
     return this.name;
 };
