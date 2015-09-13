@@ -22,4 +22,8 @@ var GAME_STATE_END = 3;
 
 /** @const */
 var LAYER_DEFAULT = 'layer-default';
+/** @const */
 var LAYER_WATER = 'layer-water';
+
+/** @const */
+var WAVE_LENGTH = 16;

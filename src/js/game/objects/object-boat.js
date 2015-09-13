@@ -1,11 +1,18 @@
 /**
  * @constructor
  * @extends {GameObject}
+ * 
+ * @param {String} name
+ * @param {Number} x
+ * @param {Number} y 
+ * @param {Number} direction
+ * @param {GameWorld} world
  */
-function BoatObject(name, x, y, direction) {
+function BoatObject(name, x, y, direction, world) {
     GameObject.call(this, x, y, 32, 32, direction);
     
     this.name = name;
+    this.world = world;
     
     this.velocity = 0;
     this.targetVelocity = 1;
@@ -155,7 +162,10 @@ BoatObject.prototype.updateOar = function(anim, oppositeAnim, deltaTime) {
     anim = anim + deltaTime / 100 * velocity * scale * 10;
     if (Math.abs(anim) > 1) {
         this.addForce(VMath.scale([Math.cos(this.direction), Math.sin(this.direction)], velocity*deltaTime/2));
+        this.world
         anim %= 2;
+        
+        this.world.addWave(this.x, this.y, 0);
     }
     return anim;
 };

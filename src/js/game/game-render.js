@@ -15,6 +15,8 @@ function renderGame(world, race, boat) {
     canvas.save()
         .translate(-boat.getX(), -boat.getY())
         .translate(canvas.getWidth()/2, canvas.getHeight()/2)
+        
+    renderWaves(canvas, world);
     
     // render pointer
     /** {WaypointObect} */
@@ -22,7 +24,7 @@ function renderGame(world, race, boat) {
     if (waypoint) {
           // draw arrow
         canvas.save()
-              .fillStyle("rgba(255,255,255,0.7")
+              .fillStyle("rgba(255,255,255,0.7)")
               .translate(boat.getX(), boat.getY())
               .rotate(VMath.atan2(boat.vec(), waypoint.vec()))
               .translate(boat.getWidth()/2, 0)
@@ -30,7 +32,7 @@ function renderGame(world, race, boat) {
               .restore()
           // highlight waypoint
               .save()
-              .strokeStyle("rgba(255,255,255,0.7")
+              .strokeStyle("rgba(255,255,255,0.7)")
               .translate(waypoint.getX(), waypoint.getY())
               .arc(0, 0, VMath.distance(boat.vec(), waypoint.vec()))
               .restore();
@@ -54,4 +56,22 @@ function renderObject(object) {
         .rotate(object.getDirection());
     object.render(canvas);
     canvas.restore();
+}
+
+/**
+ * @param {Canvas} canvas 
+ * @param {GameWorld} world
+ */
+function renderWaves(canvas, world) {
+    /** {Canvas} */
+    var canvas = getCanvas(LAYER_DEFAULT);
+
+    world.getWaves().forEach(function(wave) {
+        var alpha = 1 - wave[2] / WAVE_LENGTH;
+        canvas.save()
+             .strokeStyle("rgba(255,255,255,"+alpha+")")
+             .translate(wave[0], wave[1])
+             .arc(0, 0, wave[2])
+             .restore();
+    });
 }

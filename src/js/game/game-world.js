@@ -5,6 +5,7 @@ function GameWorld() {
     this.bonuses = [];
     this.objects = [];
     this.collisionHandlers = [];
+    this.waves = [];
     
     this.worldTime = 0;
     
@@ -66,6 +67,7 @@ GameWorld.prototype.update = function(elapsedTime) {
     this.objects.forEach(function(object) {
         this.updateObject(object, deltaTime / UPDATE_TICK);
     }, this);
+    this.updateWaves(deltaTime / UPDATE_TICK);
     elapsedTime -= deltaTime;
     this.worldTime += deltaTime;
     
@@ -190,3 +192,17 @@ GameWorld.prototype.deactivateBonuses = function() {
         }
     }, this);
 };
+
+GameWorld.prototype.addWave = function(x, y) {
+    this.waves.push([x, y, 0]);
+};
+
+GameWorld.prototype.getWaves = function() {
+    return this.waves;
+}
+
+GameWorld.prototype.updateWaves = function(deltaTime) {
+    this.waves = this.waves.filter(function(wave) {
+        return (wave[2] += deltaTime) <= WAVE_LENGTH;
+    });
+}
