@@ -110,3 +110,28 @@
   color: brown;
   font-weight: bold;
 }
+
+/** pause */
+
+#game-pause {
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+    color: white;
+    position: absolute;
+    width: 100%;
+    top: 25%;
+    text-align: center;
+    text-transform: upper-case;
+    
+    transition: 0.5s opacity linear;
+}
+
+#game-pause.visible {
+    opacity: 1;
+}
+
+#game-pause.visible ~ canvas {
+    filter: blur(10px);
+    -webkit-filter: blur(10px);
+}
