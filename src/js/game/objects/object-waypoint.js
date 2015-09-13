@@ -8,6 +8,8 @@ function WaypointObject(x, y, direction) {
     this.leftEdge = new WaypointEdgeObject(this.leftVec());
     this.rightEdge = new WaypointEdgeObject(this.rightVec());
     
+    this.image = $("#asset-waypoint");
+    
     this.boatsChecked = [];
 };
 
@@ -72,8 +74,12 @@ WaypointObject.prototype.checkBoat = function(boat) {
  * @param {Canvas} canvas
  */
 WaypointObject.prototype.render = function(canvas) {
-    canvas.fillStyle("yellow").fillRect(-this.getWidth()/2, 0, 10, 10);
-    canvas.fillStyle("purple").fillRect(this.getWidth()/2, 0, 10, 10);
+    var offset = VMath.rotate([this.getWidth()/2, 0], this.getDirection()); 
+    canvas.save()
+          .rotate(-this.getDirection())
+          .drawImage(this.image, offset[0] - this.image.width/2, offset[1]-23)
+          .drawImage(this.image, -offset[0] - this.image.width/2, -offset[1]-23)
+          .restore();
 };
 
 WaypointObject.prototype.leftVec = function() {

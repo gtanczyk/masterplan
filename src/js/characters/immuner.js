@@ -55,6 +55,6 @@ ImmunerCharacter.prototype.turnRight = function() {
 
 ImmunerCharacter.prototype.bonusActive = function(BonusClass) {
     return this.world.getActiveBonuses().some(function(bonus) {
-        return bonus instanceof BonusClass;
-    });
+        return bonus instanceof BonusClass && bonus.getBoat() !== this.boat;
+    }, this);
 };
