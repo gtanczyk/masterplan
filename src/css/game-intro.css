@@ -1,12 +1,22 @@
 #game-intro {
-    display: none;
-    background: #9ad4d1;
+    z-index: 5;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    background: #99cccc;
     text-align: center;
     height: 100%;
     width: 100%;
+    
+    transition: 1s opacity linear;
 }
 
 #game-intro img {
     max-height: 100%;
     max-width: 100%;
+    min-height: 100%;
+}
+
+#game-intro.visible {
+    opacity: 1;
 }

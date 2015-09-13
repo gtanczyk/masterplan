@@ -1,5 +1,8 @@
 var eventCounter = 0;
 
+// hash change
+var EVENT_HASHCHANGE = eventCounter++;
+
 // generic events
 /** @const */
 var EVENT_TIMEOUT = eventCounter++;

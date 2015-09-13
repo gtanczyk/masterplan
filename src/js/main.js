@@ -19,3 +19,7 @@ document.addEventListener("visibilitychange", function() {
         updateState(EVENT_DOCUMENT_VISIBLE);
     }
 });
+
+window.addEventListener("hashchange", function() {
+    updateState(EVENT_HASHCHANGE, document.location.hash);
+});

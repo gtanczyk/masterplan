@@ -44,6 +44,9 @@ function stateGamePlay(world, race, boat, HUD) {
         if (eventType == EVENT_ESCAPE || eventType == EVENT_DOCUMENT_HIDDEN) {
             return new stateGamePause(world, race, boat, HUD);
         }
-
+        
+        if (eventType == EVENT_HASHCHANGE && eventObject == "") {
+            return new stateIntro();
+        }
     }.State();
 };

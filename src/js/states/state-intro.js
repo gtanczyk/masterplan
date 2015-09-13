@@ -5,7 +5,7 @@ var stateIntro = function Intro() {
     var current = 0;
     
     var gameIntro = $('#game-intro');
-    gameIntro.style.display = 'block';
+    gameIntro.classList.add('visible');
     
     return function IntroHandler(eventType) {
 //        if (eventType == EVENT_RAF) {
@@ -20,7 +20,7 @@ var stateIntro = function Intro() {
         }
         
         if (current >= 1) {
-            gameIntro.style.display = 'none';
+            gameIntro.classList.remove('visible');
             
             return stateGameInit();
         }

@@ -2,6 +2,8 @@
  * @constructor
  */
 function stateGameInit() {
+    document.location.hash = 'play';
+    
     var world = new GameWorld();
     
     var boat = new BoatObject('You', -400, -200, 0);
@@ -54,6 +56,10 @@ function stateGameInit() {
         
         if (eventType == EVENT_TIMEOUT) {
             return new stateGamePlay(world, race, boat, HUD);
+        }
+        
+        if (eventType == EVENT_HASHCHANGE && eventObject == "") {
+            return new stateIntro();
         }
     }.WeakState(2000);
 };    
