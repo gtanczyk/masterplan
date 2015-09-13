@@ -14,5 +14,9 @@ function stateGamePause(world, race, boat, HUD) {
         if (eventType == EVENT_ESCAPE || eventType == EVENT_TOUCH_START) {
             return stateGamePlay(world, race, boat, HUD);
         }
+        
+        if (eventType == EVENT_HASHCHANGE && eventObject == "") {
+            return new stateIntro();
+        }
     }.State();
 };

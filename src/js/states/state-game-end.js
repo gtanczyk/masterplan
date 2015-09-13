@@ -16,5 +16,9 @@ function stateGameEnd(world, race, boat, HUD) {
             
             return stateMenu();
         }
+        
+        if (eventType == EVENT_HASHCHANGE && eventObject == "") {
+            return new stateIntro();
+        }
     }.State();
 };
