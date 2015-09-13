@@ -8,9 +8,6 @@ function renderGame(world, race, boat) {
     /** {Canvas} */
     var canvas = getCanvas(LAYER_DEFAULT);
     
-    /** {Canvas} */
-    var waterCanvas = getCanvas(LAYER_WATER);
-    
     // clear
     canvas.clear();
     
@@ -18,13 +15,6 @@ function renderGame(world, race, boat) {
     canvas.save()
         .translate(-boat.getX(), -boat.getY())
         .translate(canvas.getWidth()/2, canvas.getHeight()/2)
-    
-    // render surface
-    waterCanvas.save()
-        .fillStyle("#5599ff")
-        .fillRect(0, 0, 
-                waterCanvas.getWidth(), waterCanvas.getHeight())
-        .restore();
     
     // render pointer
     /** {WaypointObect} */

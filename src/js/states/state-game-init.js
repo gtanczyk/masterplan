@@ -48,6 +48,16 @@ function stateGameInit() {
     race.addCharacter(new AnnoyingCharacter(world, race, boat5));
     race.addCharacter(new Character(world, race, boat6));
     
+    // render surface
+    /** {Canvas} */
+    var waterCanvas = getCanvas(LAYER_WATER);
+
+    waterCanvas.save()
+        .fillStyle("#5599ff")
+        .fillRect(0, 0, 
+                waterCanvas.getWidth(), waterCanvas.getHeight())
+        .restore();
+    
     var HUD = new GameHUD(race, world, boat);
 
     return function GameInitHandler(eventType, eventObject) {
