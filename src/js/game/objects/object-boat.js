@@ -148,15 +148,15 @@ BoatObject.prototype.update = function(deltaTime) {
     
     // animate oars
     if (this.turnDirection <= 0) {
-        this.leftOarAnim = this.updateOar(this.leftOarAnim, this.rightOarAnim, deltaTime);
+        this.leftOarAnim = this.updateOar(this.leftOarAnim, this.rightOarAnim, deltaTime, 1);
         
     }
     if (this.turnDirection >= 0) {
-        this.rightOarAnim = this.updateOar(this.rightOarAnim, this.leftOarAnim, deltaTime);
+        this.rightOarAnim = this.updateOar(this.rightOarAnim, this.leftOarAnim, deltaTime, -1);
     }
 };
 
-BoatObject.prototype.updateOar = function(anim, oppositeAnim, deltaTime) {
+BoatObject.prototype.updateOar = function(anim, oppositeAnim, deltaTime, side) {
     var velocity = this.getVelocity();
     var scale = this.turnDirection == 0 && anim - oppositeAnim > 0.1 ? 0.5 : 1;
     anim = anim + deltaTime / 100 * velocity * scale * 10;
@@ -166,7 +166,29 @@ BoatObject.prototype.updateOar = function(anim, oppositeAnim, deltaTime) {
         
         this.world.addWave(this.x, this.y, 0);
     }
+    this.makeWave(anim, side);
     return anim;
+};
+
+BoatObject.prototype.makeWave = function(anim, side) {
+    var waveAngle = side * Math.PI * anim;
+    //var offset = VMath.rotate([this.getWidth(), 0], this.getDirection() + Math.PI/2);
+    var waveVec = 
+        VMath.rotate(
+            VMath.add(
+                [0, 13 * side], 
+                VMath.rotate(
+                    [0, this.getWidth() * side * 0.7],
+                    Math.cos(Math.PI * anim) * side
+                )
+            ), 
+            this.getDirection()// + Math.PI / 2
+        );
+    this.world.addWave(
+        this.x + waveVec[0], 
+        this.y + waveVec[1], 
+        0
+    );    
 };
 
 BoatObject.prototype.addForce = function(vec) {
