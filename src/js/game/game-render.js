@@ -30,6 +30,12 @@ function renderGame(world, race, boat) {
               .translate(boat.getWidth()/2, 0)
               .drawImage($("#asset-waypoint-arrow"), 0, -16)
               .restore()
+          // highlight waypoint
+              .save()
+              .strokeStyle("rgba(255,255,255,0.7)")
+              .translate(waypoint.getX(), waypoint.getY())
+              .arc(0, 0, VMath.distance(boat.vec(), waypoint.vec()))
+              .restore();
     }
     
     // render objects
