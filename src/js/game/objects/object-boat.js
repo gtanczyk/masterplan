@@ -159,6 +159,7 @@ BoatObject.prototype.update = function(deltaTime) {
 BoatObject.prototype.updateOar = function(anim, oppositeAnim, deltaTime, side) {
     var velocity = this.getVelocity();
     var scale = this.turnDirection == 0 && anim - oppositeAnim > 0.1 ? 0.5 : 1;
+    var oldAnim = anim;
     anim = anim + deltaTime / 100 * velocity * scale * 10;
     if (Math.abs(anim) > 1) {
         this.addForce(VMath.scale([Math.cos(this.direction), Math.sin(this.direction)], velocity*deltaTime/2));
@@ -166,7 +167,12 @@ BoatObject.prototype.updateOar = function(anim, oppositeAnim, deltaTime, side) {
         
         this.world.addWave(this.x, this.y, 0);
     }
-    this.makeWave(anim, side);
+    
+    if (Math.sign(velocity) > 0 && Math.abs(anim) > 1 ||
+        Math.sign(velocity) < 0 && Math.abs(anim) < 1) {
+        this.makeWave(anim, side);
+    }
+    
     return anim;
 };
 
