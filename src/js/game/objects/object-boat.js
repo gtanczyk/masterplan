@@ -162,7 +162,6 @@ BoatObject.prototype.updateOar = function(anim, oppositeAnim, deltaTime) {
     anim = anim + deltaTime / 100 * velocity * scale * 10;
     if (Math.abs(anim) > 1) {
         this.addForce(VMath.scale([Math.cos(this.direction), Math.sin(this.direction)], velocity*deltaTime/2));
-        this.world
         anim %= 2;
         
         this.world.addWave(this.x, this.y, 0);
