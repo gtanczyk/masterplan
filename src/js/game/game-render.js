@@ -34,7 +34,7 @@ function renderGame(world, race, boat) {
               .save()
               .strokeStyle("rgba(255,255,255,0.7)")
               .translate(waypoint.getX(), waypoint.getY())
-              .arc(0, 0, VMath.distance(boat.vec(), waypoint.vec()))
+              .arc(0, 0, Math.min(VMath.distance(boat.vec(), waypoint.vec()), 100))
               .restore();
     }
     
