@@ -46,6 +46,9 @@ function stateGamePlay(world, race, boat, HUD) {
         }
         
         if (eventType == EVENT_HASHCHANGE && eventObject == "") {
+            world.destroy();
+            HUD.destroy();
+
             return new stateIntro();
         }
     }.State();

@@ -8,10 +8,6 @@ var stateIntro = function Intro() {
     gameIntro.classList.add('visible');
     
     return function IntroHandler(eventType) {
-//        if (eventType == EVENT_RAF) {
-//            getCanvas().drawImage(assets[current], 0, 0);
-//        }
-        
         if (eventType == EVENT_KEY_DOWN || eventType == EVENT_MOUSE_DOWN || eventType == EVENT_TOUCH_START) {
             current++;
             if (isTouchDevice()) {

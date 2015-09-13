@@ -22,6 +22,8 @@ function stateGamePause(world, race, boat, HUD) {
         
         if (eventType == EVENT_HASHCHANGE && eventObject == "") {
             pauseScreen.classList.remove('visible');
+            world.destroy();
+            HUD.destroy();
             
             return new stateIntro();
         }

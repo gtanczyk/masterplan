@@ -131,7 +131,17 @@
     opacity: 1;
 }
 
-#game-pause.visible ~ canvas {
+#game-pause.visible ~ canvas,
+body.game-end canvas {
     filter: blur(10px);
     -webkit-filter: blur(10px);
+}
+
+/** game over */
+body.game-end #race-standings {
+    text-align: center;
+    left: 0px;
+    right: 0px;
+    top: 10%;
+    font-size: xx-large;
 }
