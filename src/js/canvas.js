@@ -46,9 +46,9 @@ Canvas.prototype.clear = function() {
 };
     
 Canvas.prototype.drawText = function(x, y, text) {
-    this.ctx.fillStyle = "red";
-    this.ctx.font = "48px serif";
-    this.ctx.fillText(text, x, y);
+    this.ctx.fillStyle = "white";
+    this.ctx.font = "11px serif";
+    this.ctx.fillText(text, x - this.ctx.measureText(text).width/2, y);
     return this;
 };
     

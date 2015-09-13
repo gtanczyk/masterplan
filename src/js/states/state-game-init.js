@@ -44,7 +44,7 @@ function stateGameInit() {
 //    race.addCharacter(new Character(world, race, boat));
     race.addCharacter(new SprinterCharacter(world, race, boat2));
     race.addCharacter(new BonuserCharacter(world, race, boat3));
-    race.addCharacter(new Character(world, race, boat4));
+    race.addCharacter(new ImmunerCharacter(world, race, boat4));
     race.addCharacter(new AnnoyingCharacter(world, race, boat5));
     race.addCharacter(new Character(world, race, boat6));
     

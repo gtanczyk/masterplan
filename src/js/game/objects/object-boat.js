@@ -54,6 +54,11 @@ BoatObject.prototype.render = function(canvas) {
         .drawImage(this.image, 0, 0)
         .restore();
     
+    canvas.save()
+        .rotate(-this.getDirection())
+        .drawText(0, this.getHeight(), this.name)
+        .restore();
+    
     // oars
     canvas.save()
         .translate(0, 13)

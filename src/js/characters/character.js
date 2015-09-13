@@ -24,16 +24,28 @@ Character.prototype.update = function(waypoint) {
     this.goTo(waypoint.vec());
 };
 
+Character.prototype.straight = function() {
+    this.boat.straight();
+};
+
+Character.prototype.turnLeft = function() {
+    this.boat.turnLeft();
+};
+
+Character.prototype.turnRight = function() {
+    this.boat.turnRight();
+};
+
 Character.prototype.goTo = function(vec) {
     var direction = VMath.angle(
             VMath.normalize(VMath.sub(vec, this.boat.vec())),
             [Math.cos(this.boat.getDirection()), Math.sin(this.boat.getDirection())]
         );
     if (Math.abs(direction) < 0.05) {
-        this.boat.straight();
+        this.straight();
     } else if (direction < 0) {
-        this.boat.turnRight();
+        this.turnRight();
     } else {
-        this.boat.turnLeft();
+        this.turnLeft();
     }
 };
