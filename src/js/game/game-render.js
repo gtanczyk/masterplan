@@ -75,3 +75,14 @@ function renderWaves(canvas, world) {
              .restore();
     });
 }
+
+function renderSurface() {
+    /** {Canvas} */
+    var waterCanvas = getCanvas(LAYER_WATER);
+
+    waterCanvas.save()
+        .fillStyle("#5599ff")
+        .fillRect(0, 0, 
+                waterCanvas.getWidth(), waterCanvas.getHeight())
+        .restore();
+}

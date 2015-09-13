@@ -11,6 +11,8 @@ var EVENT_READYSTATE = eventCounter++;
 var EVENT_DOCUMENT_HIDDEN = eventCounter++;
 var EVENT_DOCUMENT_VISIBLE = eventCounter++;
 
+var EVENT_WINDOW_RESIZE = eventCounter++;
+
 // game events
 var EVENT_RACE_OVER = eventCounter++;
 

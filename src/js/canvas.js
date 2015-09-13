@@ -100,10 +100,11 @@ Canvas.prototype.restore = function() {
 };
     
 Canvas.prototype.ctx = function() {
-    return ctx;
+    return this.ctx;
 };
 
 Canvas.prototype.resize = function() {
     this.element.width = window.innerWidth;
-    this.element.height = window.innerHeight;    
+    this.element.height = window.innerHeight;
+    this.ctx = this.element.getContext('2d');
 };  

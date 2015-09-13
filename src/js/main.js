@@ -23,3 +23,7 @@ document.addEventListener("visibilitychange", function() {
 window.addEventListener("hashchange", function() {
     updateState(EVENT_HASHCHANGE, document.location.hash);
 });
+
+window.addEventListener("resize", function() {
+    updateState(EVENT_WINDOW_RESIZE);
+});
