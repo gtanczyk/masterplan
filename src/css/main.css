@@ -16,7 +16,6 @@ body>canvas {
 }
 
 canvas#layer-default {
-  background: #3030C5;
   background: radial-gradient(ellipse at center, #3030C5 0%,#3030C5 64%,#13138C 100%);
   z-index: 1;
 }
