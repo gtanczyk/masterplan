@@ -1,45 +1,25 @@
-/**
- * 
- * @param {GameWorld} world
- * @param {Race} race
- * @param {BoatObject} boat point of view
- */
-function renderGame(world, race, boat) {
+function renderGame(world) {
     /** {Canvas} */
     var canvas = getCanvas(LAYER_DEFAULT);
     
     // clear
     canvas.clear();
-    
+
     // set camera
     canvas.save()
-        .translate(-boat.getX(), -boat.getY())
         .translate(canvas.getWidth()/2, canvas.getHeight()/2)
-        
-    renderWaves(canvas, world);
+
+    // world edge
+    canvas.arc(0, 0, world.getEdgeRadius());
     
-    // render pointer
-    /** {WaypointObect} */
-    var waypoint = race.getNextWaypoint(boat);
-    if (waypoint) {
-          // draw arrow
-        canvas.save()
-              .fillStyle("rgba(255,255,255,0.7)")
-              .translate(boat.getX(), boat.getY())
-              .rotate(VMath.atan2(boat.vec(), waypoint.vec()))
-              .translate(boat.getWidth()/2, 0)
-              .drawImage($("#asset-waypoint-arrow"), 0, -16)
-              .restore()
-          // highlight waypoint
-              .save()
-              .strokeStyle("rgba(255,255,255,0.7)")
-              .translate(waypoint.getX(), waypoint.getY())
-              .arc(0, 0, Math.min(VMath.distance(boat.vec(), waypoint.vec()), 100))
-              .restore();
-    }
-    
-    // render objects
-    world.queryObjects().forEach(renderObject);
+    // render dead bodies
+    world.queryObjects(SoldierObject, soldier => soldier.life === 0).forEach(renderObject);
+
+    // render soldiers
+    world.queryObjects(SoldierObject, soldier => soldier.life > 0).forEach(renderObject);
+
+    // render other objects
+    world.queryObjects(GameObject, object => !(object instanceof SoldierObject)).forEach(renderObject);
     
     canvas.restore();
 };
@@ -56,24 +36,6 @@ function renderObject(object) {
         .rotate(object.getDirection());
     object.render(canvas);
     canvas.restore();
-}
-
-/**
- * @param {Canvas} canvas 
- * @param {GameWorld} world
- */
-function renderWaves(canvas, world) {
-    /** {Canvas} */
-    var canvas = getCanvas(LAYER_DEFAULT);
-
-    world.getWaves().forEach(function(wave) {
-        var alpha = 1 - wave[2] / WAVE_LENGTH;
-        canvas.save()
-             .strokeStyle("rgba(255,255,255,"+alpha+")")
-             .translate(wave[0], wave[1])
-             .arc(0, 0, wave[2])
-             .restore();
-    });
 }
 
 function renderSurface() {

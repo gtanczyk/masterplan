@@ -2,23 +2,19 @@
  * @constructor
  */
 var stateIntro = function Intro() {
-    var current = 0;
-    
     var gameIntro = $('#game-intro');
     gameIntro.classList.add('visible');
     
-    return function IntroHandler(eventType) {
-        if (eventType == EVENT_KEY_DOWN || eventType == EVENT_MOUSE_DOWN || eventType == EVENT_TOUCH_START) {
-            current++;
-            if (isTouchDevice()) {
-                requestFullScreen();
+    return function IntroHandler(eventType, eventObject) {
+        gameIntro.classList.remove('visible');
+        return stateGameDesigner();
+
+        if (eventType == EVENT_KEY_DOWN) {
+            switch (String.fromCharCode(eventObject)) {
+                case "1": return stateGameDesignerInit();
+                case "2": return stateGameBattleInit();
+                default: break;
             }
-        }
-        
-        if (current >= 1) {
-            gameIntro.classList.remove('visible');
-            
-            return stateGameInit();
         }
     }.State();
 };

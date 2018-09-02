@@ -2,25 +2,25 @@
  * @constructor
  */
 function GameWorld() {
-    this.bonuses = [];
     this.objects = [];
     this.collisionHandlers = [];
-    this.waves = [];
+    this.edgeRadius = EDGE_RADIUS;
     
     this.worldTime = 0;
     
-    this.onCollision(BoatObject, BoatObject, this.onBoatCollision.bind(this));
-    this.onCollision(BoatObject, WaypointEdgeObject, this.onBoatWaypointEdgeCollision.bind(this))
+    this.onCollision(SoldierObject, SoldierObject, this.onSoldierCollision.bind(this));
 };
 
 GameWorld.prototype.destroy = function() {
-    this.bonuses.forEach(function(bonus) {
-        bonus.deactivate();
-    });
 };
 
 GameWorld.prototype.getTime = function() {
     return this.worldTime;
+};
+
+GameWorld.prototype.getEdgeRadius = function() {
+    // return this.edgeRadius;
+    return Math.max(this.edgeRadius * (1 - this.getTime() / 60000), 50);
 };
 
 /**
@@ -46,14 +46,15 @@ GameWorld.prototype.removeObject = function(object) {
  * @param radius
  * @returns {Array}
  */
-GameWorld.prototype.queryObjects = function(type, x, y, radius) {
-    var vec = [x, y];
+GameWorld.prototype.queryObjects = function(type, fn) {
+    // var vec = [x, y];
+    fn = fn || (() => true);
     return this.objects.filter(function(object) {
-        if (VMath.distance(vec, object.vec()) > radius) {
-            return
-        }
+        // if (VMath.distance(vec, object.vec()) > radius) {
+        //     return;
+        // }
         
-        return !type || object instanceof type;
+        return (!type || object instanceof type) && fn(object);
     });
 };
 
@@ -63,16 +64,14 @@ GameWorld.prototype.queryObjects = function(type, x, y, radius) {
  * @return {Number} elapsedTime not consumed
  */
 GameWorld.prototype.update = function(elapsedTime) {
-    var deltaTime = Math.min(elapsedTime, UPDATE_TICK);
+    var deltaTime = Math.min(elapsedTime, MIN_TICK);
     this.objects.forEach(function(object) {
         this.updateObject(object, deltaTime / UPDATE_TICK);
     }, this);
-    this.updateWaves(deltaTime / UPDATE_TICK);
     elapsedTime -= deltaTime;
     this.worldTime += deltaTime;
     
     this.collisions();
-    this.deactivateBonuses();
     
     return elapsedTime;
 };
@@ -81,44 +80,26 @@ GameWorld.prototype.update = function(elapsedTime) {
  * Collision check
  */
 GameWorld.prototype.collisions = function() {
-    this.queryObjects(BoatObject).forEach(function(boat, idx) {
-        // boat -> waypoint
-        this.queryObjects(WaypointObject).forEach(function(waypoint) {
-           // did boat cross the line 
-           var inter = (VMath.intersectLineLine(
-               waypoint.leftVec(), 
-               waypoint.rightVec(), 
-               boat.lastVec(),
-               boat.vec()));
-           
-           if (inter) {
-               this.triggerCollisions(waypoint, boat);
-           }
-           
-           if (VMath.distance(boat.vec(), waypoint.leftVec()) < boat.getWidth()/2) {
-               this.triggerCollisions(waypoint.getLeftEdge(), boat);
-           }
-           
-           if (VMath.distance(boat.vec(), waypoint.rightVec()) < boat.getWidth()/2) {
-               this.triggerCollisions(waypoint.getRightEdge(), boat);
-           }
-        }, this);
-        // boat -> bonus
-        this.queryObjects(BonusObject).forEach(function(bonus) {
-           if (VMath.distance(boat.vec(), bonus.vec()) < boat.getWidth() / 2) {
-               this.triggerCollisions(bonus, boat);
-           } 
-        }, this);
-        // boat -> boat
-        this.queryObjects(BoatObject).forEach(function(boatLeft, idxLeft) {
-            if (idx <= idxLeft) {
+    this.queryObjects(SoldierObject).forEach(function(soldier, idx) {
+        if (soldier.life <= 0) {
+            return;
+        }
+
+        // soldier -> soldier
+        this.queryObjects(SoldierObject).forEach(function(soldierLeft, idxLeft) {
+            if (idx <= idxLeft || soldierLeft.life <= 0 || soldier === soldierLeft) {
                 return;
             }
             
-            if (VMath.distance(boat.vec(), boatLeft.vec()) < boat.getWidth()) {
-                this.triggerCollisions(boat, boatLeft);
+            if (VMath.distance(soldier.vec(), soldierLeft.vec()) < soldier.getWidth()) {
+                this.triggerCollisions(soldier, soldierLeft);
             }
         }, this);
+
+        // outside of battleground?
+        if (VMath.distance(soldier.vec(), [0, 0]) > this.getEdgeRadius()) {
+            soldier.addForce(VMath.scale(VMath.normalize(soldier.vec()), -1));
+        }
     }, this);
 };
 
@@ -141,21 +122,18 @@ GameWorld.prototype.onCollision = function(leftObjectType, rightObjectType, hand
     });
 };
 
-GameWorld.prototype.onBoatCollision = function(leftBoat, rightBoat) {
-    // boats should bounce off each other
-    var distance = VMath.distance(leftBoat.vec(), rightBoat.vec());
-    var sub = VMath.scale(VMath.normalize(VMath.sub(leftBoat.vec(), rightBoat.vec())), leftBoat.getWidth() - distance);
-    leftBoat.addForce(sub);
-    rightBoat.addForce(VMath.scale(sub, -1));
-};
+GameWorld.prototype.onSoldierCollision = function(leftSoldier, rightSoldier) {
+    // soldiers should bounce off each other
+    var distance = VMath.distance(leftSoldier.vec(), rightSoldier.vec());
+    var sub = VMath.scale(VMath.normalize(VMath.sub(leftSoldier.vec(), rightSoldier.vec())), leftSoldier.getWidth() - distance);
+    leftSoldier.addForce(sub);
+    rightSoldier.addForce(VMath.scale(sub, -1));
 
-GameWorld.prototype.onBoatWaypointEdgeCollision = function(boat, edge) {
-    // boats should bounce off waypoint edges
-    var distance = VMath.distance(boat.vec(), edge.vec());
-    var sub = VMath.scale(VMath.normalize(VMath.sub(boat.vec(), edge.vec())), (boat.getWidth() - distance)/10);
-    boat.addForce(sub);
+    if (leftSoldier.isEnemy(rightSoldier)) {
+        leftSoldier.hit(rightSoldier);
+        rightSoldier.hit(leftSoldier);
+    }
 };
-
 /**
  * Updates object
  * @param object
@@ -164,45 +142,3 @@ GameWorld.prototype.onBoatWaypointEdgeCollision = function(boat, edge) {
 GameWorld.prototype.updateObject = function(object, deltaTime) {
     object.update(deltaTime);
 };
-
-// bonuses
-/**
- * @return {GameBonus[]}
- */
-GameWorld.prototype.getActiveBonuses = function() {
-    return this.bonuses;
-};
-
-/**
- * @param {BonusObject} bonus
- * @param {BoatObject} boat
- */
-GameWorld.prototype.activateBonus = function(bonus, boat) {
-    this.bonuses.splice(0, 0, new (bonus.getGameBonus())(boat, this.worldTime));
-    this.removeObject(bonus);
-};
-
-GameWorld.prototype.deactivateBonuses = function() {
-    this.bonuses = this.bonuses.filter(function(gameBonus) {
-        if (!gameBonus.isActive(this.worldTime)) {
-            gameBonus.deactivate();
-            return false;
-        } else {
-            return true;
-        }
-    }, this);
-};
-
-GameWorld.prototype.addWave = function(x, y) {
-    this.waves.push([x, y, 0]);
-};
-
-GameWorld.prototype.getWaves = function() {
-    return this.waves;
-}
-
-GameWorld.prototype.updateWaves = function(deltaTime) {
-    this.waves = this.waves.filter(function(wave) {
-        return (wave[2] += deltaTime) <= WAVE_LENGTH;
-    });
-}

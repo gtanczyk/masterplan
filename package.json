@@ -1,7 +1,7 @@
 {
-  "name": "riversed",
+  "name": "masterplan",
   "version": "1.0.0",
-  "description": "Riversed, js13k entry by gtanczyk",
+  "description": "MasterPlan, js13k 2018 entry by gtanczyk",
   "main": "gulpfile.js",
   "dependencies": {
     "gulp": "^3.9.0",

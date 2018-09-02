@@ -1,90 +1,85 @@
 <html>
-	<head>
-	   <title>Riversed - js13k entry by gtanczyk</title>
-	   
-	   <!-- build:css -->
-	   <link href="css/main.css" media="all" rel="stylesheet" />
-	   <!-- endbuild -->
-	   
-	   <!-- build:js -->
-	   <script type="text/javascript" src="js/consts.js"> </script>
-	   <script type="text/javascript" src="js/events.js"> </script>
-	   <script type="text/javascript" src="js/vmath.js"> </script>
-	   <script type="text/javascript" src="js/util.js"> </script>
-	   
-	   <script type="text/javascript" src="js/states.js"> </script>
-	   <script type="text/javascript" src="js/states/state-intro.js"> </script>
-	   <script type="text/javascript" src="js/states/state-game-init.js"> </script>
-	   <script type="text/javascript" src="js/states/state-game-play.js"> </script>
-	   <script type="text/javascript" src="js/states/state-game-pause.js"> </script>
-	   <script type="text/javascript" src="js/states/state-game-end.js"> </script>
-	   
-	   <script type="text/javascript" src="js/game/objects/game-object.js"> </script>
-	   <script type="text/javascript" src="js/game/objects/object-boat.js"> </script>
-	   <script type="text/javascript" src="js/game/objects/object-bonus.js"> </script>
-	   <script type="text/javascript" src="js/game/objects/object-waypoint.js"> </script>
-	   <script type="text/javascript" src="js/game/objects/object-waypoint-edge.js"> </script>
-	   
-	   <script type="text/javascript" src="js/game/bonuses/game-bonus.js"> </script>
-	   <script type="text/javascript" src="js/game/bonuses/bonus-reverse-steering.js"> </script>
-	   <script type="text/javascript" src="js/game/bonuses/bonus-reverse-velocity.js"> </script>
-	   
-	   <script type="text/javascript" src="js/game/game-hud.js"> </script>
-	   <script type="text/javascript" src="js/game/game-world.js"> </script>
-	   <script type="text/javascript" src="js/game/game-render.js"> </script>
-	   <script type="text/javascript" src="js/game/race.js"> </script>
-	   
-	   <script type="text/javascript" src="js/characters/character.js"> </script>
-       <script type="text/javascript" src="js/characters/annoying.js"> </script>
-	   <script type="text/javascript" src="js/characters/bonuser.js"> </script>
-	   <script type="text/javascript" src="js/characters/sprinter.js"> </script>
-	   <script type="text/javascript" src="js/characters/immuner.js"> </script>
-	   
-	   <script type="text/javascript" src="js/canvas.js"> </script>
-	   <script type="text/javascript" src="js/controls.js"> </script>
-	   
-	   <script type="text/javascript" src="js/main.js"> </script>
-	   <!-- endbuild -->
-	</head>
-	<body>
-	   <!-- assets -->
-	   <img src="assets/boat.png" id="asset-boat" />   
-	   <img src="assets/waypoint.png" id="asset-waypoint" />
-	   
-	   <img src="assets/boat-arrow.png" id="asset-boat-arrow" />
-	   
-	   <img src="assets/waypoint-arrow.png" id="asset-waypoint-arrow" />
-	   
-	   <img src="assets/bonus-velocity.png" id="asset-bonus-velocity" />
-	   <img src="assets/bonus-steering.png" id="asset-bonus-steering" />
-       <!-- intro -->
-       <div id="game-intro">
-        <img src="assets/riversed.png" />
-       </div>
-       <!-- pause -->
-       <div id="game-pause">
-        <h1>Paused</h1>
-        <h2>Escape or tap to continue</h2>
-       </div>
-	   <!-- HUD -->
-	   <div id="game-hud">
-	       <div id="active-bonuses">
-	       </div>
-	       <div id="race-stats">
-	           <div id="race-time"> </div>
-	           <div id="race-position"> </div>
-	       </div>
-	       <div id="race-standings">
-	       </div>
-	       <div id="hud-touch">
-	           <div id="touch-left">
-		           <img src="assets/arrow.png" id="touch-left-arrow" />
-	           </div>
-	           
-	           <div id="touch-right"> 
-		           <img src="assets/arrow.png" id="touch-right-arrow" />
-	           </div>
-	       </div>
-	   </div>
-	</body>
+
+<head>
+	<title>Master Plan - js13k 2018 entry by gtanczyk</title>
+
+	<!-- build:css -->
+	<link href="css/main.css" media="all" rel="stylesheet" />
+	<!-- endbuild -->
+
+	<!-- build:js -->
+	<script type="text/javascript" src="js/consts.js"> </script>
+	<script type="text/javascript" src="js/events.js"> </script>
+	<script type="text/javascript" src="js/vmath.js"> </script>
+	<script type="text/javascript" src="js/util.js"> </script>
+
+	<script type="text/javascript" src="js/states.js"> </script>
+	<script type="text/javascript" src="js/states/state-intro.js"> </script>
+	<script type="text/javascript" src="js/states/state-game-designer.js"> </script>
+	<script type="text/javascript" src="js/states/state-game-battle.js"> </script>
+
+	<script type="text/javascript" src="js/designer/designer-unit.js"> </script>
+	
+	<script type="text/javascript" src="js/game/masterplan/commands.js"> </script>
+	<script type="text/javascript" src="js/game/masterplan/masterplan.js"> </script>
+	<script type="text/javascript" src="js/game/masterplan/soldierplan.js"> </script>
+
+	<script type="text/javascript" src="js/game/objects/game-object.js"> </script>
+	<script type="text/javascript" src="js/game/objects/object-soldier.js"> </script>
+
+	<script type="text/javascript" src="js/game/game-hud.js"> </script>
+	<script type="text/javascript" src="js/game/game-world.js"> </script>
+	<script type="text/javascript" src="js/game/game-render.js"> </script>
+
+	<script type="text/javascript" src="js/canvas.js"> </script>
+	<script type="text/javascript" src="js/controls.js"> </script>
+
+	<script type="text/javascript" src="js/main.js"> </script>
+	<!-- endbuild -->
+</head>
+
+<body>
+	<!-- assets -->
+	<img src="assets/soldier.png" id="asset-soldier" />
+	<img src="assets/soldier-dead.png" id="asset-soldier-dead" />
+
+	<!-- intro -->
+	<div id="game-intro">
+		<img src="assets/intro.png" />
+	</div>
+	<!-- pause -->
+	<div id="game-pause">
+		<h1>Paused</h1>
+		<h2>Escape or tap to continue</h2>
+	</div>
+	<!-- HUD -->
+	<div id="game-hud">
+		<div id="battle-stats">
+			<div id="battle-time"> </div>
+		</div>
+	</div>
+	<!-- Designer -->
+	<div id="game-designer">
+		<h3>Setup</h3>
+		<div id="designer-field">
+		</div>		
+		<div id="designer-formation">
+			<h3>Formation</h3>
+			<button class="formation-button" data-formation="wedge">Wedge</button>
+			<button class="formation-button" data-formation="column">Column</button>
+		</div>
+		<div id="designer-commands">
+			<h3>Commands</h3>
+			<button>Wait&Advance</button>
+			<button>Advance</button>
+			<button>Advance&Wait</button>
+		</div>
+		<div id="designer-actions">
+			<h3>Play</h3>
+			<button id="button-test-battle">Test battle</button>
+		</div>
+	</div>
+	</div>
+</body>
+
 </html>

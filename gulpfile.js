@@ -66,7 +66,7 @@ gulp.task('inline', ['dist'], function() {
 
 gulp.task('package', ['inline'], function() {
     return gulp.src(['dist/index.html'])
-        .pipe(zip('riversed.zip'))
+        .pipe(zip('masterplan.zip'))
         .pipe(gulp.dest('dist'));
 });
 

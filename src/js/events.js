@@ -26,6 +26,7 @@ var EVENT_ESCAPE = eventCounter++;
 var EVENT_MOUSE_DOWN = eventCounter++;
 var EVENT_MOUSE_UP = eventCounter++;
 var EVENT_MOUSE_MOVE = eventCounter++;
+var EVENT_MOUSE_CLICK = eventCounter++;
 
 var EVENT_KEY_DOWN = eventCounter++;
 var EVENT_KEY_UP = eventCounter++;

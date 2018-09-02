@@ -54,6 +54,13 @@ window.addEventListener("mousemove", function(event) {
     event.preventDefault();
 });
 
+window.addEventListener("click", function(event) {
+    updateState(EVENT_MOUSE_CLICK, event);
+    
+    event.preventDefault();
+});
+
+
 // touch events, translate them to appropiate keyboard/mouse events
 
 function handleTouch(event) {
