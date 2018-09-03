@@ -7,14 +7,14 @@ var stateIntro = function Intro() {
     
     return function IntroHandler(eventType, eventObject) {
         gameIntro.classList.remove('visible');
-        return stateGameDesigner();
+        return new stateGameDesigner();
 
-        if (eventType == EVENT_KEY_DOWN) {
-            switch (String.fromCharCode(eventObject)) {
-                case "1": return stateGameDesignerInit();
-                case "2": return stateGameBattleInit();
-                default: break;
-            }
-        }
+        // if (eventType == EVENT_KEY_DOWN) {
+        //     switch (String.fromCharCode(eventObject)) {
+        //         case "1": return stateGameDesignerInit();
+        //         case "2": return stateGameBattleInit();
+        //         default: break;
+        //     }
+        // }
     }.State();
 };

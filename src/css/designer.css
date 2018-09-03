@@ -1,0 +1,44 @@
+#game-designer:not(.visible) {
+    display: none;
+}
+
+#game-designer {
+    width: 800px;
+    margin: 0 auto;
+}
+
+#designer-field {
+    background: rgb(0, 200, 0);
+    border: 2px solid rgba(0, 100, 0);
+    position: relative;
+}
+
+#designer-commands, #designer-formation, #designer-actions {
+    display: inline-block;
+}
+
+#designer-field.drag {
+    cursor: move;
+}
+
+#designer-field.drag .field-unit {
+    pointer-events: none;
+}
+
+.field-unit {
+    background: rgba(255, 0, 0, 0.5);
+    position: absolute;
+}
+
+.field-unit.drag {
+    opacity: 0.5;    
+}
+
+.field-unit.select {
+    border: 1px solid orange;
+}
+
+.field-unit[data-formation="wedge"] {
+    background: url(../assets/wedge.png);
+    background-size: 100% 100%;
+}

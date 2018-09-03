@@ -38,14 +38,6 @@ GameWorld.prototype.removeObject = function(object) {
     this.objects.splice(this.objects.indexOf(object), 1);
 };
 
-/**
- * Return all objects within given radius
- * 
- * @param x
- * @param y
- * @param radius
- * @returns {Array}
- */
 GameWorld.prototype.queryObjects = function(type, fn) {
     // var vec = [x, y];
     fn = fn || (() => true);
@@ -141,4 +133,9 @@ GameWorld.prototype.onSoldierCollision = function(leftSoldier, rightSoldier) {
  */
 GameWorld.prototype.updateObject = function(object, deltaTime) {
     object.update(deltaTime);
+};
+
+GameWorld.prototype.getAlive = function() {
+    return this.queryObjects(SoldierObject, soldier => soldier.life > 0)
+                .reduce((r, soldier) => (r[soldier.color] = (r[soldier.color] || 0) + 1, r), {})
 };

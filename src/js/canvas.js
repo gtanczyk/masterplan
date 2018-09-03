@@ -14,6 +14,17 @@ function getCanvas(layerName) {
     return (Canvas.layers[layerName] = new Canvas(layerName));
 };
 
+function freeCanvas(layerName) {
+    layerName = layerName || LAYER_DEFAULT;
+    
+    var canvas = Canvas.layers[layerName];
+    
+    if (canvas) {
+        canvas.destroy();
+        delete Canvas.layers[layerName];
+    }
+}
+
 /**
  * @param {String} id
  * @constructor
@@ -31,6 +42,10 @@ function Canvas(id) {
 }
 
 Canvas.layers = { };
+
+Canvas.prototype.destroy = function() {
+    document.body.removeChild(this.element)
+}
 
 Canvas.prototype.getWidth = function() {
     return this.element.width;

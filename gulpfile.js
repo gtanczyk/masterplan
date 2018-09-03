@@ -29,7 +29,9 @@ gulp.task('compile', ['concat'], function() {
           compilerFlags: {
             compilation_level: 'ADVANCED_OPTIMIZATIONS',
             output_wrapper: '(function(){%output%}).call(window);',
-            define: [ "DEBUG=false" ]
+            define: [ "DEBUG=false" ],
+            "language_in": "ECMASCRIPT6",
+            "language_out": "ES5"
           }
         }))
        .pipe(gulp.dest('./dist'));
