@@ -1,7 +1,9 @@
 class SoldierPlan {
-    constructor(masterPlan, formation) {
+    constructor(masterPlan, formation, plan) {
         this.masterPlan = masterPlan;
         this.formation = formation;
+        this.plan = plan;
+        this.currentCommand = null;
     }
 
     getPosition() {
@@ -9,6 +11,15 @@ class SoldierPlan {
     }
 
     getCommand(worldTime) {
-        return this.masterPlan.getCommand(worldTime);
+        if ((!this.currentCommand || this.currentCommand.isDone(worldTime)) && this.plan.length > 0)  {
+            this.currentCommand = this.plan.splice(0, 1)[0];
+            this.currentCommand.start(worldTime);
+        }
+        
+        if (!this.currentCommand) {
+            this.currentCommand = new WaitCommand();
+        }
+
+        return this.currentCommand;
     }
 }

@@ -38,26 +38,18 @@ window.addEventListener("keyup", function(event) {
 
 window.addEventListener("mousedown", function(event) {
     updateState(EVENT_MOUSE_DOWN, event);
-    
-    event.preventDefault();
 });
 
 window.addEventListener("mouseup", function(event) {
     updateState(EVENT_MOUSE_UP, event);
-    
-    event.preventDefault();
 });
 
 window.addEventListener("mousemove", function(event) {
     updateState(EVENT_MOUSE_MOVE, event);
-    
-    event.preventDefault();
 });
 
 window.addEventListener("click", function(event) {
     updateState(EVENT_MOUSE_CLICK, event);
-    
-    event.preventDefault();
 });
 
 

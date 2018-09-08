@@ -32,11 +32,15 @@ class AdvanceCommand extends Command {
         super();
     }
 
+    getTarget(soldier) {
+        return soldier.plan.formation;
+    }
+
     execute(soldier) {
         // [0, 0] + formation
-        var target = soldier.plan.formation;
-        var dist = VMath.distance(soldier.vec(), target);
-        var dir = VMath.atan2(soldier.vec(), target);
+        var target = this.getTarget(soldier);
+        var dist = VMath.distance(soldier.vec, target);
+        var dir = VMath.atan2(soldier.vec, target);
 
         if (dist > 50) {
             soldier.setTargetVelocity(1);
@@ -45,6 +49,23 @@ class AdvanceCommand extends Command {
             soldier.setTargetVelocity(0);
             this.done = true;
         }
+    }
+}
+
+class FlankLeftCommand extends AdvanceCommand {
+    constructor(angle) {
+        super();
+        this.angle = angle;
+    }
+
+    getTarget(soldier) {
+        return VMath.add([200, -100 * Math.sign(Math.cos(this.angle))], soldier.plan.formation);
+    }
+}
+
+class FlankRightCommand extends FlankLeftCommand {
+    getTarget(soldier) {
+        return VMath.add([200, 100 * Math.sign(Math.cos(this.angle))], soldier.plan.formation);
     }
 }
 

@@ -13,7 +13,7 @@
     position: relative;
 }
 
-#designer-commands, #designer-formation, #designer-actions {
+#designer-commands, #designer-formation, #designer-actions, #designer-unit-type {
     display: inline-block;
 }
 
@@ -38,7 +38,12 @@
     border: 1px solid orange;
 }
 
-.field-unit[data-formation="wedge"] {
-    background: url(../assets/wedge.png);
-    background-size: 100% 100%;
+.field-unit[data-command]:after {
+    display: inline-block;
+    content: ' | 'attr(data-command)
+}
+
+.field-unit[data-unit-type]:before {
+    content: attr(data-unit-type);
+    display: inline-block;
 }

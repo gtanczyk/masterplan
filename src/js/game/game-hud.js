@@ -32,6 +32,12 @@ GameHUD.prototype.renderResults = function(alive) {
             <span style="background: ${aliveKeys[0]}"> </span> VICTORY!
             <inline style="color: black">Click to get back to designer</inline>
         </div>`;
+        return aliveKeys[0];
+    } else {
+        this.battleResult.innerHTML = `<div style="color: black">
+            DRAW!
+            <inline style="color: black">Click to get back to designer</inline>
+        </div>`;        
     }
 };
 

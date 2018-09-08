@@ -2,10 +2,7 @@
  * @constructor
  */
 function GameObject(x, y, width, height, direction) {
-    this.x = x;
-    this.y = y;
-    this.lastX = x;
-    this.lastY = y;
+    this.vec = [x, y];
     this.direction = direction;
     this.objectWidth = width;
     this.objectHeight = height;    
@@ -30,19 +27,17 @@ GameObject.prototype.render = function(canvas) {
 };
 
 GameObject.prototype.getX = function() { 
-    return this.x; 
+    return this.vec[0]; 
 };
 GameObject.prototype.setX = function(x) {
-    this.lastX = this.x;
-    this.x = x; 
+    this.vec[0] = x; 
 };
 
 GameObject.prototype.getY = function() { 
-    return this.y;
+    return this.vec[1];
 };
 GameObject.prototype.setY = function(y) {
-    this.lastY = this.y;
-    this.y = y;
+    this.vec[1] = y;
 };
 
 GameObject.prototype.getDirection = function() { 
@@ -58,8 +53,8 @@ GameObject.prototype.getHeight = function() {
     return this.objectHeight;
 };
 GameObject.prototype.vec = function() {
-    return [this.x, this.y];
+    return this.vec;
 };
-GameObject.prototype.lastVec = function() {
-    return [this.lastX, this.lastY];
+GameObject.prototype.isClass = function(Class) {
+    return true;
 };

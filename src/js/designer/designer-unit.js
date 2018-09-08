@@ -1,18 +1,18 @@
 class DesignerUnit {
-    constructor(field, col, row, sizeCol, sizeRow, formation) {
+    constructor(field, col, row, sizeCol, sizeRow, type, command) {
         this.field = field;
-        this.sizeCol = sizeCol;
-        this.sizeRow = sizeRow;
 
         this.el = document.createElement('div');
-        this.el.className = "field-unit"; 
+
+        this.setFormation(sizeCol, sizeRow);
+        this.el.className = "field-unit";
         this.el.designerUnit = this;
-        this.el.style.width = this.sizeCol * SOLDIER_WIDTH + "px";
-        this.el.style.height = this.sizeRow * SOLDIER_HEIGHT + "px";
+
         this.field.appendChild(this.el);
 
-        this.setFormation(formation);
+        this.setType(type);
         this.setPosition(col, row);
+        this.setCommand(command);
     }
 
     getDefinition() {
@@ -21,17 +21,26 @@ class DesignerUnit {
             sizeRow: this.sizeRow,
             col: this.col,
             row: this.row,
-            formation: this.formation
+            type: this.type,
+            command: this.command
         }
     }
 
-    setFormation(formation) {
-        this.formation = formation;
-        this.el.dataset.formation = formation;
+    setFormation(sizeCol, sizeRow) {
+        this.sizeCol = sizeCol;
+        this.sizeRow = sizeRow;
+        this.el.style.width = this.sizeCol * SOLDIER_WIDTH + "px";
+        this.el.style.height = this.sizeRow * SOLDIER_HEIGHT + "px";
     }
 
-    getFormation() {
-        return this.formation;
+    setType(type) {
+        this.type = type;
+        this.el.dataset.unitType = type;
+    }
+
+    setCommand(command) {
+        this.command = command;
+        this.el.dataset.command = command;
     }
 
     updatePosition() {
@@ -65,4 +74,28 @@ class DesignerUnit {
     }
 };
 
-DesignerUnit.of = (field, def) => new DesignerUnit(field, def.col, def.row, def.sizeCol, def.sizeRow, def.formation);
+DesignerUnit.of = (field, def) => new DesignerUnit(field, def.col, def.row, def.sizeCol, def.sizeRow, def.type, def.command);
+
+DesignerUnit.types = {
+    // name -> index
+    "archer": 1,
+    "warrior": 2,
+    // index -> name
+    1: "archer",
+    2: "warrior"
+};
+
+DesignerUnit.commands = {
+    // name -> index
+    "wait-advance": 1,
+    "advance": 2,
+    "advance-wait": 3,
+    "flank-left": 4,
+    "flank-right": 5,
+    // index -> name
+    1: "wait-advance",
+    2: "advance",
+    3: "advance-wait",
+    4: "flank-left",
+    5: "flank-right"
+};

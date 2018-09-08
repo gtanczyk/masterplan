@@ -55,4 +55,9 @@ const MAX_COL = DESIGN_FIELD_WIDTH / SOLDIER_WIDTH;
 const MAX_ROW = DESIGN_FIELD_HEIGHT / SOLDIER_HEIGHT;
 
 /** const */
-const DEFAULT_UNITS = [{ "sizeCol": 4, "sizeRow": 4, "col": 3, "row": 4, "formation": "column" }, { "sizeCol": 4, "sizeRow": 4, "col": 8, "row": 4, "formation": "column" }, { "sizeCol": 4, "sizeRow": 4, "col": 13, "row": 4, "formation": "column" }, { "sizeCol": 4, "sizeRow": 4, "col": 18, "row": 4, "formation": "column" }];
+var DEFAULT_UNITS = [{ "sizeCol": 4, "sizeRow": 4, "col": 3, "row": 4, type: "warrior", command: "advance" }, 
+                       { "sizeCol": 4, "sizeRow": 4, "col": 8, "row": 4, type: "warrior", command: "advance" }, 
+                       { "sizeCol": 4, "sizeRow": 4, "col": 13, "row": 4,type: "warrior", command: "advance" }, 
+                       { "sizeCol": 4, "sizeRow": 4, "col": 18, "row": 4, type: "warrior", command: "advance" }, 
+                       { "sizeCol": 16, "sizeRow": 1, "col": 5, "row": 10, type: "archer", command: "advance" }, 
+                       { "sizeCol": 16, "sizeRow": 1, "col": 5, "row": 12, type: "archer", command: "advance" }];

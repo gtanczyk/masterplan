@@ -9,7 +9,7 @@ function stateGameBattleInit(definitions) {
         for (var i = 0; i < masterPlan.getSoldierCount(); i++) {
             var soldierPlan = masterPlan.getSolderPlan(i);
             var pos = VMath.add(soldierPlan.getPosition(), initialPosition);            
-            world.addObject(new SoldierObject(pos[0], pos[1], angle, soldierPlan, world, color));
+            world.addObject(new SoldierObject(pos[0], pos[1], angle + Math.PI, soldierPlan, world, color, masterPlan.getType(i)));
         }
 
         return masterPlan;
@@ -33,7 +33,7 @@ function stateGameBattleInit(definitions) {
 function stateGameBattle(world, HUD, definitions) {
     return function GameBattleHandler(eventType, eventObject) {
         if (eventType == EVENT_RAF) {
-            var elapsedTime = eventObject;
+            var elapsedTime = Math.min(eventObject, 1000);
             while (elapsedTime > 0) {
                 elapsedTime = world.update(elapsedTime);
             }            
@@ -49,13 +49,16 @@ function stateGameBattle(world, HUD, definitions) {
 }
 
 function stateGameBattleEnd(world, HUD, definitions) {
-    HUD.renderResults(world.getAlive());
+    var result = HUD.renderResults(world.getAlive());
     return function GameBattleEndHandler(eventType, eventObject) {
         renderGame(world);
 
         if (eventType === EVENT_MOUSE_CLICK) {
             freeCanvas(LAYER_DEFAULT);
             HUD.destroy();
+            if (result === '#ff0000') {
+                DEFAULT_UNITS = definitions;
+            }
             return new stateGameDesigner(definitions);
         }
     };

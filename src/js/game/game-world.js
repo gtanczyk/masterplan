@@ -9,6 +9,7 @@ function GameWorld() {
     this.worldTime = 0;
     
     this.onCollision(SoldierObject, SoldierObject, this.onSoldierCollision.bind(this));
+    this.onCollision(SoldierObject, ArrowObject, this.onArrowCollision.bind(this));
 };
 
 GameWorld.prototype.destroy = function() {
@@ -20,7 +21,7 @@ GameWorld.prototype.getTime = function() {
 
 GameWorld.prototype.getEdgeRadius = function() {
     // return this.edgeRadius;
-    return Math.max(this.edgeRadius * (1 - this.getTime() / 60000), 50);
+    return Math.max(this.edgeRadius * 1.5 * (1 - this.getTime() / 60000), 200);
 };
 
 /**
@@ -40,13 +41,12 @@ GameWorld.prototype.removeObject = function(object) {
 
 GameWorld.prototype.queryObjects = function(type, fn) {
     // var vec = [x, y];
-    fn = fn || (() => true);
     return this.objects.filter(function(object) {
-        // if (VMath.distance(vec, object.vec()) > radius) {
+        // if (VMath.distance(vec, object.vec > radius) {
         //     return;
         // }
         
-        return (!type || object instanceof type) && fn(object);
+        return (!type || object.isClass(type)) && (!fn || fn(object));
     });
 };
 
@@ -78,19 +78,26 @@ GameWorld.prototype.collisions = function() {
         }
 
         // soldier -> soldier
-        this.queryObjects(SoldierObject).forEach(function(soldierLeft, idxLeft) {
+        this.queryObjects(SoldierObject).forEach((soldierLeft, idxLeft) => {
             if (idx <= idxLeft || soldierLeft.life <= 0 || soldier === soldierLeft) {
                 return;
             }
             
-            if (VMath.distance(soldier.vec(), soldierLeft.vec()) < soldier.getWidth()) {
+            if (VMath.withinDistance(soldier.vec, soldierLeft.vec, soldier.getWidth())) {
                 this.triggerCollisions(soldier, soldierLeft);
             }
-        }, this);
+        });
+
+        // soldier -> arrow
+        this.queryObjects(ArrowObject).forEach(arrow => {
+            if (arrow.isHit() && VMath.withinDistance(soldier.vec, arrow.vec, soldier.getWidth())) {
+                this.triggerCollisions(soldier, arrow);
+            }
+        });
 
         // outside of battleground?
-        if (VMath.distance(soldier.vec(), [0, 0]) > this.getEdgeRadius()) {
-            soldier.addForce(VMath.scale(VMath.normalize(soldier.vec()), -1));
+        if (!VMath.withinDistance(soldier.vec, [0, 0], this.getEdgeRadius())) {
+            soldier.addForce(VMath.scale(VMath.normalize(soldier.vec), -1));
         }
     }, this);
 };
@@ -116,8 +123,8 @@ GameWorld.prototype.onCollision = function(leftObjectType, rightObjectType, hand
 
 GameWorld.prototype.onSoldierCollision = function(leftSoldier, rightSoldier) {
     // soldiers should bounce off each other
-    var distance = VMath.distance(leftSoldier.vec(), rightSoldier.vec());
-    var sub = VMath.scale(VMath.normalize(VMath.sub(leftSoldier.vec(), rightSoldier.vec())), leftSoldier.getWidth() - distance);
+    var distance = VMath.distance(leftSoldier.vec, rightSoldier.vec);
+    var sub = VMath.scale(VMath.normalize(VMath.sub(leftSoldier.vec, rightSoldier.vec)), leftSoldier.getWidth() - distance);
     leftSoldier.addForce(sub);
     rightSoldier.addForce(VMath.scale(sub, -1));
 
@@ -126,6 +133,11 @@ GameWorld.prototype.onSoldierCollision = function(leftSoldier, rightSoldier) {
         rightSoldier.hit(leftSoldier);
     }
 };
+
+GameWorld.prototype.onArrowCollision = function(soldier, arrow) {
+    arrow.hit(soldier);
+};
+
 /**
  * Updates object
  * @param object

@@ -19,12 +19,13 @@
 	<script type="text/javascript" src="js/states/state-game-battle.js"> </script>
 
 	<script type="text/javascript" src="js/designer/designer-unit.js"> </script>
-	
+
 	<script type="text/javascript" src="js/game/masterplan/commands.js"> </script>
 	<script type="text/javascript" src="js/game/masterplan/masterplan.js"> </script>
 	<script type="text/javascript" src="js/game/masterplan/soldierplan.js"> </script>
 
 	<script type="text/javascript" src="js/game/objects/game-object.js"> </script>
+	<script type="text/javascript" src="js/game/objects/object-arrow.js"> </script>
 	<script type="text/javascript" src="js/game/objects/object-soldier.js"> </script>
 
 	<script type="text/javascript" src="js/game/game-hud.js"> </script>
@@ -40,8 +41,11 @@
 
 <body>
 	<!-- assets -->
-	<img src="assets/soldier.png" id="asset-soldier" />
-	<img src="assets/soldier-dead.png" id="asset-soldier-dead" />
+	<img src="assets/soldier-warrior.png" id="asset-soldier-warrior" />
+	<img src="assets/soldier-warrior-dead.png" id="asset-soldier-warrior-dead" />
+
+	<img src="assets/soldier-archer.png" id="asset-soldier-archer" />
+	<img src="assets/soldier-archer-dead.png" id="asset-soldier-archer-dead" />
 
 	<!-- intro -->
 	<div id="game-intro">
@@ -63,23 +67,37 @@
 	<div id="game-designer">
 		<h3>Setup</h3>
 		<div id="designer-field">
-		</div>		
+		</div>
 		<div id="designer-formation">
 			<h3>Formation</h3>
-			<button class="formation-button" data-formation="wedge">Wedge</button>
-			<button class="formation-button" data-formation="column">Column</button>
+			<button class="formation-button" data-formation="4x4">4x4</button>
+			<button class="formation-button" data-formation="16x1">16x1</button>
+			<button class="formation-button" data-formation="1x16">16x1</button>
+			<button class="formation-button" data-formation="8x2">8x2</button>
+			<button class="formation-button" data-formation="2x8">8x2</button>
 		</div>
 		<div id="designer-commands">
 			<h3>Commands</h3>
-			<button>Wait&Advance</button>
-			<button>Advance</button>
-			<button>Advance&Wait</button>
+			<button data-command="wait-advance">Wait&Advance</button>
+			<button data-command="advance">Advance</button>
+			<button data-command="advance-wait">Advance&Wait</button>
+			<button data-command="flank-left">Flank Left</button>
+			<button data-command="flank-right">Flank Right</button>
+		</div>
+		<div id="designer-unit-type">
+			<h3>Unit Type</h3>
+			<button data-unit-type="warrior">Warriors</button>
+			<button data-unit-type="tank">Tanks</button>
+			<button data-unit-type="archer">Archers</button>
+			<button data-unit-type="cavalry">Cavalry</button>
 		</div>
 		<div id="designer-actions">
 			<h3>Play</h3>
 			<button id="button-test-battle">Test battle</button>
 		</div>
-	</div>
+		<h3>Save battle plan</h3>
+		<textarea cols="30" rows="20" id="battle-string"> </textarea>
+		<button id="battle-string-load">Load plan</button>
 	</div>
 </body>
 

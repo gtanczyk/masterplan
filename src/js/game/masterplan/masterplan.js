@@ -2,64 +2,68 @@ class MasterPlan {
     constructor(initialPosition, units) {
         var angle = VMath.atan2(initialPosition, [0, 0]);
 
+        this.type = [];
         this.formation = [];
-        units.forEach(unit => {            
+        this.plan = [];
+
+        units.forEach(unit => {
             var soldierCount = unit.sizeCol * unit.sizeRow;
             var offset = [unit.col * SOLDIER_WIDTH, unit.row * SOLDIER_HEIGHT];
-            switch (unit.formation) {
-                case "column":
-                    for(var i = 0; i < soldierCount; i++) {
-                        var pos = [i % unit.sizeCol * SOLDIER_WIDTH, (i / unit.sizeCol << 0) * SOLDIER_HEIGHT];
-                        this.formation.push(VMath.add(pos, offset));
-                    }
-                    break;
-                case "wedge":
-                    var rowSize = 1;
-                    var row = 0;
-                    while (soldierCount > 0) {
-                        for (var i = 0; i < rowSize; i++) {
-                            var pos = VMath.rotate([row * SOLDIER_WIDTH, i * SOLDIER_HEIGHT - rowSize/2 * SOLDIER_HEIGHT], Math.PI/2);
-                            this.formation.push(VMath.add(pos, offset));
-                        }
-                        soldierCount -= rowSize;
-                        rowSize = Math.min(soldierCount, rowSize + 2);
-                        row++;
-                    }
-                    break;
-                default: break;
+            for (var i = 0; i < soldierCount; i++) {
+                var pos = [i % unit.sizeCol * SOLDIER_WIDTH, (i / unit.sizeCol << 0) * SOLDIER_HEIGHT];
+                this.formation.push(VMath.add(pos, offset));
+                this.type.push(unit.type);
+
+                switch (unit.command) {
+                    case "advance-wait":
+                        this.plan.push([
+                            new AdvanceCommand(),
+                            new WaitCommand(5000),
+                            new AttackCommand()
+                        ]);
+                        break;
+                    case "advance":
+                        this.plan.push([
+                            new AdvanceCommand(),
+                            new AttackCommand()
+                        ]);
+                        break;
+                    case "wait-advance":
+                        this.plan.push([
+                            new WaitCommand(20000),
+                            new AttackCommand()
+                        ])
+                        break;
+                    case "flank-left":
+                        this.plan.push([
+                            new FlankLeftCommand(angle),
+                            new AttackCommand()
+                        ])
+                        break;
+                    case "flank-right":
+                        this.plan.push([
+                            new FlankRightCommand(angle),
+                            new AttackCommand()
+                        ])
+                        break;
+
+                }
             }
         });
-        var center = [this.formation.reduce((r, pos) => Math.max(pos[0]), 0) / 2, 0];
+        var center = [this.formation.reduce((r, pos) => Math.max(pos[0], r), 0) / 2, 0];
 
         this.formation = this.formation.map(pos => VMath.rotate(VMath.sub(pos, center), angle + Math.PI / 2));
-
-        this.plan = [
-            new WaitCommand(1000),
-            new AdvanceCommand(),
-            new AttackCommand()
-        ];
-
-        this.currentCommand = null;
     }
 
     getSoldierCount() {
         return this.formation.length;
     }
 
-    getCommand(worldTime) {
-        if ((!this.currentCommand || this.currentCommand.isDone(worldTime)) && this.plan.length > 0)  {
-            this.currentCommand = this.plan.splice(0, 1)[0];
-            this.currentCommand.start(worldTime);
-        }
-        
-        if (!this.currentCommand) {
-            this.currentCommand = new WaitCommand();
-        }
-
-        return this.currentCommand;
+    getType(soldierId) {
+        return this.type[soldierId];
     }
 
     getSolderPlan(soldierId) {
-        return new SoldierPlan(this, this.formation[soldierId]);
+        return new SoldierPlan(this, this.formation[soldierId], this.plan[soldierId]);
     }
 }

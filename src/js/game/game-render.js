@@ -19,7 +19,7 @@ function renderGame(world) {
     world.queryObjects(SoldierObject, soldier => soldier.life > 0).forEach(renderObject);
 
     // render other objects
-    world.queryObjects(GameObject, object => !(object instanceof SoldierObject)).forEach(renderObject);
+    world.queryObjects(GameObject, object => !object.isClass(SoldierObject)).forEach(renderObject);
     
     canvas.restore();
 };

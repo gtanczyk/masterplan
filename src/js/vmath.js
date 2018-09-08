@@ -11,6 +11,16 @@ var VMath = {
     distance : function(A, B) {
         return Math.sqrt(VMath.distanceSquared(A, B));
     },
+    withinDistance : function(A, B, distance) {
+        var dx = A[0] - B[0];
+        var dy = A[1] - B[1];
+        if (Math.abs(dx) > distance || Math.abs(dy) > distance) {
+            return false;
+        }
+        
+        var squared = Math.pow(dx, 2) + Math.pow(dy, 2);
+        return Math.sqrt(squared) < distance;
+    },
 
     // http://stackoverflow.com/a/1501725
     distanceFromLine : function(P, A, B) {
