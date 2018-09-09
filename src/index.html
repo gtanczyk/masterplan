@@ -32,6 +32,7 @@
 	<script type="text/javascript" src="js/game/game-world.js"> </script>
 	<script type="text/javascript" src="js/game/game-render.js"> </script>
 
+	<script type="text/javascript" src="js/sound.js"> </script>
 	<script type="text/javascript" src="js/canvas.js"> </script>
 	<script type="text/javascript" src="js/controls.js"> </script>
 
@@ -79,12 +80,13 @@
 			<h3>Battle!</h3>
 			<button id="button-test-battle">Play</button>
 			vs
-			<input id="test-battle-string" />
+			<input id="test-battle-string" /><br/>
+			<span style="float: right"><a target="_blank" href="https://twitter.com/hashtag/masterplan_js13k?f=tweets&vertical=default">Multiplayer mode</a></span>
 		</div>
-		<h1>Create Master Plan</h3>
-		<p>Select unit to change formation, type or commands. Drag to move.</p>
+		<h1>Create Master Plan</h1>
 		<div id="designer-field">
 		</div>
+		<p>Select unit to change formation, type or commands. Drag to move.</p>
 		<div id="designer-formation">
 			<h3>Formation</h3>
 			<button class="formation-button" data-formation="4x4">4x4</button>
@@ -106,14 +108,15 @@
 			<button data-unit-type="warrior">Warriors</button>
 			<button data-unit-type="tank">Tanks</button>
 			<button data-unit-type="archer">Archers</button>
-			<button data-unit-type="cavalry">Cavalry</button>
+			<button data-unit-type="cavalry" disabled>Cavalry (WIP)</button>
+			<button data-unit-type="cavalry" disabled>Artillery (WIP)</button>
 		</div>
 		<div id="designer-share">
 			<h2>Master Plan Blueprint</h3>
 			<p>This is your blueprint, please send it to other players.</p>
-			<input id="battle-string" style="width: 100%" />
+			<input id="battle-string" />
 			<button id="battle-string-load">Load plan</button>
-			<h2>Share</h3>
+			<h2>Share</h2>
 			<ul>
 				<li>Twitter: <button id="tweet">Tweet</button></li>
 				<li>Email: <input placeholder="example@email.com" type="email" /> <button id="email">Send</button></li>

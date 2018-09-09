@@ -64,7 +64,7 @@ function stateGameBattle(world, HUD, definitions) {
             // console.log("Damage count: " + JSON.stringify(damageCount));
 
             var balance = HUD.getBalance(world);
-            if (world.getTime() > 60000 || (balance < 1/3 || balance > 2/3)) {
+            if (world.getTime() > 60000 || (balance === 0 || balance === 1)) {
                 return new stateGameBattleEnd(world, HUD, definitions);
             }
         }

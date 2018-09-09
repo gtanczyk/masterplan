@@ -206,6 +206,7 @@ SoldierObject.prototype.seekEnemy = function(distance) {
         
         if (this.rangeAttack && dist < this.attackRange && dist > MIN_RANGE_ATTACK && this.cooldown("arrow", RANGED_ATTACK_COOLDOWN)) {
             this.world.addObject(new ArrowObject(this.vec, this.enemy.vec, this.world, this.rangeAttack));
+            aa.play("arrow");
         }
         if (dist < MELEE_ATTACK_RANGE && this.cooldown("sword", MELEE_ATTACK_COOLDOWN)) {
             this.enemy.hit(this);
@@ -240,12 +241,14 @@ SoldierObject.prototype.hit = function(bySoldier) {
     this.hitBy(damage);
     updateState(EVENT_DAMAGE, { soldier: this, damage: damage })
     this.setEnemy(bySoldier);
+    aa.play("damage");
 };
 
 SoldierObject.prototype.hitByArrow = function(arrow) {
     var damage = arrow.getAttack(arrow) * (this.cooldown("defence", this.defenceCooldown) ? this.getDefence(arrow, this.rangeDefence) : 1);
     this.hitBy(damage);
-    updateState(EVENT_DAMAGE_ARROW, { soldier: this, damage: damage })
+    updateState(EVENT_DAMAGE_ARROW, { soldier: this, damage: damage });
+    aa.play("hitarrow");
 };
 
 SoldierObject.prototype.hitBy = function(value) {    

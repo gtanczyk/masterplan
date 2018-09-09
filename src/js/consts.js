@@ -55,13 +55,13 @@ const MAX_COL = DESIGN_FIELD_WIDTH / SOLDIER_WIDTH;
 const MAX_ROW = DESIGN_FIELD_HEIGHT / SOLDIER_HEIGHT;
 
 /** const */
-var DEFAULT_UNITS = [{ "sizeCol": 4, "sizeRow": 4, "col": 3, "row": 4, type: "warrior", command: "advance" }, 
-                       { "sizeCol": 4, "sizeRow": 4, "col": 8, "row": 4, type: "warrior", command: "advance" }, 
-                       { "sizeCol": 4, "sizeRow": 4, "col": 13, "row": 4,type: "warrior", command: "advance" }, 
-                       { "sizeCol": 4, "sizeRow": 4, "col": 18, "row": 4, type: "tank", command: "advance" }, 
-                       { "sizeCol": 4, "sizeRow": 4, "col": 23, "row": 4,type: "tank", command: "advance" }, 
-                       { "sizeCol": 4, "sizeRow": 4, "col": 28, "row": 4, type: "warrior", command: "advance" }, 
-                       { "sizeCol": 4, "sizeRow": 4, "col": 33, "row": 4,type: "warrior", command: "advance" }, 
-                       { "sizeCol": 4, "sizeRow": 4, "col": 38, "row": 4, type: "warrior", command: "advance" }, 
-                       { "sizeCol": 16, "sizeRow": 1, "col": 18, "row": 10, type: "archer", command: "advance" }, 
-                       { "sizeCol": 16, "sizeRow": 1, "col": 23, "row": 12, type: "archer", command: "advance" }];
+var DEFAULT_UNITS = [{ "sizeCol": 4, "sizeRow": 4, "col": 3, "row": 4, "type": "warrior", "command": "advance" }, 
+                     { "sizeCol": 4, "sizeRow": 4, "col": 8, "row": 4, "type": "warrior", "command": "advance" }, 
+                     { "sizeCol": 4, "sizeRow": 4, "col": 13, "row": 4, "type": "warrior", "command": "advance" }, 
+                     { "sizeCol": 4, "sizeRow": 4, "col": 18, "row": 4, "type": "tank", "command": "advance" }, 
+                     { "sizeCol": 4, "sizeRow": 4, "col": 23, "row": 4, "type": "tank", "command": "advance" }, 
+                     { "sizeCol": 4, "sizeRow": 4, "col": 28, "row": 4, "type": "warrior", "command": "advance" }, 
+                     { "sizeCol": 4, "sizeRow": 4, "col": 33, "row": 4, "type": "warrior", "command": "advance" }, 
+                     { "sizeCol": 4, "sizeRow": 4, "col": 38, "row": 4, "type": "warrior", "command": "advance" }, 
+                     { "sizeCol": 16, "sizeRow": 1, "col": 18, "row": 10, "type": "archer", "command": "advance" }, 
+                     { "sizeCol": 16, "sizeRow": 1, "col": 23, "row": 12, "type": "archer", "command": "advance" }];

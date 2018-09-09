@@ -17,40 +17,40 @@ class DesignerUnit {
 
     getDefinition() {
         return {
-            sizeCol: this.sizeCol,
-            sizeRow: this.sizeRow,
-            col: this.col,
-            row: this.row,
-            type: this.type,
-            command: this.command
+            "sizeCol": this["sizeCol"],
+            "sizeRow": this["sizeRow"],
+            "col": this["col"],
+            "row": this["row"],
+            "type": this["type"],
+            "command": this["command"]
         }
     }
 
     setFormation(sizeCol, sizeRow) {
-        this.sizeCol = sizeCol;
-        this.sizeRow = sizeRow;
-        this.el.style.width = this.sizeCol * SOLDIER_WIDTH + "px";
-        this.el.style.height = this.sizeRow * SOLDIER_HEIGHT + "px";
+        this["sizeCol"] = sizeCol;
+        this["sizeRow"] = sizeRow;
+        this.el.style.width = this["sizeCol"] * SOLDIER_WIDTH + "px";
+        this.el.style.height = this["sizeRow"] * SOLDIER_HEIGHT + "px";
     }
 
     setType(type) {
-        this.type = type;
-        this.el.dataset.unitType = type;
+        this["type"] = type;
+        this.el.dataset["unitType"] = type;
     }
 
     setCommand(command) {
-        this.command = command;
-        this.el.dataset.command = command;
+        this["command"] = command;
+        this.el.dataset["command"] = command;
     }
 
     updatePosition() {
-        this.el.style.left = this.col * SOLDIER_WIDTH + "px";
-        this.el.style.top = this.row * SOLDIER_HEIGHT + "px";
+        this.el.style.left = this["col"] * SOLDIER_WIDTH + "px";
+        this.el.style.top = this["row"] * SOLDIER_HEIGHT + "px";
     }
 
     setPosition(col, row) {
-        this.col = Math.max(0, Math.min(col, MAX_COL - this.sizeCol));
-        this.row = Math.max(0, Math.min(row, MAX_ROW - this.sizeRow));
+        this["col"] = Math.max(0, Math.min(col, MAX_COL - this["sizeCol"]));
+        this["row"] = Math.max(0, Math.min(row, MAX_ROW - this["sizeRow"]));
 
         this.updatePosition();
     }
@@ -74,7 +74,7 @@ class DesignerUnit {
     }
 };
 
-DesignerUnit.of = (field, def) => new DesignerUnit(field, def.col, def.row, def.sizeCol, def.sizeRow, def.type, def.command);
+DesignerUnit.of = (field, def) => new DesignerUnit(field, def["col"], def["row"], def["sizeCol"], def["sizeRow"], def["type"], def["command"]);
 
 DesignerUnit.types = {
     // name -> index

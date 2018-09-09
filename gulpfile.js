@@ -3,7 +3,7 @@ var concat = require('gulp-concat');
 var deploy = require('gulp-gh-pages');
 var serve = require('gulp-serve');
 var rm = require('gulp-rm');
-var minifyCss = require('gulp-minify-css');
+var minifyCss = require('gulp-clean-css');
 var htmlreplace = require('gulp-html-replace');
 var closureCompiler = require('gulp-closure-compiler');
 var inlineImages = require('gulp-inline-images');
@@ -27,7 +27,7 @@ gulp.task('compile', ['concat'], function() {
           compilerPath: 'bower_components/closure-compiler/lib/vendor/compiler.jar',
           fileName: 'game.min.js',
           compilerFlags: {
-            compilation_level: 'SIMPLE_OPTIMIZATIONS',
+            compilation_level: 'ADVANCED_OPTIMIZATIONS',
             output_wrapper: '(function(){%output%}).call(window);',
             define: [ "DEBUG=false" ],
             "language_in": "ECMASCRIPT6",

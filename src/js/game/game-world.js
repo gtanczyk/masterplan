@@ -27,10 +27,6 @@ GameWorld.prototype.getEdgeRadius = function() {
     return this.edgeRadius;
 };
 
-/**
- * Add object
- * @param object
- */
 GameWorld.prototype.addObject = function() {
     for (var i = 0; i < arguments.length; i++) {
         var object = arguments[i];

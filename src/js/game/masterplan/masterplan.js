@@ -8,14 +8,14 @@ class MasterPlan {
         this.claims = {};
 
         units.forEach(unit => {
-            var soldierCount = unit.sizeCol * unit.sizeRow;
-            var offset = [unit.col * SOLDIER_WIDTH, unit.row * SOLDIER_HEIGHT];
+            var soldierCount = unit["sizeCol"] * unit["sizeRow"];
+            var offset = [unit["col"] * SOLDIER_WIDTH, unit["row"] * SOLDIER_HEIGHT];
             for (var i = 0; i < soldierCount; i++) {
-                var pos = [i % unit.sizeCol * SOLDIER_WIDTH, (i / unit.sizeCol << 0) * SOLDIER_HEIGHT];
+                var pos = [i % unit["sizeCol"] * SOLDIER_WIDTH, (i / unit["sizeCol"] << 0) * SOLDIER_HEIGHT];
                 this.formation.push(VMath.add(pos, offset));
-                this.type.push(unit.type);
+                this.type.push(unit["type"]);
 
-                switch (unit.command) {
+                switch (unit["command"]) {
                     case "advance-wait":
                         this.plan.push([
                             new AdvanceCommand(),

@@ -28,11 +28,13 @@ GameHUD.prototype.getBalance = function(world) {
 GameHUD.prototype.render = function(world) {
     var secs = 60 - world.getTime() / 1000 << 0;
     var ms = 1000 - world.getTime() % 1000 << 0;
-    this.battleTime.dataset.time = (secs < 10 ? "0" : "") + secs + ":" + ms;
+    this.battleTime.dataset["time"] = (secs < 10 ? "0" : "") + secs + ":" + ms;
 
     var balance = this.getBalance(world);
     this.balanceLeft.style.width = balance * 100 + '%';
+    this.balanceLeft.dataset["winning"] = balance > 2/3;
     this.balanceRight.style.width = (1 - balance) * 100 + '%';
+    this.balanceRight.dataset["winning"] = balance < 1/3;
 };
 
 
@@ -40,15 +42,15 @@ GameHUD.prototype.renderResults = function(world) {
     var balance = this.getBalance(world);
 
     if (balance > 1/3 && balance < 2/3) {
-        this.battleResult.innerHTML = `<div style="color: black">
-            DRAW!
-            <inline style="color: black">Click to get back to designer</inline>
+        this.battleResult.innerHTML = `<div style="color: white">
+            DRAW!<br/>
+            <inline style="color: white">Click here</inline>
         </div>`;  
     } else {
         var color = balance > 1/3 ? '#ff0000' : '#00ff00';
         this.battleResult.innerHTML = `<div style="color: ${color}">
-            <span style="background: ${color}"> </span> VICTORY!
-            <inline style="color: black">Click to get back to designer</inline>
+            <span style="background: ${color}"> </span> VICTORY!<br/>
+            <inline style="color: white">Click here</inline>
         </div>`;
         return color;
     }

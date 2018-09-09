@@ -16,7 +16,14 @@ function stateGameDesigner(definitions) {
 
     function saveBattleString(defs, targetId) {
         var iter = obj => {
-            return [obj.sizeCol, obj.sizeRow, obj.col, obj.row, DesignerUnit.types[obj.type], DesignerUnit.commands[obj.command]];
+            return [
+                obj["sizeCol"], 
+                obj["sizeRow"], 
+                obj["col"], 
+                obj["row"], 
+                DesignerUnit.types[obj["type"]], 
+                DesignerUnit.commands[obj["command"]]
+            ];
         }
         defs = new Uint8Array(defs.map(iter).reduce((r, d) => r.concat([d.length], d), []));
         var decoder = new TextDecoder('utf8');
@@ -31,12 +38,12 @@ function stateGameDesigner(definitions) {
             var l = defs[i];
             var v = defs.slice(i + 1, i + l + 1);
             result.push({
-                sizeCol: v[0], 
-                sizeRow: v[1], 
-                col: v[2], 
-                row: v[3], 
-                type: DesignerUnit.types[v[4]], 
-                command: DesignerUnit.commands[v[5]]  
+                "sizeCol": v[0], 
+                "sizeRow": v[1], 
+                "col": v[2], 
+                "row": v[3], 
+                "type": DesignerUnit.types[v[4]], 
+                "command": DesignerUnit.commands[v[5]]  
             });
             i += l + 1;
         }
@@ -86,18 +93,18 @@ function stateGameDesigner(definitions) {
         }
 
         if (eventType === EVENT_MOUSE_CLICK && eventObject.target.classList.contains("formation-button") && clickUnit) {
-            var size = eventObject.target.dataset.formation.split("x");
+            var size = eventObject.target.dataset["formation"].split("x");
             clickUnit.setFormation(size[0], size[1]);
             saveBattleString(getDefs());
         }
 
-        if (eventType === EVENT_MOUSE_CLICK && eventObject.target.dataset.unitType && clickUnit) {
-            clickUnit.setType(eventObject.target.dataset.unitType);
+        if (eventType === EVENT_MOUSE_CLICK && eventObject.target.dataset["unitType"] && clickUnit) {
+            clickUnit.setType(eventObject.target.dataset["unitType"]);
             saveBattleString(getDefs());
         }
 
-        if (eventType === EVENT_MOUSE_CLICK && eventObject.target.dataset.command && clickUnit) {
-            clickUnit.setCommand(eventObject.target.dataset.command);
+        if (eventType === EVENT_MOUSE_CLICK && eventObject.target.dataset["command"] && clickUnit) {
+            clickUnit.setCommand(eventObject.target.dataset["command"]);
             saveBattleString(getDefs());
         }
 
