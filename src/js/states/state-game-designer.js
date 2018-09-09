@@ -139,11 +139,11 @@ function stateGameDesigner(definitions, enemyDefinitions) {
         }
 
         if (eventType === EVENT_MOUSE_CLICK && eventObject.target.id === "tweet") {
-            window.open("https://twitter.com/home?status="+encodeURIComponent(`#masterplan_js13k ${document.getElementById('battle-string').value}`));
+            window.open("https://twitter.com/home?status="+encodeURIComponent(`#masterplan_js13k ${$('#link').href}`));
         }
 
         if (eventType === EVENT_MOUSE_CLICK && eventObject.target.id === "email") {
-            location.href= `mailto:${document.querySelector('[type=email').value}?subject=${'Check my MasterPlan'}&body=${document.getElementById('battle-string').value}`;
+            location.href= `mailto:${document.querySelector('[type=email').value}?subject=${'Check my MasterPlan'}&body=${$('#link').href}`;
         }
 
         if (eventType === EVENT_MOUSE_CLICK && eventObject.target.id === "battle-string-load") {
