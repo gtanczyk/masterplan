@@ -33,6 +33,14 @@ Function.prototype.WeakState = function(timeLimit) {
 var stateInit = function Init() {
     return function InitHandler(eventType, eventObject) {
         if (eventType == EVENT_READYSTATE && eventObject == "complete") {
+            if (location.hash.indexOf("#vs=") === 0) {
+                try {                    
+                    return new stateGameDesigner(null, loadBattleString(null, location.hash.substr(4)));
+                } catch (e) {
+                    alert("Blue print invalid!");
+                }
+            }
+
             return stateIntro();
         }
     }.State()

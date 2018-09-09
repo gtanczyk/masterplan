@@ -11,7 +11,7 @@
     box-shadow: -1px -7px 20px 2px #00000075;   
 }
 
-#game-designer h3, #game-designer h2 {
+#game-designer h3, #game-designer h2, #game-designer p {
     margin-top: 5px;
     margin-bottom: 0px;
 }
@@ -23,6 +23,11 @@
     transform: scale(0.5);
     transform-origin: top left;
     margin-bottom: -400px;
+}
+
+#designer-field:not(.select) ~ .designer-unit-option {
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 #designer-commands, #designer-formation, #designer-actions, #designer-unit-type {
@@ -56,12 +61,37 @@
     border: 1px solid orange;
 }
 
+.field-unit:not(.select):not(.drag) {
+    cursor: pointer;
+}
+
 .field-unit[data-command]:after {
-    display: inline-block;
-    content: ' | 'attr(data-command)
+    display: block;
+    content: attr(data-command);
+    position: absolute;
+    color: white;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 2px;
 }
 
 .field-unit[data-unit-type]:before {
     content: attr(data-unit-type);
-    display: inline-block;
+    display: block;
+    position: absolute;
+    color: white;
+    background: rgba(0, 0, 0, 0.25);
+    margin-top: -20px;
+    padding: 2px;
+}
+
+.field-unit[data-unit-type=warrior] {
+    background: url(../assets/soldier-warrior.png);
+}
+
+.field-unit[data-unit-type=tank] {
+    background: url(../assets/soldier-tank.png);
+}
+
+.field-unit[data-unit-type=archer] {
+    background: url(../assets/soldier-archer.png);
 }

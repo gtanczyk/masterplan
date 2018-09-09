@@ -67,10 +67,12 @@ class DesignerUnit {
 
     select() {
         this.el.classList.add("select");
+        this.field.classList.add("select");
     }
 
     deselect() {
         this.el.classList.remove("select");
+        this.field.classList.remove("select");
     }
 };
 

@@ -30,7 +30,7 @@ window.addEventListener("keyup", function(event) {
     if (event.keyCode == 40) {
         updateState(EVENT_ARROW_DOWN_UP);
     }
-    updateState(EVENT_KEY_UP, event.keyCode);
+    updateState(EVENT_KEY_UP, event);
 
 });
 

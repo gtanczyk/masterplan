@@ -1,5 +1,68 @@
-function stateGameDesigner(definitions) {
-    definitions = definitions || DEFAULT_UNITS;
+
+function saveBattleString(defs, targetId) {
+    targetId = targetId || 'battle-string';
+    var iter = obj => {
+        return [
+            obj["sizeCol"], 
+            obj["sizeRow"], 
+            obj["col"], 
+            obj["row"], 
+            DesignerUnit.types[obj["type"]], 
+            DesignerUnit.commands[obj["command"]]
+        ];
+    }
+    var username = ($('#username').value || '').split('').map(ch => ch.charCodeAt(0));
+    var arr = defs.map(iter).reduce((r, d) => r.concat([d.length], d), []);
+    defs = new Uint8Array([arr.length].concat(arr.concat(username)));
+    var decoder = new TextDecoder('utf8');
+    var encoded = btoa(decoder.decode(defs));
+    document.getElementById(targetId).value = encoded;
+    try {
+        localStorage[targetId] = encoded;
+    } catch(e) {
+
+    }
+    $('#link').href="http://gtanczyk.warsztat.io/masterplan/index.html#vs="+encoded;
+}
+
+function loadBattleString(targetId, value) {
+    var encoder = new TextEncoder('utf8');
+    var defs = encoder.encode((atob(value || document.getElementById(targetId || 'battle-string').value)));
+    var result = [];
+    var length = defs[0];
+    for (var i = 1; i <= length;) {
+        var l = defs[i];
+        var v = defs.slice(i + 1, i + l + 1);
+        result.push({
+            "sizeCol": v[0], 
+            "sizeRow": v[1], 
+            "col": v[2], 
+            "row": v[3], 
+            "type": DesignerUnit.types[v[4]], 
+            "command": DesignerUnit.commands[v[5]]  
+        });
+        i += l + 1;
+    }
+
+    var username = Array.from(defs.slice(length+1));
+    result.username = username.map(ch => String.fromCharCode(ch)).join('');
+    
+    return result;
+}
+    
+function stateGameDesigner(definitions, enemyDefinitions) {
+    var stored;
+    try {
+        stored = localStorage["battle-string"];        
+    } catch(e) {
+
+    }
+    if (!definitions && stored) {
+        definitions = loadBattleString(null, stored);
+        $('#username').value = definitions.username || '';
+    } else if (!definitions) {
+        definitions = DEFAULT_UNITS;
+    }
 
     var designer = document.getElementById("game-designer");
     designer.classList.add("visible");
@@ -14,49 +77,16 @@ function stateGameDesigner(definitions) {
     var mouseDownUnit;
     var clickUnit;
 
-    function saveBattleString(defs, targetId) {
-        var iter = obj => {
-            return [
-                obj["sizeCol"], 
-                obj["sizeRow"], 
-                obj["col"], 
-                obj["row"], 
-                DesignerUnit.types[obj["type"]], 
-                DesignerUnit.commands[obj["command"]]
-            ];
-        }
-        defs = new Uint8Array(defs.map(iter).reduce((r, d) => r.concat([d.length], d), []));
-        var decoder = new TextDecoder('utf8');
-        document.getElementById(targetId || 'battle-string').value = btoa(decoder.decode(defs));
-    }
-
-    function loadBattleString(targetId) {
-        var encoder = new TextEncoder('utf8');
-        var defs = encoder.encode((atob(document.getElementById(targetId || 'battle-string').value)));
-        var result = [];
-        for (var i = 0; i < defs.length;) {
-            var l = defs[i];
-            var v = defs.slice(i + 1, i + l + 1);
-            result.push({
-                "sizeCol": v[0], 
-                "sizeRow": v[1], 
-                "col": v[2], 
-                "row": v[3], 
-                "type": DesignerUnit.types[v[4]], 
-                "command": DesignerUnit.commands[v[5]]  
-            });
-            i += l + 1;
-        }
-        
-        return result;
-    }
-
     function getDefs() {
         return units.map(unit => unit.getDefinition());
     }
 
     saveBattleString(definitions);
-    saveBattleString(DEFAULT_UNITS, 'test-battle-string');
+    saveBattleString(enemyDefinitions || DEFAULT_UNITS, 'test-battle-string');
+
+    if (enemyDefinitions && enemyDefinitions.username) {
+        $('#battle-versus').innerHTML = ' vs ' + '<a href="https://twitter.com/' + enemyDefinitions.username + '">' + enemyDefinitions.username + '</a> <button id="vs-reset">reset</button>';
+    }
 
     return function stateGameDesignerHandler(eventType, eventObject) {
         if (eventType === EVENT_MOUSE_DOWN && eventObject.target.classList.contains("field-unit")) {
@@ -118,6 +148,16 @@ function stateGameDesigner(definitions) {
 
         if (eventType === EVENT_MOUSE_CLICK && eventObject.target.id === "battle-string-load") {
             return new stateGameDesigner(loadBattleString());
+        }
+
+        if (eventType === EVENT_MOUSE_CLICK && eventObject.target.id === "vs-reset") {
+            location.hash = '';
+            location.reload();
+        }
+
+        if (eventType === EVENT_KEY_UP && eventObject.target.id === "username") {
+            localStorage["username"] = eventObject.target.value;
+            saveBattleString(getDefs());
         }
     };
 }
