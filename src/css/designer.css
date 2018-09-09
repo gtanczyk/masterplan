@@ -4,17 +4,31 @@
 
 #game-designer {
     width: 800px;
-    margin: 0 auto;
+    margin: 0 auto;    
+
+    padding: 10 20;
+    background: #99cccc;
+    box-shadow: -1px -7px 20px 2px #00000075;
+
 }
 
 #designer-field {
     background: rgb(0, 200, 0);
     border: 2px solid rgba(0, 100, 0);
     position: relative;
+    transform: scale(0.5);
+    transform-origin: top left;
+    margin-bottom: -400px;
 }
 
 #designer-commands, #designer-formation, #designer-actions, #designer-unit-type {
     display: inline-block;
+}
+
+#designer-actions {
+    float: right;
+    border: 2px solid rgb(0, 200, 0);
+    padding: 10px 20px;
 }
 
 #designer-field.drag {

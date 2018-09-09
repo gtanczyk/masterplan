@@ -8,36 +8,49 @@ function GameHUD(world) {
     this.HUD = $('#game-hud');
     this.battleTime = $('#battle-time');
     this.battleResult = $('#battle-result');
+    this.balanceLeft = $('#battle-balance-left');
+    this.balanceRight = $('#battle-balance-right');
     
     this.HUD.style.display = "block";
 };
 
 GameHUD.prototype.destroy = function() {
-    this.HUD.display = "none";
+    this.HUD.style.display = "none";
     this.battleResult.innerHTML = '';
 };
 
-GameHUD.prototype.render = function() {
+GameHUD.prototype.getBalance = function(world) {
+    var alive = world.getAlive();
+    var keys = Object.keys(world.getAlive());
+    return alive[keys[0]] / (alive[keys[0]] + alive[keys[1]]);
+};
+
+GameHUD.prototype.render = function(world) {
+    var secs = 60 - world.getTime() / 1000 << 0;
+    var ms = 1000 - world.getTime() % 1000 << 0;
+    this.battleTime.dataset.time = (secs < 10 ? "0" : "") + secs + ":" + ms;
+
+    var balance = this.getBalance(world);
+    this.balanceLeft.style.width = balance * 100 + '%';
+    this.balanceRight.style.width = (1 - balance) * 100 + '%';
 };
 
 
-GameHUD.prototype.renderResults = function(alive) {
-    var aliveKeys = Object.keys(alive);
-    if (aliveKeys.length % 2 == 0) {
-        this.battleResult.innerHTML = 'DRAW';
-    }
+GameHUD.prototype.renderResults = function(world) {
+    var balance = this.getBalance(world);
 
-    if (aliveKeys.length == 1) {
-        this.battleResult.innerHTML = `<div style="color: ${aliveKeys[0]}">
-            <span style="background: ${aliveKeys[0]}"> </span> VICTORY!
-            <inline style="color: black">Click to get back to designer</inline>
-        </div>`;
-        return aliveKeys[0];
-    } else {
+    if (balance > 1/3 && balance < 2/3) {
         this.battleResult.innerHTML = `<div style="color: black">
             DRAW!
             <inline style="color: black">Click to get back to designer</inline>
-        </div>`;        
+        </div>`;  
+    } else {
+        var color = balance > 1/3 ? '#ff0000' : '#00ff00';
+        this.battleResult.innerHTML = `<div style="color: ${color}">
+            <span style="background: ${color}"> </span> VICTORY!
+            <inline style="color: black">Click to get back to designer</inline>
+        </div>`;
+        return color;
     }
 };
 

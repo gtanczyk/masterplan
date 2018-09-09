@@ -11,6 +11,9 @@ var EVENT_READYSTATE = eventCounter++;
 var EVENT_DOCUMENT_HIDDEN = eventCounter++;
 var EVENT_DOCUMENT_VISIBLE = eventCounter++;
 
+var EVENT_INTERVAL_100MS = eventCounter++;
+var EVENT_INTERVAL_SECOND = eventCounter++;
+
 var EVENT_WINDOW_RESIZE = eventCounter++;
 
 // game events
@@ -42,3 +45,7 @@ var EVENT_ARROW_UP_UP = eventCounter++;
 var EVENT_ARROW_DOWN_UP = eventCounter++;
 
 var EVENT_TOUCH_START = eventCounter++; 
+
+// battle
+var EVENT_DAMAGE = eventCounter++;
+var EVENT_DAMAGE_ARROW = eventCounter++;

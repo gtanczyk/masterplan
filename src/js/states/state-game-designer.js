@@ -14,19 +14,18 @@ function stateGameDesigner(definitions) {
     var mouseDownUnit;
     var clickUnit;
 
-
-    function saveBattleString(defs) {
+    function saveBattleString(defs, targetId) {
         var iter = obj => {
             return [obj.sizeCol, obj.sizeRow, obj.col, obj.row, DesignerUnit.types[obj.type], DesignerUnit.commands[obj.command]];
         }
         defs = new Uint8Array(defs.map(iter).reduce((r, d) => r.concat([d.length], d), []));
         var decoder = new TextDecoder('utf8');
-        document.getElementById('battle-string').value = btoa(decoder.decode(defs));
+        document.getElementById(targetId || 'battle-string').value = btoa(decoder.decode(defs));
     }
 
-    function loadBattleString() {
+    function loadBattleString(targetId) {
         var encoder = new TextEncoder('utf8');
-        var defs = encoder.encode((atob(document.getElementById('battle-string').value)));
+        var defs = encoder.encode((atob(document.getElementById(targetId || 'battle-string').value)));
         var result = [];
         for (var i = 0; i < defs.length;) {
             var l = defs[i];
@@ -50,9 +49,10 @@ function stateGameDesigner(definitions) {
     }
 
     saveBattleString(definitions);
+    saveBattleString(DEFAULT_UNITS, 'test-battle-string');
 
     return function stateGameDesignerHandler(eventType, eventObject) {
-        if (eventType === EVENT_MOUSE_DOWN && eventObject.target.className === "field-unit") {
+        if (eventType === EVENT_MOUSE_DOWN && eventObject.target.classList.contains("field-unit")) {
             mouseDownUnit = eventObject.target.designerUnit;
         }
 
@@ -72,7 +72,7 @@ function stateGameDesigner(definitions) {
 
         if (eventType === EVENT_MOUSE_DOWN && eventObject.target.id === "button-test-battle") {
             designer.classList.remove("visible");
-            return stateGameBattleInit(getDefs());
+            return stateGameBattleInit(getDefs(), loadBattleString('test-battle-string'));
         }
 
         if (eventType === EVENT_MOUSE_UP && clickUnit && field.contains(eventObject.target)) {
@@ -80,12 +80,12 @@ function stateGameDesigner(definitions) {
             clickUnit = null;
         }
 
-        if (eventType === EVENT_MOUSE_UP && eventObject.target.className === "field-unit") {
+        if (eventType === EVENT_MOUSE_UP && eventObject.target.classList.contains("field-unit")) {
             clickUnit = eventObject.target.designerUnit;
             clickUnit.select();
         }
 
-        if (eventType === EVENT_MOUSE_CLICK && eventObject.target.className === "formation-button" && clickUnit) {
+        if (eventType === EVENT_MOUSE_CLICK && eventObject.target.classList.contains("formation-button") && clickUnit) {
             var size = eventObject.target.dataset.formation.split("x");
             clickUnit.setFormation(size[0], size[1]);
             saveBattleString(getDefs());
@@ -99,6 +99,14 @@ function stateGameDesigner(definitions) {
         if (eventType === EVENT_MOUSE_CLICK && eventObject.target.dataset.command && clickUnit) {
             clickUnit.setCommand(eventObject.target.dataset.command);
             saveBattleString(getDefs());
+        }
+
+        if (eventType === EVENT_MOUSE_CLICK && eventObject.target.id === "tweet") {
+            window.open("https://twitter.com/home?status="+encodeURIComponent(`#masterplan_js13k ${document.getElementById('battle-string').value}`));
+        }
+
+        if (eventType === EVENT_MOUSE_CLICK && eventObject.target.id === "email") {
+            location.href= `mailto:${document.querySelector('[type=email').value}?subject=${'Check my MasterPlan'}&body=${document.getElementById('battle-string').value}`;
         }
 
         if (eventType === EVENT_MOUSE_CLICK && eventObject.target.id === "battle-string-load") {

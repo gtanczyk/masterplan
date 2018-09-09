@@ -3,8 +3,12 @@
  */
 function GameWorld() {
     this.objects = [];
+    this.objectsByType = {
+        "Soldier": [],
+        "Arrow": []
+    };
     this.collisionHandlers = [];
-    this.edgeRadius = EDGE_RADIUS;
+    this.edgeRadius = EDGE_RADIUS * 1.5;
     
     this.worldTime = 0;
     
@@ -20,16 +24,19 @@ GameWorld.prototype.getTime = function() {
 };
 
 GameWorld.prototype.getEdgeRadius = function() {
-    // return this.edgeRadius;
-    return Math.max(this.edgeRadius * 1.5 * (1 - this.getTime() / 60000), 200);
+    return this.edgeRadius;
 };
 
 /**
  * Add object
  * @param object
  */
-GameWorld.prototype.addObject = function(object) {
-    this.objects.push.apply(this.objects, arguments);
+GameWorld.prototype.addObject = function() {
+    for (var i = 0; i < arguments.length; i++) {
+        var object = arguments[i];
+        this.objects.push(object);
+        this.objectsByType[object.getClass()].push(object);
+    }
 };
 
 /**
@@ -40,13 +47,8 @@ GameWorld.prototype.removeObject = function(object) {
 };
 
 GameWorld.prototype.queryObjects = function(type, fn) {
-    // var vec = [x, y];
-    return this.objects.filter(function(object) {
-        // if (VMath.distance(vec, object.vec > radius) {
-        //     return;
-        // }
-        
-        return (!type || object.isClass(type)) && (!fn || fn(object));
+    return this.objectsByType[type].filter(function(object) {
+        return (!fn || fn(object));
     });
 };
 
@@ -64,6 +66,8 @@ GameWorld.prototype.update = function(elapsedTime) {
     this.worldTime += deltaTime;
     
     this.collisions();
+
+    this.edgeRadius = Math.max(EDGE_RADIUS * 1.5 * (1 - this.getTime() / 60000), 400);
     
     return elapsedTime;
 };
@@ -72,13 +76,14 @@ GameWorld.prototype.update = function(elapsedTime) {
  * Collision check
  */
 GameWorld.prototype.collisions = function() {
-    this.queryObjects(SoldierObject).forEach(function(soldier, idx) {
+    var hitArrows = this.queryObjects("Arrow", arrow => arrow.isHit());
+    this.queryObjects("Soldier").forEach(function(soldier, idx) {
         if (soldier.life <= 0) {
             return;
         }
 
         // soldier -> soldier
-        this.queryObjects(SoldierObject).forEach((soldierLeft, idxLeft) => {
+        this.queryObjects("Soldier").forEach((soldierLeft, idxLeft) => {
             if (idx <= idxLeft || soldierLeft.life <= 0 || soldier === soldierLeft) {
                 return;
             }
@@ -89,8 +94,8 @@ GameWorld.prototype.collisions = function() {
         });
 
         // soldier -> arrow
-        this.queryObjects(ArrowObject).forEach(arrow => {
-            if (arrow.isHit() && VMath.withinDistance(soldier.vec, arrow.vec, soldier.getWidth())) {
+        hitArrows.forEach((arrow, idx) => {
+            if (arrow && VMath.withinDistance(soldier.vec, arrow.vec, ARROW_RANGE)) {
                 this.triggerCollisions(soldier, arrow);
             }
         });
@@ -100,6 +105,11 @@ GameWorld.prototype.collisions = function() {
             soldier.addForce(VMath.scale(VMath.normalize(soldier.vec), -1));
         }
     }, this);
+
+    hitArrows.forEach(arrow => {
+        this.objects.splice(this.objects.indexOf(arrow), 1);
+        this.objectsByType["Arrow"].splice(this.objectsByType["Arrow"].indexOf(arrow), 1);
+    });
 };
 
 GameWorld.prototype.triggerCollisions = function(leftObject, rightObject) {
@@ -125,13 +135,8 @@ GameWorld.prototype.onSoldierCollision = function(leftSoldier, rightSoldier) {
     // soldiers should bounce off each other
     var distance = VMath.distance(leftSoldier.vec, rightSoldier.vec);
     var sub = VMath.scale(VMath.normalize(VMath.sub(leftSoldier.vec, rightSoldier.vec)), leftSoldier.getWidth() - distance);
-    leftSoldier.addForce(sub);
-    rightSoldier.addForce(VMath.scale(sub, -1));
-
-    if (leftSoldier.isEnemy(rightSoldier)) {
-        leftSoldier.hit(rightSoldier);
-        rightSoldier.hit(leftSoldier);
-    }
+    leftSoldier.addForce(VMath.scale(sub, 1 / leftSoldier.weight * rightSoldier.weight));
+    rightSoldier.addForce(VMath.scale(sub, -1 * leftSoldier.weight / rightSoldier.weight));
 };
 
 GameWorld.prototype.onArrowCollision = function(soldier, arrow) {
@@ -148,6 +153,9 @@ GameWorld.prototype.updateObject = function(object, deltaTime) {
 };
 
 GameWorld.prototype.getAlive = function() {
-    return this.queryObjects(SoldierObject, soldier => soldier.life > 0)
-                .reduce((r, soldier) => (r[soldier.color] = (r[soldier.color] || 0) + 1, r), {})
+    return this.queryObjects("Soldier", soldier => soldier.life > 0)
+                .reduce((r, soldier) => (r[soldier.color] = (r[soldier.color] || 0) + 1, r), {
+                    '#ff0000': 0,
+                    '#00ff00': 0
+                });
 };

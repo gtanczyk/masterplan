@@ -6,20 +6,20 @@ function renderGame(world) {
     canvas.clear();
 
     // set camera
-    canvas.save()
+    canvas.save()    
         .translate(canvas.getWidth()/2, canvas.getHeight()/2)
 
     // world edge
     canvas.arc(0, 0, world.getEdgeRadius());
     
     // render dead bodies
-    world.queryObjects(SoldierObject, soldier => soldier.life === 0).forEach(renderObject);
+    world.queryObjects("Soldier", soldier => soldier.life === 0).forEach(renderObject);
 
     // render soldiers
-    world.queryObjects(SoldierObject, soldier => soldier.life > 0).forEach(renderObject);
+    world.queryObjects("Soldier", soldier => soldier.life > 0).forEach(renderObject);
 
     // render other objects
-    world.queryObjects(GameObject, object => !object.isClass(SoldierObject)).forEach(renderObject);
+    world.queryObjects("Arrow").forEach(renderObject);
     
     canvas.restore();
 };
@@ -36,6 +36,10 @@ function renderObject(object) {
         .rotate(object.getDirection());
     object.render(canvas);
     canvas.restore();
+    if (object.enemy && object.life > 0) {
+        canvas.strokeStyle(object.color);
+        canvas.line(object.getX(), object.getY(), object.enemy.getX(), object.enemy.getY());
+    }
 }
 
 function renderSurface() {

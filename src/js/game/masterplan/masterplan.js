@@ -5,6 +5,7 @@ class MasterPlan {
         this.type = [];
         this.formation = [];
         this.plan = [];
+        this.claims = {};
 
         units.forEach(unit => {
             var soldierCount = unit.sizeCol * unit.sizeRow;
@@ -18,7 +19,7 @@ class MasterPlan {
                     case "advance-wait":
                         this.plan.push([
                             new AdvanceCommand(),
-                            new WaitCommand(5000),
+                            new WaitCommand(10000),
                             new AttackCommand()
                         ]);
                         break;
@@ -30,7 +31,7 @@ class MasterPlan {
                         break;
                     case "wait-advance":
                         this.plan.push([
-                            new WaitCommand(20000),
+                            new WaitCommand(10000),
                             new AttackCommand()
                         ])
                         break;
@@ -52,7 +53,7 @@ class MasterPlan {
         });
         var center = [this.formation.reduce((r, pos) => Math.max(pos[0], r), 0) / 2, 0];
 
-        this.formation = this.formation.map(pos => VMath.rotate(VMath.sub(pos, center), angle + Math.PI / 2));
+        this.formation = this.formation.map(pos => VMath.rotate(VMath.sub(pos, center), angle + Math.PI / 2));        
     }
 
     getSoldierCount() {

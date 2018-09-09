@@ -1,9 +1,9 @@
-function stateGameBattleInit(definitions) {
+function stateGameBattleInit(definitions, definitionsEnemy) {
     var world = new GameWorld();
 
     var createMasterPlan = (direction, color, definitions) => {
-        var angle = direction * Math.PI;
-        var initialPosition = [Math.cos(angle) * 300, 0];
+        var angle = direction * Math.PI - Math.PI / 2;
+        var initialPosition = [Math.cos(angle) * 300, Math.sin(angle) * 300];
         var masterPlan = new MasterPlan(initialPosition, definitions);
 
         for (var i = 0; i < masterPlan.getSoldierCount(); i++) {
@@ -16,13 +16,13 @@ function stateGameBattleInit(definitions) {
     }
 
     var masterPlanLeft = createMasterPlan(1, '#ff0000', definitions);    
-    var masterPlanRight = createMasterPlan(0, '#00ff00', DEFAULT_UNITS);
+    var masterPlanRight = createMasterPlan(0, '#00ff00', definitionsEnemy);
     
     var HUD = new GameHUD(world);
 
     return function GameBattleInitHandler(eventType, eventObject) {
         renderGame(world, HUD);
-        HUD.render();
+        HUD.render(world);
         
         if (eventType == EVENT_TIMEOUT) {
             return new stateGameBattle(world, HUD, definitions);
@@ -31,6 +31,19 @@ function stateGameBattleInit(definitions) {
 };    
 
 function stateGameBattle(world, HUD, definitions) {
+    var damageTotal = 0;
+    var damage = {
+        [EVENT_DAMAGE]: {
+            '#ff0000': 0,
+            '#00ff00': 0
+        }, 
+        [EVENT_DAMAGE_ARROW]: {
+            '#ff0000': 0,
+            '#00ff00': 0
+        }
+    };
+    var damageCount = JSON.parse(JSON.stringify(damage));
+
     return function GameBattleHandler(eventType, eventObject) {
         if (eventType == EVENT_RAF) {
             var elapsedTime = Math.min(eventObject, 1000);
@@ -39,17 +52,32 @@ function stateGameBattle(world, HUD, definitions) {
             }            
 
             renderGame(world);
-            HUD.render();
-        
+            
             if (world.getTime() > 60000 || Object.keys(world.getAlive()).length <= 1) {
                 return new stateGameBattleEnd(world, HUD, definitions);
             }
-        }        
+        }
+        
+        if (eventType === EVENT_INTERVAL_100MS) {
+            HUD.render(world);
+        }
+
+        if (eventType === EVENT_INTERVAL_SECOND) {
+            console.log("Damage total: " + damageTotal);
+            console.log("Damage: " + JSON.stringify(damage));
+            console.log("Damage count: " + JSON.stringify(damageCount));
+        }
+
+        if (eventType === EVENT_DAMAGE || eventType === EVENT_DAMAGE_ARROW) {
+            damageTotal += eventObject.damage;            
+            damage[eventType][eventObject.soldier.color] += eventObject.damage;            
+            damageCount[eventType][eventObject.soldier.color]++;            
+        }
     };
 }
 
 function stateGameBattleEnd(world, HUD, definitions) {
-    var result = HUD.renderResults(world.getAlive());
+    var result = HUD.renderResults(world);
     return function GameBattleEndHandler(eventType, eventObject) {
         renderGame(world);
 

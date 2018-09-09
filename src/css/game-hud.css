@@ -8,135 +8,6 @@
   font-family: monospace;
 }
 
-#active-bonuses {
-    position: absolute;
-    left: 50px;
-    top: 50px;
-}
-
-#active-bonuses > div {
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid black;
-    color: white;
-    margin: 0px 0px 1px;
-    padding: 5px;
-    position: relative;
-    font-size: 17px;
-}
-
-#active-bonuses > div > img {
-    position: absolute;
-    margin-left: -37px;
-    top: -1px;
-    bottom: 0px;
-    height: 32px;
-}
-
-#active-bonuses > div > div {
-    position: absolute;
-    background: rgba(255, 0, 0, 0.5);
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-}
-
-#active-bonuses > div.mine > div {
-    background: rgba(0, 255, 0, 0.5);
-}
-
-#active-bonuses > div > span {
-    float: right;
-    margin-left: 10px;
-    color: #333;
-}
-
-#race-stats {
-  color: white;
-  text-align: center;
-  left: 50%;
-  width: 200px;
-  margin-left: -100px;
-  position: absolute;
-  font-weight: bold;
-  font-size: 20px;
-}
-
-#race-time {
-  display: inline-block;
-  text-shadow: 0px 0px 5px black;
-  padding: 5px;
-}
-
-#race-position {
-  padding: 5px;
-  display: inline-block;
-  color: white;
-  text-shadow: 0px 0px 5px black;
-  font-size: 25px;
-  float: right;
-}
-
-#race-position>span {
-  font-size: 28px;
-}
-
-#race-standings:empty {
-  display: none;
-}
-
-#race-standings {
-  background: rgba(0, 0, 0, 0.3);
-  color: white;
-  right: 0px;
-  position: absolute;
-  padding: 5px;
-}
-
-#race-standings div.me {
-    text-decoration: underline;
-}
-
-#race-standings div.pos-0 {
-  color: gold;
-  font-weight: bold;
-}
-
-#race-standings div.pos-1 {
-  color: silver;
-  font-weight: bold;
-}
-
-#race-standings div.pos-2 {
-  color: brown;
-  font-weight: bold;
-}
-
-/** pause */
-
-#game-pause {
-    opacity: 0;
-    pointer-events: none;
-    z-index: 5;
-    color: white;
-    position: absolute;
-    width: 100%;
-    top: 25%;
-    text-align: center;
-    text-transform: upper-case;
-    
-    transition: 0.5s opacity linear;
-}
-
-#game-pause.visible {
-    opacity: 1;
-}
-
-#game-pause.visible ~ canvas,
-body.game-end canvas {
-    filter: blur(10px);
-    -webkit-filter: blur(10px);
-}
-
 #battle-result:empty {
   display: none;
 }
@@ -165,4 +36,40 @@ body.game-end canvas {
   display: inline-block;
   width: 50px;
   height: 50px;
+}
+
+#battle-stats {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 20px;
+}
+
+#battle-time:before {
+  content: 'Time: ' attr(data-time);
+  display: block;
+  font-size: 30px;
+  margin-top: 20px;
+}
+
+#battle-balance:before {
+  display: block;
+  content: "Result: ";
+  font-size: 30px;
+  width: 300px;
+}
+
+#battle-balance-left {
+  display: inline-block;
+  height: 30px;
+  width: 50%;
+  background: red;
+  float: left;
+}
+
+#battle-balance-right {
+  display: inline-block;
+  height: 30px;
+  width: 50%;
+  background: #0fde0f;
+  float: right;
 }

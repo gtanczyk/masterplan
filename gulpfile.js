@@ -6,7 +6,7 @@ var rm = require('gulp-rm');
 var minifyCss = require('gulp-minify-css');
 var htmlreplace = require('gulp-html-replace');
 var closureCompiler = require('gulp-closure-compiler');
-var inlineimg = require('gulp-inline-image-html');
+var inlineImages = require('gulp-inline-images');
 var inline = require('gulp-inline');
 var zip = require('gulp-zip');
 
@@ -27,7 +27,7 @@ gulp.task('compile', ['concat'], function() {
           compilerPath: 'bower_components/closure-compiler/lib/vendor/compiler.jar',
           fileName: 'game.min.js',
           compilerFlags: {
-            compilation_level: 'ADVANCED_OPTIMIZATIONS',
+            compilation_level: 'SIMPLE_OPTIMIZATIONS',
             output_wrapper: '(function(){%output%}).call(window);',
             define: [ "DEBUG=false" ],
             "language_in": "ECMASCRIPT6",
@@ -45,11 +45,11 @@ gulp.task('minify-css', function() {
 
 gulp.task('compile-html', function() {
     return gulp.src('./src/index.html')
+        .pipe(inlineImages({})) 
         .pipe(htmlreplace({
             'css': 'main.css',
             'js': 'game.min.js'
         }))
-        .pipe(inlineimg('src')) 
         .pipe(gulp.dest('dist'));
 });
 

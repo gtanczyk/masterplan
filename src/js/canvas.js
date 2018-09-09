@@ -88,12 +88,27 @@ Canvas.prototype.arc = function(x, y, radius) {
     this.ctx.stroke();
     return this;
 };
+
+Canvas.prototype.line = function(fromX, fromY, toX, toY) {
+    this.save();
+    this.ctx.beginPath();
+    this.ctx.moveTo(fromX, fromY);
+    this.ctx.lineTo(toX, toY);
+    this.ctx.stroke();
+    this.restore();
+    return this;
+}
     
 Canvas.prototype.drawImage = function(image, x, y) {
     this.ctx.drawImage(image, x, y);
     return this;
 };
     
+Canvas.prototype.scale = function(scale) {
+    this.ctx.scale(scale, scale);
+    return this;
+};
+
 Canvas.prototype.translate = function(x, y) {
     this.ctx.translate(x, y);
     return this;

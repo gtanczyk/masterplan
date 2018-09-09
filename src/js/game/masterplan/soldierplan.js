@@ -4,6 +4,7 @@ class SoldierPlan {
         this.formation = formation;
         this.plan = plan;
         this.currentCommand = null;
+        this.claims = masterPlan.claims;
     }
 
     getPosition() {
@@ -21,5 +22,26 @@ class SoldierPlan {
         }
 
         return this.currentCommand;
+    }
+
+    canClaim(enemy) {
+        if (!this.claims[enemy.soldierId]) {
+            this.claims[enemy.soldierId] = 0;
+        }
+
+        return this.claims[enemy.soldierId] < 5;
+    }
+
+    unclaim(enemy) {
+        this.claims[enemy.soldierId]--;
+    }
+    claim(enemy) {
+        if (!this.canClaim(enemy)) {
+            return false;
+        }
+
+        this.claims[enemy.soldierId]++;
+
+        return true;
     }
 }

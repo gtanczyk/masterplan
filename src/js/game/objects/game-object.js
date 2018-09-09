@@ -55,6 +55,6 @@ GameObject.prototype.getHeight = function() {
 GameObject.prototype.vec = function() {
     return this.vec;
 };
-GameObject.prototype.isClass = function(Class) {
-    return true;
+GameObject.prototype.getClass = function() {
+    return "Object";
 };

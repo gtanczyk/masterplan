@@ -3,10 +3,21 @@
 @import "hud-touch.css";
 @import "designer.css";
 
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
 body {
     padding: 0;
     margin: 0;
     background: radial-gradient(ellipse at center, #30C530 0%,#30C530 64%,#138C13 100%);
+    font-size: 20px;
+}
+
+body input, body button {
+  font-size: 20px;
 }
 
 body>canvas {

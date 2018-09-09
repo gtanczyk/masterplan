@@ -59,13 +59,13 @@ class FlankLeftCommand extends AdvanceCommand {
     }
 
     getTarget(soldier) {
-        return VMath.add([200, -100 * Math.sign(Math.cos(this.angle))], soldier.plan.formation);
+        return VMath.add(VMath.rotate([200, 100 * Math.sign(Math.cos(this.angle))], this.angle), soldier.plan.formation);
     }
 }
 
 class FlankRightCommand extends FlankLeftCommand {
     getTarget(soldier) {
-        return VMath.add([200, 100 * Math.sign(Math.cos(this.angle))], soldier.plan.formation);
+        return VMath.add(VMath.rotate([200, -100 * Math.sign(Math.cos(this.angle))], this.angle), soldier.plan.formation);
     }
 }
 

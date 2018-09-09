@@ -1,22 +1,27 @@
-const MELEE_ATTACK_RANGE = 10;
-const MELEE_SEEK_RANGE = 200;
+const SWORD_RANGE = 10;
+const MELEE_ATTACK_RANGE = SOLDIER_WIDTH + SWORD_RANGE;
+const MELEE_SEEK_RANGE = 600;
+const MELEE_ATTACK_COOLDOWN = 250;
 
 const RANGED_ATTACK_RANGE = 300;
 const RANGED_SEEK_RANGE = 500;
 
-const MIN_RANGE_ATTACK = 20;
-const RANGED_ATTACK_COOLDOWN = 25;
+const MIN_RANGE_ATTACK = SOLDIER_WIDTH * 5;
+const RANGED_ATTACK_COOLDOWN = 2000;
+const ARROW_RANGE = SOLDIER_WIDTH / 3;
 
-const SEEK_COOLDOWN = 5;
+const DEFENCE_COOLDOWN = 1500;
 
+const SEEK_COOLDOWN = 1000;
 
+var soldierID = 0;
 /**
  * @constructor
  */
 function SoldierObject(x, y, direction, plan, world, color, type) {
     direction += (Math.random() - Math.random()) / 1000;
     GameObject.call(this, x, y, SOLDIER_WIDTH, SOLDIER_HEIGHT, direction);
-    
+    this.soldierId = soldierID++;
     this.plan = plan;
     this.world = world;
     this.type = type;
@@ -34,24 +39,44 @@ function SoldierObject(x, y, direction, plan, world, color, type) {
 
     this.life = MAX_LIFE;
     this.newLife = MAX_LIFE;
+
+    this.defenceCooldown = DEFENCE_COOLDOWN;
+    this.weight = 1;
     
     if (this.type === "warrior") {
         this.seekRange = MELEE_SEEK_RANGE;
         this.attackRange = MELEE_ATTACK_RANGE;
 
-        this.rangeDefence = 5;
+        this.rangeDefence = 30;
 
         this.meleeDefence = 50;
-        this.meleeAttack = 100;
+        this.meleeAttack = 25;
+
+        this.canCharge = true;
+        this.isMelee = true;
+    } else if (this.type === "tank") {
+        this.seekRange = MELEE_SEEK_RANGE;
+        this.attackRange = MELEE_ATTACK_RANGE;
+
+        this.rangeDefence = 90;
+
+        this.meleeDefence = 70;
+        this.meleeAttack = 15;
+
+        this.defenceCooldown = DEFENCE_COOLDOWN / 10;
+        this.weight = 3;
+        
+        this.canCharge = true;
+        this.isMelee = true;        
     } else if (this.type === "archer") {
         this.seekRange = RANGED_SEEK_RANGE;
         this.attackRange = RANGED_ATTACK_RANGE;
 
-        this.rangeAttack = 90;
-        this.rangeDefence = 2;
+        this.rangeAttack = 25;
+        this.rangeDefence = 25;
 
-        this.meleeDefence = 4;
-        this.meleeAttack = 1;
+        this.meleeDefence = 10;
+        this.meleeAttack = 10;
     }
 
     this.cooldowns = {};
@@ -79,17 +104,9 @@ SoldierObject.prototype.render = function(canvas) {
 };
 
 SoldierObject.prototype.cooldown = function(name, maxValue) {
-    if (!this.cooldowns[name]) {
-        this.cooldowns[name] = maxValue;
+    if (!this.cooldowns[name] || this.world.getTime() > this.cooldowns[name]) {
+        this.cooldowns[name] = this.world.getTime() + maxValue;
         return true;
-    }
-};
-
-SoldierObject.prototype.updateCooldowns = function(deltaTime) {
-    for (var cooldown in this.cooldowns) {
-        if ((this.cooldowns[cooldown] -= deltaTime) <= 0) {
-            delete this.cooldowns[cooldown];
-        }
     }
 };
 
@@ -116,10 +133,10 @@ SoldierObject.prototype.getVelocity = function() {
 };
 
 SoldierObject.prototype.update = function(deltaTime) {
-    this.updateCooldowns(deltaTime);
-
     if (this.life > 0) {
         this.updatePlan(deltaTime);
+    } else if (this.enemy) {
+        this.setEnemy(null);
     }
 
     this.updateVelocity(deltaTime);
@@ -153,10 +170,11 @@ SoldierObject.prototype.distance = function(soldier) {
 };
 
 SoldierObject.prototype.queryEnemy = function(distance) {
-    var enemies = this.world.queryObjects(SoldierObject, 
+    var enemies = this.world.queryObjects("Soldier", 
         soldier => soldier.isEnemy(this) 
             && soldier.life > 0 
-            && VMath.withinDistance(soldier.vec, this.vec, distance));
+            && VMath.withinDistance(soldier.vec, this.vec, distance)
+            && this.plan.canClaim(soldier));
     if (enemies.length > 0) {
         return enemies.reduce((r, soldier) => soldier.distance(this) < r.distance(this) ? soldier : r, enemies[0]);
     }
@@ -165,11 +183,11 @@ SoldierObject.prototype.queryEnemy = function(distance) {
 SoldierObject.prototype.seekEnemy = function(distance) {
     // are there any enemies?
     if (this.enemy && (this.enemy.life <= 0 || this.enemy.distance(this) > distance)) {
-        this.enemy = null;
+        this.setEnemy(null);
     }
 
     if (!this.enemy && this.cooldown("seek-" + distance, SEEK_COOLDOWN)) {
-        this.enemy = this.queryEnemy(distance);
+        this.setEnemy(this.queryEnemy(distance));
     }
 
     if (this.enemy) {
@@ -179,13 +197,16 @@ SoldierObject.prototype.seekEnemy = function(distance) {
         this.setTargetDirection(direction);
 
         var velocityBonus = 0;
-        if (this.type === 'warrior' && dist > 50 && dist < MELEE_SEEK_RANGE && !this.cooldown("charge", 0.5)) {
+        if (this.canCharge && dist > 50 && dist < MELEE_SEEK_RANGE && !this.cooldown("charge", 100)) {
             velocityBonus += 1;
         }
-        this.setTargetVelocity(dist > this.attackRange ? 1 + velocityBonus : 0);    
+        this.setTargetVelocity(this.isMelee || dist > this.attackRange ? 1 + velocityBonus : 0);    
         
         if (this.rangeAttack && dist < this.attackRange && dist > MIN_RANGE_ATTACK && this.cooldown("arrow", RANGED_ATTACK_COOLDOWN)) {
             this.world.addObject(new ArrowObject(this.vec, this.enemy.vec, this.world, this.rangeAttack));
+        }
+        if (dist < MELEE_ATTACK_RANGE && this.cooldown("sword", MELEE_ATTACK_COOLDOWN)) {
+            this.enemy.hit(this);
         }
 
         return true;
@@ -213,14 +234,19 @@ SoldierObject.prototype.getAttack = function(soldier) {
 };
 
 SoldierObject.prototype.hit = function(bySoldier) {
-    this.hitBy(this.getDefence(bySoldier, this.meleeDefence) * bySoldier.getAttack(this));
+    var damage = (this.cooldown("defence", this.defenceCooldown) ? this.getDefence(bySoldier, this.meleeDefence) : 1) * bySoldier.getAttack(this);
+    this.hitBy(damage);
+    updateState(EVENT_DAMAGE, { soldier: this, damage: damage })
+    this.setEnemy(bySoldier);
 };
 
 SoldierObject.prototype.hitByArrow = function(arrow) {
-    this.hitBy(arrow.getAttack(arrow) * this.getDefence(arrow, this.rangeDefence));
+    var damage = arrow.getAttack(arrow) * (this.cooldown("defence", this.defenceCooldown) ? this.getDefence(arrow, this.rangeDefence) : 1);
+    this.hitBy(damage);
+    updateState(EVENT_DAMAGE_ARROW, { soldier: this, damage: damage })
 };
 
-SoldierObject.prototype.hitBy = function(value) {
+SoldierObject.prototype.hitBy = function(value) {    
     this.newLife = Math.max(this.newLife - value, 0);
 };
 
@@ -228,6 +254,16 @@ SoldierObject.prototype.isEnemy = function(ofSoldier) {
     return this.plan.masterPlan !== ofSoldier.plan.masterPlan;
 };
 
-SoldierObject.prototype.isClass = function(Class) {
-    return Class === SoldierObject || Class === GameObject;
+SoldierObject.prototype.getClass = function() {
+    return "Soldier";
 };
+
+SoldierObject.prototype.setEnemy = function(enemy) {
+    if (this.enemy) {
+        this.plan.unclaim(this.enemy);
+        this.enemy = null;
+    }    
+    if (enemy && this.plan.claim(enemy)) {
+        this.enemy = enemy;
+    }
+}

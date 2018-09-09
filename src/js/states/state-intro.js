@@ -6,15 +6,9 @@ var stateIntro = function Intro() {
     gameIntro.classList.add('visible');
     
     return function IntroHandler(eventType, eventObject) {
-        gameIntro.classList.remove('visible');
-        return new stateGameDesigner();
-
-        // if (eventType == EVENT_KEY_DOWN) {
-        //     switch (String.fromCharCode(eventObject)) {
-        //         case "1": return stateGameDesignerInit();
-        //         case "2": return stateGameBattleInit();
-        //         default: break;
-        //     }
-        // }
+        if (eventType === EVENT_MOUSE_CLICK && event.target.tagName === 'BUTTON') {
+            gameIntro.classList.remove('visible');
+            return new stateGameDesigner();
+        }
     }.State();
 };

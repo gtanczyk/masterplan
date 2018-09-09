@@ -37,14 +37,13 @@ class ArrowObject extends GameObject {
 
     hit(soldier) {
         soldier.hitByArrow(this);
-        this.world.removeObject(this);
     }
 
     getAttack(soldier) {
         return this.attackBase;
     }
 
-    isClass(Class) {
-        return Class === ArrowObject || Class === GameObject;
+    getClass() {
+        return "Arrow";
     };
 }

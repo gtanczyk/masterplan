@@ -47,34 +47,51 @@
 	<img src="assets/soldier-archer.png" id="asset-soldier-archer" />
 	<img src="assets/soldier-archer-dead.png" id="asset-soldier-archer-dead" />
 
+	<img src="assets/soldier-tank.png" id="asset-soldier-tank" />
+	<img src="assets/soldier-tank-dead.png" id="asset-soldier-tank-dead" />
+
 	<!-- intro -->
 	<div id="game-intro">
-		<img src="assets/intro.png" />
-	</div>
-	<!-- pause -->
-	<div id="game-pause">
-		<h1>Paused</h1>
-		<h2>Escape or tap to continue</h2>
+		<h1>MasterPlan</h1>
+		<p>MasterPlan is a offline multiplayer strategy game.</p>
+		<h2>How to play in 3 steps:</h2>
+		<ol>
+			<li>Create your master plan</li>
+			<li>Test your plan</li>
+			<li>Share your plan with other player to compete</li>
+		</ol>
+		<button>Click here to play</div>
 	</div>
 	<!-- HUD -->
 	<div id="game-hud">
 		<div id="battle-stats">
+			<div id="battle-balance"> 
+				<div id="battle-balance-left"> </div>
+				<div id="battle-balance-right"> </div>
+			</div>
 			<div id="battle-time"> </div>
 		</div>
 		<div id="battle-result"></div>
 	</div>
 	<!-- Designer -->
 	<div id="game-designer">
-		<h3>Setup</h3>
+		<h1>Create Master Plan</h3>
+		<p>Select unit to change formation, type or commands. Drag to move.</p>
 		<div id="designer-field">
+		</div>
+		<div id="designer-actions">
+			<h3>Battle!</h3>
+			<button id="button-test-battle">Play</button>
+			vs
+			<input id="test-battle-string" />
 		</div>
 		<div id="designer-formation">
 			<h3>Formation</h3>
 			<button class="formation-button" data-formation="4x4">4x4</button>
 			<button class="formation-button" data-formation="16x1">16x1</button>
-			<button class="formation-button" data-formation="1x16">16x1</button>
+			<button class="formation-button" data-formation="1x16">1x16</button>
 			<button class="formation-button" data-formation="8x2">8x2</button>
-			<button class="formation-button" data-formation="2x8">8x2</button>
+			<button class="formation-button" data-formation="2x8">2x8</button>
 		</div>
 		<div id="designer-commands">
 			<h3>Commands</h3>
@@ -91,13 +108,17 @@
 			<button data-unit-type="archer">Archers</button>
 			<button data-unit-type="cavalry">Cavalry</button>
 		</div>
-		<div id="designer-actions">
-			<h3>Play</h3>
-			<button id="button-test-battle">Test battle</button>
+		<div id="designer-share">
+			<h2>Master Plan Blueprint</h3>
+			<p>This is your blueprint, please send it to other players.</p>
+			<input id="battle-string" style="width: 100%" />
+			<button id="battle-string-load">Load plan</button>
+			<h2>Share</h3>
+			<ul>
+				<li>Twitter: <button id="tweet">Tweet</button></li>
+				<li>Email: <input placeholder="example@email.com" type="email" /> <button id="email">Send</button></li>
+			</ul>
 		</div>
-		<h3>Save battle plan</h3>
-		<textarea cols="30" rows="20" id="battle-string"> </textarea>
-		<button id="battle-string-load">Load plan</button>
 	</div>
 </body>
 

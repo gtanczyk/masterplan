@@ -58,3 +58,6 @@ function updateState(eventType, eventObject) {
     }
 }
 
+setInterval(() => updateState(EVENT_INTERVAL_100MS), 100);
+setInterval(() => updateState(EVENT_INTERVAL_SECOND), 1000);
+
