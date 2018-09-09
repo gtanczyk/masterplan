@@ -51,11 +51,7 @@ function stateGameBattle(world, HUD, definitions) {
                 elapsedTime = world.update(elapsedTime);
             }            
 
-            renderGame(world);
-            
-            if (world.getTime() > 60000 || Object.keys(world.getAlive()).length <= 1) {
-                return new stateGameBattleEnd(world, HUD, definitions);
-            }
+            renderGame(world);            
         }
         
         if (eventType === EVENT_INTERVAL_100MS) {
@@ -63,9 +59,14 @@ function stateGameBattle(world, HUD, definitions) {
         }
 
         if (eventType === EVENT_INTERVAL_SECOND) {
-            console.log("Damage total: " + damageTotal);
-            console.log("Damage: " + JSON.stringify(damage));
-            console.log("Damage count: " + JSON.stringify(damageCount));
+            // console.log("Damage total: " + damageTotal);
+            // console.log("Damage: " + JSON.stringify(damage));
+            // console.log("Damage count: " + JSON.stringify(damageCount));
+
+            var balance = HUD.getBalance(world);
+            if (world.getTime() > 60000 || (balance < 1/3 || balance > 2/3)) {
+                return new stateGameBattleEnd(world, HUD, definitions);
+            }
         }
 
         if (eventType === EVENT_DAMAGE || eventType === EVENT_DAMAGE_ARROW) {

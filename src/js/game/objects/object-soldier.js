@@ -7,7 +7,7 @@ const RANGED_ATTACK_RANGE = 300;
 const RANGED_SEEK_RANGE = 500;
 
 const MIN_RANGE_ATTACK = SOLDIER_WIDTH * 5;
-const RANGED_ATTACK_COOLDOWN = 2000;
+const RANGED_ATTACK_COOLDOWN = 1000;
 const ARROW_RANGE = SOLDIER_WIDTH / 3;
 
 const DEFENCE_COOLDOWN = 1500;
@@ -42,6 +42,7 @@ function SoldierObject(x, y, direction, plan, world, color, type) {
 
     this.defenceCooldown = DEFENCE_COOLDOWN;
     this.weight = 1;
+    this.baseSpeed = 1;
     
     if (this.type === "warrior") {
         this.seekRange = MELEE_SEEK_RANGE;
@@ -51,19 +52,20 @@ function SoldierObject(x, y, direction, plan, world, color, type) {
 
         this.meleeDefence = 50;
         this.meleeAttack = 25;
+        this.baseSpeed = 2;
 
         this.canCharge = true;
         this.isMelee = true;
     } else if (this.type === "tank") {
         this.seekRange = MELEE_SEEK_RANGE;
-        this.attackRange = MELEE_ATTACK_RANGE;
+        this.attackRange = MELEE_ATTACK_RANGE * 1.1;
 
         this.rangeDefence = 90;
 
-        this.meleeDefence = 70;
-        this.meleeAttack = 15;
+        this.meleeDefence = 90;
+        this.meleeAttack = 25;
 
-        this.defenceCooldown = DEFENCE_COOLDOWN / 10;
+        this.defenceCooldown = DEFENCE_COOLDOWN / 5;
         this.weight = 3;
         
         this.canCharge = true;
@@ -116,7 +118,7 @@ SoldierObject.prototype.setTargetDirection = function(targetDirection) {
 };
 
 SoldierObject.prototype.setTargetVelocity = function(targetVelocity) {
-    this.targetVelocity = targetVelocity;
+    this.targetVelocity = targetVelocity * this.baseSpeed;
 };
 
 // update
@@ -197,7 +199,7 @@ SoldierObject.prototype.seekEnemy = function(distance) {
         this.setTargetDirection(direction);
 
         var velocityBonus = 0;
-        if (this.canCharge && dist > 50 && dist < MELEE_SEEK_RANGE && !this.cooldown("charge", 100)) {
+        if (this.canCharge && dist > 50 && dist < MELEE_SEEK_RANGE && !this.cooldown("charge", 10)) {
             velocityBonus += 1;
         }
         this.setTargetVelocity(this.isMelee || dist > this.attackRange ? 1 + velocityBonus : 0);    

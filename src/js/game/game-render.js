@@ -36,10 +36,10 @@ function renderObject(object) {
         .rotate(object.getDirection());
     object.render(canvas);
     canvas.restore();
-    if (object.enemy && object.life > 0) {
-        canvas.strokeStyle(object.color);
-        canvas.line(object.getX(), object.getY(), object.enemy.getX(), object.enemy.getY());
-    }
+    // if (object.enemy && object.life > 0) {
+    //     canvas.strokeStyle(object.color);
+    //     canvas.line(object.getX(), object.getY(), object.enemy.getX(), object.enemy.getY());
+    // }
 }
 
 function renderSurface() {
