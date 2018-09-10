@@ -20,6 +20,8 @@ function stateGameBattleInit(definitions, definitionsEnemy) {
     
     var HUD = new GameHUD(world);
 
+    HUD.setNames(definitions.username, definitionsEnemy.username || 'Computer')
+
     return function GameBattleInitHandler(eventType, eventObject) {
         renderGame(world, HUD);
         HUD.render(world);

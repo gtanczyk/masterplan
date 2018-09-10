@@ -11,7 +11,7 @@ function saveBattleString(defs, targetId) {
             DesignerUnit.commands[obj["command"]]
         ];
     }
-    var username = ($('#username').value || '').split('').map(ch => ch.charCodeAt(0));
+    var username = targetId === 'battle-string' ? ($('#username').value || '').split('').map(ch => ch.charCodeAt(0)) : '';
     var arr = defs.map(iter).reduce((r, d) => r.concat([d.length], d), []);
     defs = new Uint8Array([arr.length].concat(arr.concat(username)));
     var decoder = new TextDecoder('utf8');
@@ -45,7 +45,7 @@ function loadBattleString(targetId, value) {
     }
 
     var username = Array["from"](defs.slice(length+1));
-    result.username = username.map(ch => String.fromCharCode(ch)).join('');
+    result.username = (username.map(ch => String.fromCharCode(ch)).join('').match(/(\w)+/g) || []).join("");
     
     return result;
 }
@@ -78,7 +78,9 @@ function stateGameDesigner(definitions, enemyDefinitions) {
     var clickUnit;
 
     function getDefs() {
-        return units.map(unit => unit.getDefinition());
+        var defs = units.map(unit => unit.getDefinition());
+        defs.username = localStorage["username"];
+        return defs;
     }
 
     saveBattleString(definitions);

@@ -25,6 +25,11 @@ GameHUD.prototype.getBalance = function(world) {
     return alive[keys[0]] / (alive[keys[0]] + alive[keys[1]]);
 };
 
+GameHUD.prototype.setNames = function (left, right) {
+    this.balanceLeft.dataset.username = left || '';
+    this.balanceRight.dataset.username = right || '';
+};
+
 GameHUD.prototype.render = function(world) {
     var secs = 60 - world.getTime() / 1000 << 0;
     var ms = 1000 - world.getTime() % 1000 << 0;
@@ -43,14 +48,15 @@ GameHUD.prototype.renderResults = function(world) {
 
     if (balance > 1/3 && balance < 2/3) {
         this.battleResult.innerHTML = `<div style="color: white">
-            DRAW!<br/>
-            <inline style="color: white">Click here</inline>
+            <span class="result">DRAW!</span>
+            <span class="continue">Click to continue</span>
         </div>`;  
     } else {
         var color = balance > 1/3 ? '#ff0000' : '#00ff00';
         this.battleResult.innerHTML = `<div style="color: ${color}">
-            <span style="background: ${color}"> </span> ${balance > 2/3 ? 'Victory' : 'Defeat'}!<br/>
-            <inline style="color: white">Click here</inline>
+            <span class="result" style="background: ${color}">${balance > 2/3 ? 'Victory' : 'Defeat'}!</span>
+            <span class="winner">${balance > 2/3 ? this.balanceLeft.dataset.username : this.balanceRight.dataset.username} wins!</span>
+            <span class="continue">Click to continue</span>
         </div>`;
         return color;
     }
