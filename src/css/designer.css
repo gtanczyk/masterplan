@@ -85,13 +85,13 @@
 }
 
 .field-unit[data-unit-type=warrior] {
-    background: url(../assets/soldier-warrior.png);
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4gkDEigyAtVVggAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAB4SURBVFjD7VfLDsAgCIOF///l7rSTizp5aJZyMxFtoMUqsjnUmQ/vudfuChBAVKDDh7MroAsMD73bgqSKhb1UAQHIQ0J8II2yBRktqBzXzboSgL4NLcsgFklIAJUyRI/hv/aEIw847RHNWfLjXS8ow4xXrOzTUhI3cssYNHqG9WQAAAAASUVORK5CYII=);
 }
 
 .field-unit[data-unit-type=tank] {
-    background: url(../assets/soldier-tank.png);
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4gkJDBsdJGpj9QAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACjSURBVFjD7VbREoAgCHMe///L6zW9wgLErpOnNLkNnACKzfjwHEYHallsHgLwRP6LDISYOHx5SjW71LNEqXT2K0AAiMcgCUDQMDJEyFkitOiMuw5sAqsJoP+WRHBerWVB9E3f2CLcBMTxjLRGkzITsgOEZZaoL9iaACJSikHkWnYw+idKsbAAa4Oru4wyyK/Zqy/Fll4HosBvrw8WJ2cXRPmSHSqNI0GjWZKJAAAAAElFTkSuQmCC);
 }
 
 .field-unit[data-unit-type=archer] {
-    background: url(../assets/soldier-archer.png);
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4gkDEigk9gHg0wAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAACySURBVFjD1VZbDsAgCLPE+1+5+13cIqI8Nn7JpNAW1lpx4PB7brzLe16SG34AloLiqADAjAJUir/mJQHYVOjdeZS0uqw7WXcU2DLnUjH2SACm4hEAzJtVkjzOKABURKlORw461vheoqNvcMxFsTFSAzDm4bkJYaAJnraZFaeHJU9vAKMWx+zA8LRrOEwCFs49bPipGLk3a0HaT0PrdHkSu79k+FrH2/egXAPyF8FV0JcTF5HDMyNBbtWDAAAAAElFTkSuQmCC);
 }

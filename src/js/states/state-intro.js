@@ -6,7 +6,7 @@ var stateIntro = function Intro() {
     gameIntro.classList.add('visible');
     
     return function IntroHandler(eventType, eventObject) {
-        if (eventType === EVENT_MOUSE_CLICK && event.target.tagName === 'BUTTON') {
+        if (eventType === EVENT_MOUSE_CLICK && eventObject.target.tagName === 'BUTTON') {
             gameIntro.classList.remove('visible');
             return new stateGameDesigner();
         }

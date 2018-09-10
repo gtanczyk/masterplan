@@ -44,7 +44,7 @@ function loadBattleString(targetId, value) {
         i += l + 1;
     }
 
-    var username = Array.from(defs.slice(length+1));
+    var username = Array["from"](defs.slice(length+1));
     result.username = username.map(ch => String.fromCharCode(ch)).join('');
     
     return result;
