@@ -61,7 +61,7 @@ function stateGameDesigner(definitions, enemyDefinitions) {
         definitions = loadBattleString(null, stored);
         $('#username').value = definitions.username || '';
     } else if (!definitions) {
-        definitions = DEFAULT_UNITS;
+        definitions = DEFAULT_UNITS();
     }
 
     var designer = document.getElementById("game-designer");
@@ -84,7 +84,7 @@ function stateGameDesigner(definitions, enemyDefinitions) {
     }
 
     saveBattleString(definitions);
-    saveBattleString(enemyDefinitions || DEFAULT_UNITS, 'test-battle-string');
+    saveBattleString(enemyDefinitions || DEFAULT_UNITS(), 'test-battle-string');
 
     if (enemyDefinitions && enemyDefinitions.username) {
         $('#battle-versus').innerHTML = `Opened a link from <a href="https://twitter.com/${enemyDefinitions.username + '">' + enemyDefinitions.username}</a>, and you will battle their masterplan! <button id="vs-reset">Click to reset</button><br/><br/>

@@ -21,29 +21,6 @@ var VMath = {
         var squared = Math.pow(dx, 2) + Math.pow(dy, 2);
         return Math.sqrt(squared) < distance;
     },
-
-    // http://stackoverflow.com/a/1501725
-    distanceFromLine : function(P, A, B) {
-        // Return minimum distance between line segment vw and point p
-        var l2 = VMath.distanceSquared(A, B); // i.e. |w-v|^2 - avoid a sqrt
-        if (l2 == 0)
-            return VMath.distance(P, A); // v == w case
-        // Consider the line extending the segment, parameterized as v + t (w -
-        // v).
-        // We find projection of point p onto the line.
-        // It falls where t = [(p-v) . (w-v)] / |w-v|^2
-        var t = VMath.perpDot(VMath.sub(P, A), VMath.sub(P, B)) / l2;
-        if (t < 0)
-            return VMath.distance(P, B); // Beyond the 'v' end of the segment
-        else if (t > 1)
-            return VMath.distance(P, A); // Beyond the 'w' end of the segment
-        var projection = VMath.add(B, VMath.scale(VMath.sub(B, A), t)); // Projection
-        // falls
-        // on
-        // the
-        // segment
-        return VMath.distance(P, projection);
-    },
     normalize : function(A) {
         return VMath.scale(A, 1 / VMath.length(A));
     },

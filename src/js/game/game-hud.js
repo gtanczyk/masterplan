@@ -26,8 +26,8 @@ GameHUD.prototype.getBalance = function(world) {
 };
 
 GameHUD.prototype.setNames = function (left, right) {
-    this.balanceLeft.dataset.username = left || '';
-    this.balanceRight.dataset.username = right || '';
+    this.balanceLeft.dataset["username"] = left || '';
+    this.balanceRight.dataset["username"] = right || '';
 };
 
 GameHUD.prototype.render = function(world) {
@@ -45,19 +45,20 @@ GameHUD.prototype.render = function(world) {
 
 GameHUD.prototype.renderResults = function(world) {
     var balance = this.getBalance(world);
+    var endSpan = "</span>";
 
     if (balance > 1/3 && balance < 2/3) {
         this.battleResult.innerHTML = `<div style="color: white">
-            <span class="result">DRAW!</span>
-            <span class="continue">Click to continue</span>
+            <span class="result">DRAW!${endSpan}
+            <span class="continue">Click to continue${endSpan}
         </div>`;  
     } else {
         var color = balance > 1/3 ? '#ff0000' : '#00ff00';
         this.battleResult.innerHTML = `<div style="color: ${color}">
-            <span class="result" style="background: ${color}">${balance > 2/3 ? 'Victory' : 'Defeat'}!</span>
-            <span class="winner">${balance > 2/3 ? this.balanceLeft.dataset.username : this.balanceRight.dataset.username} wins!</span>
-            <span class="loser">${balance > 2/3 ? this.balanceRight.dataset.username : this.balanceLeft.dataset.username} defeated!</span>
-            <span class="continue">Click to continue</span>
+            <span class="result" style="background: ${color}">${balance > 2/3 ? 'Victory' : 'Defeat'}!${endSpan}
+            <span class="winner">${balance > 2/3 ? this.balanceLeft.dataset["username"] : this.balanceRight.dataset["username"]} wins!${endSpan}
+            <span class="loser">${balance > 2/3 ? this.balanceRight.dataset["username"] : this.balanceLeft.dataset["username"]} defeated!${endSpan}
+            <span class="continue">Click to continue${endSpan}
         </div>`;
         return color;
     }

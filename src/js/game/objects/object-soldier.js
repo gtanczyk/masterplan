@@ -64,6 +64,7 @@ function SoldierObject(x, y, direction, plan, world, color, type) {
 
         this.meleeDefence = 90;
         this.meleeAttack = 25;
+	this.life = this.newLife = MAX_LIFE * 2;
 
         this.defenceCooldown = DEFENCE_COOLDOWN / 5;
         this.weight = 3;

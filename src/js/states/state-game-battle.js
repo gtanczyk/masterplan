@@ -88,9 +88,12 @@ function stateGameBattleEnd(world, HUD, definitions, definitionsEnemy) {
             freeCanvas(LAYER_DEFAULT);
             HUD.destroy();
             if (result === '#ff0000' && !definitionsEnemy.username) {
-                DEFAULT_UNITS = definitions;
+		var newEnemy = JSON.parse(JSON.stringify(definitions));
+		delete newEnemy.username;
+                return new stateGameDesigner(definitions, newEnemy);
+            } else {
+                return new stateGameDesigner(definitions, definitionsEnemy);
             }
-            return new stateGameDesigner(definitions);
         }
     };
 }

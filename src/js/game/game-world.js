@@ -130,9 +130,15 @@ GameWorld.prototype.onCollision = function(leftObjectType, rightObjectType, hand
 GameWorld.prototype.onSoldierCollision = function(leftSoldier, rightSoldier) {
     // soldiers should bounce off each other
     var distance = VMath.distance(leftSoldier.vec, rightSoldier.vec);
-    var sub = VMath.scale(VMath.normalize(VMath.sub(leftSoldier.vec, rightSoldier.vec)), leftSoldier.getWidth() - distance);
-    leftSoldier.addForce(VMath.scale(sub, 1 / leftSoldier.weight * rightSoldier.weight));
-    rightSoldier.addForce(VMath.scale(sub, -1 * leftSoldier.weight / rightSoldier.weight));
+    if (distance === 0) {
+        var sub = VMath.scale([Math.random() - Math.random(), Math.random() - Math.random()], 1 / Number.MAX_SAFE_INTEGER);
+        leftSoldier.addForce(sub);
+        rightSoldier.addForce(VMath.scale(sub, -1));
+    } else {
+        var sub = VMath.scale(VMath.normalize(VMath.sub(leftSoldier.vec, rightSoldier.vec)), leftSoldier.getWidth() - distance);
+        leftSoldier.addForce(VMath.scale(sub, 1 / leftSoldier.weight * rightSoldier.weight));
+        rightSoldier.addForce(VMath.scale(sub, -1 * leftSoldier.weight / rightSoldier.weight));
+    }
 };
 
 GameWorld.prototype.onArrowCollision = function(soldier, arrow) {
