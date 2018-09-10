@@ -176,7 +176,7 @@ SoldierObject.prototype.queryEnemy = function(distance) {
         soldier => soldier.isEnemy(this) 
             && soldier.life > 0 
             && VMath.withinDistance(soldier.vec, this.vec, distance)
-            && this.plan.canClaim(soldier));
+            && this.plan.canClaim(soldier, this));
     if (enemies.length > 0) {
         return enemies.reduce((r, soldier) => soldier.distance(this) < r.distance(this) ? soldier : r, enemies[0]);
     }
@@ -265,10 +265,10 @@ SoldierObject.prototype.getClass = function() {
 
 SoldierObject.prototype.setEnemy = function(enemy) {
     if (this.enemy) {
-        this.plan.unclaim(this.enemy);
+        this.plan.unclaim(this.enemy, this);
         this.enemy = null;
     }    
-    if (enemy && this.plan.claim(enemy)) {
+    if (enemy && this.plan.claim(enemy, this)) {
         this.enemy = enemy;
     }
 }

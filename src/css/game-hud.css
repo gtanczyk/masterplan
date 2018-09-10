@@ -46,17 +46,19 @@
 }
 
 #battle-time:before {
-  content: 'Time: ' attr(data-time);
+  content: 'Timer: ' attr(data-time);
   display: block;
   font-size: 30px;
-  margin-top: 20px;
+  margin-bottom: 10px;
+  color: white;
 }
 
 #battle-balance:before {
   display: block;
-  content: "Result: ";
+  content: "Who is winning?";
   font-size: 30px;
   width: 300px;
+  color: white;
 }
 
 #battle-balance-left {

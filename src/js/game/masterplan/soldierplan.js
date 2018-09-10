@@ -24,23 +24,34 @@ class SoldierPlan {
         return this.currentCommand;
     }
 
-    canClaim(enemy) {
+    canClaim(enemy, soldier) {
         if (!this.claims[enemy.soldierId]) {
-            this.claims[enemy.soldierId] = 0;
+            this.claims[enemy.soldierId] = [];
         }
 
-        return this.claims[enemy.soldierId] < 5;
+        if (this.claims[enemy.soldierId].length < 5) {
+            return true;
+        }
+
+        var dist = soldier.distance(enemy);
+        var distant = this.claims[enemy.soldierId].filter(claimer => claimer.distance(enemy) > dist);
+        if (distant.length === this.claims[enemy.soldierId].length) {
+            return true;
+        }
     }
 
-    unclaim(enemy) {
-        this.claims[enemy.soldierId]--;
+    unclaim(enemy, soldier) {
+        var idx = this.claims[enemy.soldierId].indexOf(soldier);
+        if (idx >= 0) {
+            this.claims[enemy.soldierId].splice(idx, 1);
+        }
     }
-    claim(enemy) {
-        if (!this.canClaim(enemy)) {
+    claim(enemy, soldier) {
+        if (!this.canClaim(enemy, soldier)) {
             return false;
         }
 
-        this.claims[enemy.soldierId]++;
+        this.claims[enemy.soldierId].push(soldier);
 
         return true;
     }
