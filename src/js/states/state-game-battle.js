@@ -27,12 +27,12 @@ function stateGameBattleInit(definitions, definitionsEnemy) {
         HUD.render(world);
         
         if (eventType == EVENT_TIMEOUT) {
-            return new stateGameBattle(world, HUD, definitions);
+            return new stateGameBattle(world, HUD, definitions, definitionsEnemy);
         }
     }.WeakState(1000);
 };    
 
-function stateGameBattle(world, HUD, definitions) {
+function stateGameBattle(world, HUD, definitions, definitionsEnemy) {
     var damageTotal = 0;
     var damage = {
         [EVENT_DAMAGE]: {
@@ -67,7 +67,7 @@ function stateGameBattle(world, HUD, definitions) {
 
             var balance = HUD.getBalance(world);
             if (world.getTime() > 60000 || (balance === 0 || balance === 1)) {
-                return new stateGameBattleEnd(world, HUD, definitions);
+                return new stateGameBattleEnd(world, HUD, definitions, definitionsEnemy);
             }
         }
 
@@ -79,7 +79,7 @@ function stateGameBattle(world, HUD, definitions) {
     };
 }
 
-function stateGameBattleEnd(world, HUD, definitions) {
+function stateGameBattleEnd(world, HUD, definitions, definitionsEnemy) {
     var result = HUD.renderResults(world);
     return function GameBattleEndHandler(eventType, eventObject) {
         renderGame(world);
@@ -87,7 +87,7 @@ function stateGameBattleEnd(world, HUD, definitions) {
         if (eventType === EVENT_MOUSE_CLICK) {
             freeCanvas(LAYER_DEFAULT);
             HUD.destroy();
-            if (result === '#ff0000') {
+            if (result === '#ff0000' && !definitionsEnemy.username) {
                 DEFAULT_UNITS = definitions;
             }
             return new stateGameDesigner(definitions);

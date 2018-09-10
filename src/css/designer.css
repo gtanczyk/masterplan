@@ -11,6 +11,13 @@
     box-shadow: -1px -7px 20px 2px #00000075;   
 }
 
+#battle-versus:not(:empty) {
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 20px;
+    color: white;
+}
+
 #game-designer h3, #game-designer h2, #game-designer p {
     margin-top: 5px;
     margin-bottom: 0px;

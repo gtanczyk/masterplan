@@ -50,6 +50,14 @@
   top: 80px;
   left: 0px;
   right: 0px;
+  font-weight: bold;
+}
+
+#battle-result span.loser {
+  position: absolute;
+  top: 120px;
+  left: 0px;
+  right: 0px;
 }
 
 #battle-result span.continue {

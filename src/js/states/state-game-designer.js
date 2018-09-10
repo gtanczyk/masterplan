@@ -11,7 +11,7 @@ function saveBattleString(defs, targetId) {
             DesignerUnit.commands[obj["command"]]
         ];
     }
-    var username = targetId === 'battle-string' ? ($('#username').value || '').split('').map(ch => ch.charCodeAt(0)) : '';
+    var username = (defs.username || '').split('').map(ch => ch.charCodeAt(0));
     var arr = defs.map(iter).reduce((r, d) => r.concat([d.length], d), []);
     defs = new Uint8Array([arr.length].concat(arr.concat(username)));
     var decoder = new TextDecoder('utf8');
@@ -22,7 +22,7 @@ function saveBattleString(defs, targetId) {
     } catch(e) {
 
     }
-    $('#link').href="http://gtanczyk.warsztat.io/masterplan/index.html#vs="+encoded;
+    $('#sharelink').value="http://gtanczyk.warsztat.io/masterplan/index.html#vs="+encoded;
 }
 
 function loadBattleString(targetId, value) {
@@ -87,7 +87,8 @@ function stateGameDesigner(definitions, enemyDefinitions) {
     saveBattleString(enemyDefinitions || DEFAULT_UNITS, 'test-battle-string');
 
     if (enemyDefinitions && enemyDefinitions.username) {
-        $('#battle-versus').innerHTML = ' vs ' + '<a href="https://twitter.com/' + enemyDefinitions.username + '">' + enemyDefinitions.username + '</a> <button id="vs-reset">reset</button>';
+        $('#battle-versus').innerHTML = `Opened a link from <a href="https://twitter.com/${enemyDefinitions.username + '">' + enemyDefinitions.username}</a>, and you will battle their masterplan! <button id="vs-reset">Click to reset</button><br/><br/>
+        <button id="button-test-battle">Play the battle</button>`;
     }
 
     return function stateGameDesignerHandler(eventType, eventObject) {
@@ -141,11 +142,11 @@ function stateGameDesigner(definitions, enemyDefinitions) {
         }
 
         if (eventType === EVENT_MOUSE_CLICK && eventObject.target.id === "tweet") {
-            window.open("https://twitter.com/home?status="+encodeURIComponent(`#masterplan_js13k ${$('#link').href}`));
+            window.open("https://twitter.com/home?status="+encodeURIComponent(`#masterplan_js13k ${$('#sharelink').value}`));
         }
 
         if (eventType === EVENT_MOUSE_CLICK && eventObject.target.id === "email") {
-            location.href= `mailto:${document.querySelector('[type=email').value}?subject=${'Check my MasterPlan'}&body=${$('#link').href}`;
+            location.href= `mailto:${document.querySelector('[type=email').value}?subject=${'Check my MasterPlan'}&body=${$('#sharelink').value}`;
         }
 
         if (eventType === EVENT_MOUSE_CLICK && eventObject.target.id === "battle-string-load") {

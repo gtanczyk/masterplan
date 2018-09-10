@@ -56,6 +56,7 @@ GameHUD.prototype.renderResults = function(world) {
         this.battleResult.innerHTML = `<div style="color: ${color}">
             <span class="result" style="background: ${color}">${balance > 2/3 ? 'Victory' : 'Defeat'}!</span>
             <span class="winner">${balance > 2/3 ? this.balanceLeft.dataset.username : this.balanceRight.dataset.username} wins!</span>
+            <span class="loser">${balance > 2/3 ? this.balanceRight.dataset.username : this.balanceLeft.dataset.username} defeated!</span>
             <span class="continue">Click to continue</span>
         </div>`;
         return color;

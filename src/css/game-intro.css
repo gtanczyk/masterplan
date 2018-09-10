@@ -26,3 +26,18 @@
     background: #99cccc;
     box-shadow: -1px -7px 20px 2px #00000075;
 }
+
+#game-intro .field-unit[data-unit-type]:before {
+    display: none !important;
+}
+
+#game-intro .field-unit {
+    width: 32px;
+    height: 32px;
+    position: relative;
+    display: inline-block;
+}
+
+#game-intro ul li {
+    list-style: none;
+}
