@@ -14,7 +14,9 @@ var stateIntro = function Intro() {
         "Warriors are good for flanking maneuvers.",
         "Melee warriors supported by archers can smash enemy front line very quickly.",
         "Archers are most effective against stationary opponents.",
-        "Army of Warriors is effective and lame!"
+        "Army of Warriors is effective and lame!",
+        "All units are most vulnerable when hit from behind.",
+        "A surrounded tank is certainly dead within milliseconds."
     ];
 
     $('#hint').innerHTML = "<b>Hint:</b> " + hints[Math.random() * hints.length << 0];
