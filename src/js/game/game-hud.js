@@ -49,7 +49,7 @@ GameHUD.prototype.renderResults = function(world) {
     } else {
         var color = balance > 1/3 ? '#ff0000' : '#00ff00';
         this.battleResult.innerHTML = `<div style="color: ${color}">
-            <span style="background: ${color}"> </span> VICTORY!<br/>
+            <span style="background: ${color}"> </span> ${balance > 2/3 ? 'Victory' : 'Defeat'}!<br/>
             <inline style="color: white">Click here</inline>
         </div>`;
         return color;
