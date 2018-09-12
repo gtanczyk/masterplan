@@ -33,6 +33,17 @@ Function.prototype.WeakState = function(timeLimit) {
 var stateInit = function Init() {
     return function InitHandler(eventType, eventObject) {
         if (eventType == EVENT_READYSTATE && eventObject == "complete") {
+            // styles
+            var style = document.createElement("style");
+            document.head.appendChild(style);
+            var sheet = style.sheet;
+            ["warrior", "archer", "tank", "artillery"].forEach((type, idx) => {
+                var img = document.getElementById("asset-soldier-" + type);
+                sheet.insertRule(`.field-unit[data-unit-type=${type}] {
+                    background: url(${img.src});
+                }`, idx);
+            });
+
             if (location.hash.indexOf("#vs=") === 0) {
                 try {                    
                     return new stateGameDesigner(null, loadBattleString(null, location.hash.substr(4)));
