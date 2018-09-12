@@ -5,7 +5,8 @@ function GameWorld() {
     this.objects = [];
     this.objectsByType = {
         "Soldier": [],
-        "Arrow": []
+        "Arrow": [],
+        "Explosion": []
     };
     this.collisionHandlers = [];
     this.edgeRadius = EDGE_RADIUS * 1.5;
@@ -91,7 +92,7 @@ GameWorld.prototype.collisions = function() {
 
         // soldier -> arrow
         hitArrows.forEach((arrow, idx) => {
-            if (arrow && VMath.withinDistance(soldier.vec, arrow.vec, ARROW_RANGE)) {
+            if (arrow && VMath.withinDistance(soldier.vec, arrow.vec, arrow.type === "arrow" ? ARROW_RANGE : BALL_RANGE)) {
                 this.triggerCollisions(soldier, arrow);
             }
         });
@@ -105,7 +106,10 @@ GameWorld.prototype.collisions = function() {
     hitArrows.forEach(arrow => {
         this.objects.splice(this.objects.indexOf(arrow), 1);
         this.objectsByType["Arrow"].splice(this.objectsByType["Arrow"].indexOf(arrow), 1);
-    });
+        if (arrow.type === "ball") {
+            this.addObject(new ExplosionObject(arrow.vec, this.getTime(), this));
+        }
+    });        
 };
 
 GameWorld.prototype.triggerCollisions = function(leftObject, rightObject) {
@@ -142,7 +146,14 @@ GameWorld.prototype.onSoldierCollision = function(leftSoldier, rightSoldier) {
 };
 
 GameWorld.prototype.onArrowCollision = function(soldier, arrow) {
-    arrow.hit(soldier);
+    var distance = VMath.distance(arrow.vec, soldier.vec);
+    if (arrow.type === "arrow") {
+        arrow.hit(soldier, distance);
+    } else if (arrow.type === "ball" && soldier.cooldown("ballhit", 150)) {
+        arrow.hit(soldier, distance);
+        var sub = VMath.scale(VMath.normalize(VMath.sub(soldier.vec, arrow.vec)), soldier.getWidth() - distance);
+        soldier.addForce(VMath.scale(sub, -0.5 / soldier.weight * (1 - distance / BALL_RANGE)));
+    }
 };
 
 /**

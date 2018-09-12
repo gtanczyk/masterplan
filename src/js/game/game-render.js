@@ -20,6 +20,7 @@ function renderGame(world) {
 
     // render other objects
     world.queryObjects("Arrow").forEach(renderObject);
+    world.queryObjects("Explosion").forEach(renderObject);
     
     canvas.restore();
 };

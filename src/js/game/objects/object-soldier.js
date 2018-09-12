@@ -9,6 +9,7 @@ const RANGED_SEEK_RANGE = 500;
 const MIN_RANGE_ATTACK = SOLDIER_WIDTH * 5;
 const RANGED_ATTACK_COOLDOWN = 1000;
 const ARROW_RANGE = SOLDIER_WIDTH / 3;
+const BALL_RANGE = SOLDIER_WIDTH * 4;
 
 const DEFENCE_COOLDOWN = 1500;
 
@@ -51,8 +52,8 @@ function SoldierObject(x, y, direction, plan, world, color, type) {
         this.rangeDefence = 30;
 
         this.meleeDefence = 50;
-        this.meleeAttack = 25;
-        this.baseSpeed = 2;
+        this.meleeAttack = 45;
+        this.baseSpeed = 3;
 
         this.canCharge = true;
         this.isMelee = true;
@@ -63,23 +64,38 @@ function SoldierObject(x, y, direction, plan, world, color, type) {
         this.rangeDefence = 90;
 
         this.meleeDefence = 90;
-        this.meleeAttack = 25;
-	this.life = this.newLife = MAX_LIFE * 2;
+        this.meleeAttack = 20;
+	    this.life = this.newLife = MAX_LIFE * 2;
 
         this.defenceCooldown = DEFENCE_COOLDOWN / 5;
         this.weight = 3;
         
-        this.canCharge = true;
+        this.canCharge = false;
         this.isMelee = true;        
     } else if (this.type === "archer") {
         this.seekRange = RANGED_SEEK_RANGE;
         this.attackRange = RANGED_ATTACK_RANGE;
 
-        this.rangeAttack = 25;
+        this.rangeAttack = 45;
         this.rangeDefence = 25;
+        this.rangedCooldown = RANGED_ATTACK_COOLDOWN;
 
         this.meleeDefence = 10;
         this.meleeAttack = 10;
+        this.rangeType = "arrow";
+    } else if (this.type === "artillery") {
+        this.seekRange = RANGED_SEEK_RANGE;
+        this.attackRange = RANGED_ATTACK_RANGE * 5;
+        this.weight = 10;
+        this.baseSpeed = 0.1;
+
+        this.rangeAttack = 100;
+        this.rangeDefence = 1;
+        this.rangedCooldown = RANGED_ATTACK_COOLDOWN * 10;
+
+        this.meleeDefence = 1;
+        this.meleeAttack = 1;
+        this.rangeType = "ball";
     }
 
     this.cooldowns = {};
@@ -179,7 +195,13 @@ SoldierObject.prototype.queryEnemy = function(distance) {
             && VMath.withinDistance(soldier.vec, this.vec, distance)
             && this.plan.canClaim(soldier, this));
     if (enemies.length > 0) {
-        return enemies.reduce((r, soldier) => soldier.distance(this) < r.distance(this) ? soldier : r, enemies[0]);
+        var fn;
+        if (this.type === "artillery") {
+            fn = (r, soldier) => soldier.distance(this) > r.distance(this) ? soldier : r;
+        } else {
+            fn = (r, soldier) => soldier.distance(this) < r.distance(this) ? soldier : r
+        }
+        return enemies.reduce(fn, enemies[0]);
     }
 }
 
@@ -205,9 +227,12 @@ SoldierObject.prototype.seekEnemy = function(distance) {
         }
         this.setTargetVelocity(this.isMelee || dist > this.attackRange ? 1 + velocityBonus : 0);    
         
-        if (this.rangeAttack && dist < this.attackRange && dist > MIN_RANGE_ATTACK && this.cooldown("arrow", RANGED_ATTACK_COOLDOWN)) {
-            this.world.addObject(new ArrowObject(this.vec, this.enemy.vec, this.world, this.rangeAttack));
+        if (this.rangeAttack && dist < this.attackRange && dist > MIN_RANGE_ATTACK && this.cooldown("arrow", this.rangedCooldown)) {
+            this.world.addObject(new ArrowObject(this.vec, this.enemy.vec, this.world, this.rangeAttack, this.rangeType));
             aa.play("arrow");
+            if (this.type === "artillery") {
+                this.hitBy(50);
+            }
         }
         if (dist < MELEE_ATTACK_RANGE && this.cooldown("sword", MELEE_ATTACK_COOLDOWN)) {
             this.enemy.hit(this);
@@ -245,8 +270,13 @@ SoldierObject.prototype.hit = function(bySoldier) {
     aa.play("damage");
 };
 
-SoldierObject.prototype.hitByArrow = function(arrow) {
-    var damage = arrow.getAttack(arrow) * (this.cooldown("defence", this.defenceCooldown) ? this.getDefence(arrow, this.rangeDefence) : 1);
+SoldierObject.prototype.hitByArrow = function(arrow, distance) {
+    var damage;
+    if (arrow.type === "ball") {
+        damage = arrow.getAttack(arrow) / Math.pow(distance, 1/4);
+    } else {
+        damage = arrow.getAttack(arrow) * (this.cooldown("defence", this.defenceCooldown) ? this.getDefence(arrow, this.rangeDefence) : 1);
+    }
     this.hitBy(damage);
     updateState(EVENT_DAMAGE_ARROW, { soldier: this, damage: damage });
     aa.play("hitarrow");

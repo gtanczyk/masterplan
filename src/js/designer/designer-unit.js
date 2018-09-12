@@ -83,10 +83,12 @@ DesignerUnit.types = {
     "archer": 1,
     "warrior": 2,
     "tank": 3,
+    "artillery": 4,
     // index -> name
     1: "archer",
     2: "warrior",
-    3: "tank"
+    3: "tank",
+    4: "artillery"
 };
 
 DesignerUnit.commands = {
