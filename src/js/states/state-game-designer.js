@@ -59,9 +59,10 @@ function stateGameDesigner(definitions, enemyDefinitions) {
     }
     if (!definitions && stored) {
         definitions = loadBattleString(null, stored);
-        $('#username').value = definitions.username || '';
+        $('#username').value = definitions.username;
     } else if (!definitions) {
         definitions = DEFAULT_UNITS();
+        $('#username').value = definitions.username = 'Bonaparte' + (1000 * Math.random() << 0);
     }
 
     var designer = document.getElementById("game-designer");

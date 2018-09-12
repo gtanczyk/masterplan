@@ -6,17 +6,16 @@ var stateIntro = function Intro() {
     gameIntro.classList.add('visible');
 
     var hints = [
-        "Protect your archers, the more they live the more they kill.",
-        "Consider putting tanks in first line, they will stop the first wave.",
-        "Sending tanks or warriors later may (not) be a good tactic.",
-        "Make sure you don't spread too thin, or the enemy will gain advantage very fast.",
-        "Getting to enemy archers quickly may give you easy win.",
-        "Warriors are good for flanking maneuvers.",
-        "Melee warriors supported by archers can smash enemy front line very quickly.",
-        "Archers are most effective against stationary opponents.",
-        "Army of Warriors is effective and lame!",
+        "Protect your archers.",
+        "Tanks in first line.",
+        "Send warriors later.",
+        "Don't spread too thin",
+        "Kill archers quickly.",
+        "Warriors are good for flanking.",
+        "Support warriors with archers.",
+        "Archers are effective against stationary opponents.",
         "All units are most vulnerable when hit from behind.",
-        "A surrounded tank is certainly dead within milliseconds."
+        "Surround enemy tanks."
     ];
 
     $('#hint').innerHTML = "<b>Hint:</b> " + hints[Math.random() * hints.length << 0];
