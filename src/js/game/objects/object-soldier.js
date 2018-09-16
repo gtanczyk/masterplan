@@ -1,19 +1,6 @@
-const SWORD_RANGE = 10;
-const MELEE_ATTACK_RANGE = SOLDIER_WIDTH + SWORD_RANGE;
-const MELEE_SEEK_RANGE = 600;
-const MELEE_ATTACK_COOLDOWN = 250;
-
-const RANGED_ATTACK_RANGE = 300;
-const RANGED_SEEK_RANGE = 500;
-
-const MIN_RANGE_ATTACK = SOLDIER_WIDTH * 5;
-const RANGED_ATTACK_COOLDOWN = 1000;
-const ARROW_RANGE = SOLDIER_WIDTH / 3;
-const BALL_RANGE = SOLDIER_WIDTH * 4;
-
-const DEFENCE_COOLDOWN = 1500;
-
-const SEEK_COOLDOWN = 1000;
+require("../../consts");
+require("../../states");
+require("./game-object");
 
 var soldierID = 0;
 /**
@@ -229,7 +216,7 @@ SoldierObject.prototype.seekEnemy = function(distance) {
         
         if (this.rangeAttack && dist < this.attackRange && dist > MIN_RANGE_ATTACK && this.cooldown("arrow", this.rangedCooldown)) {
             this.world.addObject(new ArrowObject(this.vec, this.enemy.vec, this.world, this.rangeAttack, this.rangeType));
-            aa.play("arrow");
+            updateState(EVENT_ARROW);
             if (this.type === "artillery") {
                 this.hitBy(50);
             }
@@ -267,7 +254,6 @@ SoldierObject.prototype.hit = function(bySoldier) {
     this.hitBy(damage);
     updateState(EVENT_DAMAGE, { soldier: this, damage: damage })
     this.setEnemy(bySoldier);
-    aa.play("damage");
 };
 
 SoldierObject.prototype.hitByArrow = function(arrow, distance) {
@@ -278,8 +264,7 @@ SoldierObject.prototype.hitByArrow = function(arrow, distance) {
         damage = arrow.getAttack(arrow) * (this.cooldown("defence", this.defenceCooldown) ? this.getDefence(arrow, this.rangeDefence) : 1);
     }
     this.hitBy(damage);
-    updateState(EVENT_DAMAGE_ARROW, { soldier: this, damage: damage });
-    aa.play("hitarrow");
+    updateState(EVENT_DAMAGE_ARROW, { soldier: this, damage: damage });    
 };
 
 SoldierObject.prototype.hitBy = function(value) {    
@@ -303,3 +288,5 @@ SoldierObject.prototype.setEnemy = function(enemy) {
         this.enemy = enemy;
     }
 }
+
+global.SoldierObject = SoldierObject;

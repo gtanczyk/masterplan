@@ -55,4 +55,6 @@ class SoldierPlan {
 
         return true;
     }
-}
+};
+
+global.SoldierPlan = SoldierPlan;

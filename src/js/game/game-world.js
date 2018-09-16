@@ -1,3 +1,6 @@
+require("./objects/object-soldier");
+require("./objects/object-arrow");
+
 /**
  * @constructor
  */
@@ -172,3 +175,11 @@ GameWorld.prototype.getAlive = function() {
                     '#00ff00': 0
                 });
 };
+
+GameWorld.prototype.getBalance = function() {
+    var alive = this.getAlive();
+    var keys = Object.keys(this.getAlive());
+    return alive[keys[0]] / (alive[keys[0]] + alive[keys[1]]);
+};
+
+global.GameWorld = GameWorld;

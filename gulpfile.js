@@ -28,8 +28,8 @@ gulp.task('compile', ['concat'], function() {
           fileName: 'game.min.js',
           compilerFlags: {
             compilation_level: 'ADVANCED_OPTIMIZATIONS',
-            output_wrapper: '(function(){%output%}).call(window);',
-            define: [ "DEBUG=false" ],
+            output_wrapper: '(function(global){%output%}).call(window);',
+            define: [ ],
             "language_in": "ECMASCRIPT6",
             "language_out": "ES5"
           }

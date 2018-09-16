@@ -80,3 +80,7 @@ class AttackCommand extends Command {
         }
     }
 }
+
+global.AdvanceCommand = AdvanceCommand;
+global.AttackCommand = AttackCommand;
+global.WaitCommand = WaitCommand;

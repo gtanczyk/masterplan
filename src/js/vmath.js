@@ -154,3 +154,5 @@ var VMath = {
     }
 
 };
+
+global.VMath = VMath;

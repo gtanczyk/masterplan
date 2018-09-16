@@ -4,6 +4,8 @@
   "description": "MasterPlan, js13k 2018 entry by gtanczyk",
   "main": "gulpfile.js",
   "dependencies": {
+    "atob": "^2.1.2",
+    "btoa": "^1.2.1",
     "gulp": "^3.9.0",
     "gulp-serve": "^1.0.0"
   },

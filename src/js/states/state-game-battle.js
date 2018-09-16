@@ -1,4 +1,10 @@
-function stateGameBattleInit(definitions, definitionsEnemy) {
+require("./../states");
+require("./../game/game-world");
+require("./../game/game-hud");
+require("./../game/masterplan/masterplan");
+require("./../game/masterplan/soldierplan");
+
+function stateGameBattleInit(definitions, definitionsEnemy, headless) {
     var world = new GameWorld();
 
     var createMasterPlan = (direction, color, definitions) => {
@@ -18,21 +24,24 @@ function stateGameBattleInit(definitions, definitionsEnemy) {
     var masterPlanLeft = createMasterPlan(1, '#ff0000', definitions);    
     var masterPlanRight = createMasterPlan(0, '#00ff00', definitionsEnemy);
     
-    var HUD = new GameHUD(world);
-
-    HUD.setNames(definitions.username, definitionsEnemy.username || 'Computer')
+    if (!headless) {
+        var HUD = new GameHUD(world);
+        HUD.setNames(definitions.username, definitionsEnemy.username || 'Computer')
+    }
 
     return function GameBattleInitHandler(eventType, eventObject) {
-        renderGame(world, HUD);
-        HUD.render(world);
+        if (!headless) {
+            renderGame(world, HUD);
+            HUD.render(world);
+        }
         
         if (eventType == EVENT_TIMEOUT) {
-            return new stateGameBattle(world, HUD, definitions, definitionsEnemy);
+            return new stateGameBattle(world, HUD, definitions, definitionsEnemy, headless);
         }
     }.WeakState(1000);
 };    
 
-function stateGameBattle(world, HUD, definitions, definitionsEnemy) {
+function stateGameBattle(world, HUD, definitions, definitionsEnemy, headless) {
     var damageTotal = 0;
     var damage = {
         [EVENT_DAMAGE]: {
@@ -53,10 +62,12 @@ function stateGameBattle(world, HUD, definitions, definitionsEnemy) {
                 elapsedTime = world.update(elapsedTime);
             }            
 
-            renderGame(world);            
+            if (!headless) {
+                renderGame(world);            
+            }
         }
         
-        if (eventType === EVENT_INTERVAL_100MS) {
+        if (eventType === EVENT_INTERVAL_100MS && !headless) {
             HUD.render(world);
         }
 
@@ -65,12 +76,22 @@ function stateGameBattle(world, HUD, definitions, definitionsEnemy) {
             // console.log("Damage: " + JSON.stringify(damage));
             // console.log("Damage count: " + JSON.stringify(damageCount));
 
-            var balance = HUD.getBalance(world);
+            var balance = world.getBalance();
+            console.log("current balance", balance);
             if (world.getTime() > 60000 || (balance === 0 || balance === 1)) {
-                return new stateGameBattleEnd(world, HUD, definitions, definitionsEnemy);
+                return new stateGameBattleEnd(world, HUD, definitions, definitionsEnemy, headless);
             }
         }
 
+        if (eventType === EVENT_ARROW && global.aa) {
+            global.aa.play("arrow");
+        }
+        if (eventType === EVENT_DAMAGE && global.aa) {
+            global.aa.play("damage");
+        }
+        if (eventType === EVENT_DAMAGE_ARROW && global.aa) {
+            global.aa.play("hitarrow");
+        }
         if (eventType === EVENT_DAMAGE || eventType === EVENT_DAMAGE_ARROW) {
             damageTotal += eventObject.damage;            
             damage[eventType][eventObject.soldier.color] += eventObject.damage;            
@@ -79,10 +100,10 @@ function stateGameBattle(world, HUD, definitions, definitionsEnemy) {
     };
 }
 
-function stateGameBattleEnd(world, HUD, definitions, definitionsEnemy) {
-    var result = HUD.renderResults(world);
-    return function GameBattleEndHandler(eventType, eventObject) {
-        renderGame(world);
+function stateGameBattleEnd(world, HUD, definitions, definitionsEnemy, headless) {
+    var result = !headless && HUD.renderResults(world);
+    var handler = function GameBattleEndHandler(eventType, eventObject) {
+        !headless && renderGame(world);
 
         if (eventType === EVENT_MOUSE_CLICK) {
             freeCanvas(LAYER_DEFAULT);
@@ -96,4 +117,10 @@ function stateGameBattleEnd(world, HUD, definitions, definitionsEnemy) {
             }
         }
     };
+
+    handler.resultBalance = world.getBalance();
+
+    return handler;
 }
+
+global.stateGameBattleInit = stateGameBattleInit;

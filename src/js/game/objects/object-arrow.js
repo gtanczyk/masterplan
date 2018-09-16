@@ -75,3 +75,6 @@ class ExplosionObject extends GameObject {
         return "Explosion";
     };
 }
+
+global.ArrowObject = ArrowObject;
+global.ExplosionObject = ExplosionObject;

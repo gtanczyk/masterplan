@@ -19,12 +19,6 @@ GameHUD.prototype.destroy = function() {
     this.battleResult.innerHTML = '';
 };
 
-GameHUD.prototype.getBalance = function(world) {
-    var alive = world.getAlive();
-    var keys = Object.keys(world.getAlive());
-    return alive[keys[0]] / (alive[keys[0]] + alive[keys[1]]);
-};
-
 GameHUD.prototype.setNames = function (left, right) {
     this.balanceLeft.dataset["username"] = left || '';
     this.balanceRight.dataset["username"] = right || '';
@@ -35,7 +29,7 @@ GameHUD.prototype.render = function(world) {
     var ms = 1000 - world.getTime() % 1000 << 0;
     this.battleTime.dataset["time"] = (secs < 10 ? "0" : "") + secs + ":" + ms;
 
-    var balance = this.getBalance(world);
+    var balance = world.getBalance();
     this.balanceLeft.style.width = balance * 100 + '%';
     this.balanceLeft.dataset["winning"] = balance > 2/3;
     this.balanceRight.style.width = (1 - balance) * 100 + '%';
@@ -44,7 +38,7 @@ GameHUD.prototype.render = function(world) {
 
 
 GameHUD.prototype.renderResults = function(world) {
-    var balance = this.getBalance(world);
+    var balance = world.getBalance();
     var endSpan = "</span>";
 
     if (balance > 1/3 && balance < 2/3) {
@@ -67,3 +61,5 @@ GameHUD.prototype.renderResults = function(world) {
 GameHUD.prototype.showPause = function() {
     
 };
+
+global.GameHUD = GameHUD;

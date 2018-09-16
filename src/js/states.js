@@ -1,3 +1,6 @@
+require("./consts.js");
+require("./events.js");
+
 /**
  * State machine
  */
@@ -60,7 +63,7 @@ var stateInit = function Init() {
 /**
  * Event processing
  */
-var currentState = stateInit();
+global.currentState = stateInit();
 function updateState(eventType, eventObject) {
     var nextState = currentState(eventType, eventObject);
     
@@ -69,14 +72,16 @@ function updateState(eventType, eventObject) {
     }
     
     if (nextState !== currentState) {
-        if (DEBUG) {
-            console.log("Transition from " + currentState.name + " to " + nextState.name);
-        }
+        console.log("Transition from " + currentState.name + " to " + nextState.name);
         
         currentState = nextState;
     }
 }
 
-setInterval(() => updateState(EVENT_INTERVAL_100MS), 100);
-setInterval(() => updateState(EVENT_INTERVAL_SECOND), 1000);
+if (global.window) {
+    setInterval(() => updateState(EVENT_INTERVAL_100MS), 100);
+    setInterval(() => updateState(EVENT_INTERVAL_SECOND), 1000);
+}
 
+global.currentState = currentState;
+global.updateState = updateState;

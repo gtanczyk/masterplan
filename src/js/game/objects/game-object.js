@@ -58,3 +58,5 @@ GameObject.prototype.vec = function() {
 GameObject.prototype.getClass = function() {
     return "Object";
 };
+
+global.GameObject = GameObject;

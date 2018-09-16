@@ -1,3 +1,6 @@
+require("./../../vmath");
+require("./commands");
+
 class MasterPlan {
     constructor(initialPosition, units) {
         var angle = VMath.atan2(initialPosition, [0, 0]);
@@ -67,4 +70,6 @@ class MasterPlan {
     getSolderPlan(soldierId) {
         return new SoldierPlan(this, this.formation[soldierId], this.plan[soldierId]);
     }
-}
+};
+
+global.MasterPlan = MasterPlan;
